@@ -1,4 +1,4 @@
-package top.anlythree.demo.controller;
+package top.anlythree.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 @Api(tags = "swagger的getDemoStr测试")
-@RestController
+@RestController("demo")
 public class DemoController {
 
     @GetMapping("/get")

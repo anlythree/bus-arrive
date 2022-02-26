@@ -1,4 +1,4 @@
-package top.anlythree.demo.config;
+package top.anlythree.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -26,7 +27,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("ideaDebugger")
-                .description("描述")
+                .description("公交位置采集系统api")
                 //  .termsOfServiceUrl("http://localhost:8088/doc.html")
                 //.contact(contact)
                 .version("1.0")

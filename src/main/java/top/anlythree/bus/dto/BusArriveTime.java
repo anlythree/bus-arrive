@@ -6,4 +6,5 @@ package top.anlythree.bus.dto;
  * @time 2022/2/2811:25 上午
  */
 public class BusArriveTime {
+
 }

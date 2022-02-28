@@ -1,4 +1,4 @@
-package top.anlythree.controller;
+package top.anlythree.demo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

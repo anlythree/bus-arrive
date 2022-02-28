@@ -8,6 +8,7 @@ public class BusController {
 
     @GetMapping("/getBusLocation")
     public String getBusLocation(){
-        return  null;
+        return null;
     }
+
 }

@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class UrlUtils {
 
-    private final static String maohao = ":";
+    private final static String dengyu = "=";
 
     private final static String wenhao = "?";
 
@@ -27,9 +27,10 @@ public class UrlUtils {
             throw new AException("语法错误，参数数量必须是成对存在的");
         }
         urlStrBu.append(ACache.getXiaoyuanUrl()).append(wenhao);
-        for (int i = 0; i < params.length - 2; i+=2) {
-            urlStrBu.append(params[i]).append(maohao).append(params[i+1]);
+        for (int i = 0; i < params.length; i+=2) {
+            urlStrBu.append(params[i]).append(dengyu).append(params[i+1]).append("&");
         }
+        urlStrBu.deleteCharAt(urlStrBu.length()-1);
         return urlStrBu.toString();
     }
 }

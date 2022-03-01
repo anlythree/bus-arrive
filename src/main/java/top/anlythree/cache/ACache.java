@@ -8,6 +8,7 @@ import top.anlythree.dto.City;
 import top.anlythree.dto.Route;
 import top.anlythree.utils.exceptions.AException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,9 +23,9 @@ public class ACache {
 
     private static String xiaoyuanUrl = "http://api.dwmm136.cn/z_busapi/BusApi.php";
 
-    private static List<City> cityCacheList;
+    private static List<City> cityCacheList = new ArrayList<>();
 
-    private static List<Route> routeCacheList;
+    private static List<Route> routeCacheList = new ArrayList<>();
 
     public static void addCity(City city) {
         for (City cityItem : cityCacheList) {

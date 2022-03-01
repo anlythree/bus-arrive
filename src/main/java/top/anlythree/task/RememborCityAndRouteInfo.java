@@ -35,7 +35,7 @@ public class RememborCityAndRouteInfo implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         // 缓存城市
-        List<String> cityNameList = Arrays.stream(cityAndRoute).map(f -> f.substring(f.indexOf(" "))).collect(Collectors.toList());
+        List<String> cityNameList = Arrays.stream(cityAndRoute).map(f -> f.substring(0,f.indexOf(" "))).collect(Collectors.toList());
         List<City> cities = cityService.cityList();
         for (City city : cities) {
             if(cityNameList.contains(city.getName())){

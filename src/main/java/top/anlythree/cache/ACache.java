@@ -16,8 +16,12 @@ import java.util.Objects;
  * @description:
  * @time 2022/3/13:04 下午
  */
+@Data
 @AllArgsConstructor
 public class ACache {
+
+    private static String xiaoyuanUrl = "http://api.dwmm136.cn/z_busapi/BusApi.php";
+
     private static List<City> cityCacheList;
 
     private static List<Route> routeCacheList;
@@ -39,5 +43,25 @@ public class ACache {
 
     public static void addRoute(Route route) {
         routeCacheList.add(route);
+    }
+
+    public static List<City> getCityCacheList() {
+        return cityCacheList;
+    }
+
+    public static void setCityCacheList(List<City> cityCacheList) {
+        ACache.cityCacheList = cityCacheList;
+    }
+
+    public static List<Route> getRouteCacheList() {
+        return routeCacheList;
+    }
+
+    public static void setRouteCacheList(List<Route> routeCacheList) {
+        ACache.routeCacheList = routeCacheList;
+    }
+
+    public static String getXiaoyuanUrl() {
+        return xiaoyuanUrl;
     }
 }

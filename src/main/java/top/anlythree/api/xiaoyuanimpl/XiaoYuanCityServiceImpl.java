@@ -8,9 +8,11 @@ import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
 import top.anlythree.api.xiaoyuanimpl.res.city.XiaoYuanCityListRes;
 import top.anlythree.api.xiaoyuanimpl.res.city.XiaoYuanCityRes;
+import top.anlythree.cache.ACache;
 import top.anlythree.dto.City;
 import top.anlythree.utils.RestTemplateUtils;
 import top.anlythree.utils.ResultUtil;
+import top.anlythree.utils.UrlUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,9 +27,9 @@ public class XiaoYuanCityServiceImpl implements CityService {
 
     @Override
     public List<City> cityList() {
-        HashMap<String, String> cityListParamMap = Maps.newHashMap();
-        ResponseEntity<XiaoYuanCityListRes> xiaoYuanCityListResResponseEntity = RestTemplateUtils.get("http://api.dwmm136.cn/z_busapi/BusApi.php?optype=city&uname="+uname,XiaoYuanCityListRes.class);
-        XiaoYuanCityListRes xiaoYuanModel = ResultUtil.getXiaoYuanModel(xiaoYuanCityListResResponseEntity);
+        XiaoYuanCityListRes xiaoYuanModel = ResultUtil.getXiaoYuanModel(RestTemplateUtils.get(
+                UrlUtils.createXiaoYuan("optype","city","uname","uname"),
+                XiaoYuanCityListRes.class));
         if (null == xiaoYuanModel) {
             return null;
         }
@@ -40,6 +42,12 @@ public class XiaoYuanCityServiceImpl implements CityService {
 
     @Override
     public City getCityById(Integer id) {
+        List<City> cityCacheList = ACache.getCityCacheList();
+        for (City city : cityCacheList) {
+            if(Objects.equals(id,city.getId())){
+                return city;
+            }
+        }
         List<City> cityList = cityList();
         for (City city : cityList) {
             if(Objects.equals(id,city.getId())){
@@ -51,6 +59,12 @@ public class XiaoYuanCityServiceImpl implements CityService {
 
     @Override
     public City getCityByName(String name) {
+        List<City> cityCacheList = ACache.getCityCacheList();
+        for (City city : cityCacheList) {
+            if(Objects.equals(name,city.getName())){
+                return city;
+            }
+        }
         List<City> cityList = cityList();
         for (City city : cityList) {
             if(Objects.equals(name,city.getName())){

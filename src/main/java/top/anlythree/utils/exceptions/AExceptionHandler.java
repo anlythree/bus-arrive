@@ -18,7 +18,6 @@ import top.anlythree.utils.ResultUtil;
  * @description:
  * @time 2022/3/11:36 下午
  */
-@NoArgsConstructor
 @AllArgsConstructor
 @ControllerAdvice
 public class AExceptionHandler{

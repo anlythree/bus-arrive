@@ -12,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 import java.util.TimeZone;
 
+import static org.springframework.http.MediaType.APPLICATION_XML;
+
 /**
  * RestTempale配置
  * @author anlythree
@@ -24,7 +26,10 @@ public class RestTemplateConfig {
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         MappingJackson2HttpMessageConverter httpMessageConverter = new MappingJackson2HttpMessageConverter();
-        httpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.TEXT_HTML));
+        httpMessageConverter.setSupportedMediaTypes(
+                Arrays.asList(MediaType.TEXT_HTML,
+                        MediaType.APPLICATION_XHTML_XML,
+                        APPLICATION_XML));
         ObjectMapper objectMapper = httpMessageConverter.getObjectMapper();
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE); //命名策略
 //        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL); //忽略null数据

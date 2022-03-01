@@ -7,4 +7,5 @@ xiaoyuan:
   key: 632e6732f9e1a6bd4b3b4966a9009bcd
   username: 15610462126
 remembor:
-  cityandroute: {"杭州 353"}
+  cityandroute:
+    '杭州 353'

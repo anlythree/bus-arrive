@@ -5,12 +5,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import top.anlythree.config.XiaoYuanMappingJackson2HttpMessageConverter;
 
 import java.util.Map;
 
 public class RestTemplateUtils {
 
-    private static final RestTemplate restTemplate = new RestTemplate();
+    private static RestTemplate restTemplate = new RestTemplate();
+
+    static {
+        restTemplate.getMessageConverters().add(new XiaoYuanMappingJackson2HttpMessageConverter());
+    }
 
     // ----------------------------------GET-------------------------------------------------------
 

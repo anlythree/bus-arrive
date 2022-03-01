@@ -23,9 +23,9 @@ public class XiaoYuanResult extends AResult {
     private String errorCode;
 
     @Override
-    public void isApiError(){
-        if(!(Objects.equals("ok",this.returnCode) && Objects.equals("0",this.errorCode))){
-            throw new AException("笑园api异常，返回值为：《《"+this+"》》");
+    public void isApiError() {
+        if (!(Objects.equals("ok", this.returnCode) && Objects.equals("0", this.errorCode))) {
+            throw new AException("笑园api异常，returnCode:" + returnCode + ",errorCode:" + errorCode);
         }
     }
 

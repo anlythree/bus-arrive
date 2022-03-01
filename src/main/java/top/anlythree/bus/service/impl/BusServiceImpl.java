@@ -15,7 +15,7 @@ public class BusServiceImpl implements BusService {
     @Override
     public Duration getBusArriveTime(String busCodeName, String busStationName) {
         LocalDateTime now = LocalDateTime.now();
-        now.
+
         return null;
     }
 }

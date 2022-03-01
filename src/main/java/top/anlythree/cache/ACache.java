@@ -16,7 +16,6 @@ import java.util.Objects;
  * @description:
  * @time 2022/3/13:04 下午
  */
-@NoArgsConstructor
 @AllArgsConstructor
 public class ACache {
     private static List<City> cityCacheList;
@@ -40,21 +39,5 @@ public class ACache {
 
     public static void addRoute(Route route) {
         routeCacheList.add(route);
-    }
-
-    public static List<City> getCityCacheList() {
-        return cityCacheList;
-    }
-
-    public static void setCityCacheList(List<City> cityCacheList) {
-        ACache.cityCacheList = cityCacheList;
-    }
-
-    public static List<Route> getRouteCacheList() {
-        return routeCacheList;
-    }
-
-    public static void setRouteCacheList(List<Route> routeCacheList) {
-        ACache.routeCacheList = routeCacheList;
     }
 }

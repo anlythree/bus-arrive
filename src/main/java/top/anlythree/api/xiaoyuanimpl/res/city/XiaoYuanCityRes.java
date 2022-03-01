@@ -8,8 +8,6 @@ import top.anlythree.dto.City;
 import top.anlythree.utils.UnicodeUtil;
 import top.anlythree.utils.exceptions.AException;
 
-import java.text.CharacterIterator;
-
 /**
  * @author anlythree
  * @description: 笑园api城市实体
@@ -23,7 +21,7 @@ public class XiaoYuanCityRes {
     /**
      * 笑园城市业务id
      */
-    private String cityId;
+    private String cityid;
 
     /**
      * 笑园城市名称
@@ -32,10 +30,10 @@ public class XiaoYuanCityRes {
 
     public City castCity(){
         City city = new City();
-        if (this.getCityId() == null || StringUtils.isEmpty(this.getCity())) {
-            throw new AException("城市信息不完整，无法转换，city:" + city);
+        if (this.getCityid() == null || StringUtils.isEmpty(this.getCity())) {
+            throw new AException("城市信息不完整，无法转换，xiaoYuanCity:" + city);
         }
-        city.setId(Integer.valueOf(this.getCityId()));
+        city.setId(Integer.valueOf(this.getCityid()));
         city.setName(UnicodeUtil.unicodeToString(this.getCity()));
         return city;
     }

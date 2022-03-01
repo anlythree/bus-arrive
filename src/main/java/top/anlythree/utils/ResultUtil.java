@@ -25,6 +25,7 @@ public class ResultUtil {
             // 成功返回，但返回值没有内容
             return null;
         }
+        responseEntity.getBody().isApiError();
         // 具体返回值中是否存在异常
         return responseEntity.getBody();
     }

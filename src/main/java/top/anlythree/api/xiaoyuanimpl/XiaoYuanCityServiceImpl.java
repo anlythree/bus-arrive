@@ -2,6 +2,8 @@ package top.anlythree.api.xiaoyuanimpl;
 
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
 import top.anlythree.api.xiaoyuanimpl.res.city.XiaoYuanCityListRes;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Service
 public class XiaoYuanCityServiceImpl implements CityService {
 
     @Value("${xiaoyuan.username}")
@@ -23,10 +26,8 @@ public class XiaoYuanCityServiceImpl implements CityService {
     @Override
     public List<City> cityList() {
         HashMap<String, String> cityListParamMap = Maps.newHashMap();
-        cityListParamMap.put("optype", "city");
-        cityListParamMap.put("uname", uname);
-        XiaoYuanCityListRes xiaoYuanModel = ResultUtil.getXiaoYuanModel(
-                RestTemplateUtils.get("http://api.dwmm136.cn/z_busapi/BusApi.php", XiaoYuanCityListRes.class, cityListParamMap));
+        ResponseEntity<XiaoYuanCityListRes> xiaoYuanCityListResResponseEntity = RestTemplateUtils.get("http://api.dwmm136.cn/z_busapi/BusApi.php?optype=city&uname="+uname,XiaoYuanCityListRes.class);
+        XiaoYuanCityListRes xiaoYuanModel = ResultUtil.getXiaoYuanModel(xiaoYuanCityListResResponseEntity);
         if (null == xiaoYuanModel) {
             return null;
         }

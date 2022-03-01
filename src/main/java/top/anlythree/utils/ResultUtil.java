@@ -3,7 +3,7 @@ package top.anlythree.utils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import top.anlythree.api.xiaoyuanimpl.res.results.XiaoYuanResult;
+import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanResult;
 import top.anlythree.utils.exceptions.AException;
 
 import java.util.Objects;

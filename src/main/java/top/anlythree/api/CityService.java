@@ -13,10 +13,10 @@ import java.util.List;
 @Service
 public interface CityService {
 
-
     List<City> cityList();
 
+    City getCityById(Integer id);
 
-
+    City getCityByName(String name);
 
 }

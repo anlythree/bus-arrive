@@ -1,9 +1,9 @@
-package top.anlythree.api.xiaoyuanimpl.res;
+package top.anlythree.api.xiaoyuanimpl.res.city;
 
 import lombok.Data;
-import top.anlythree.api.xiaoyuanimpl.res.results.XiaoYuanResult;
+import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanResult;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author anlythree
@@ -12,5 +12,6 @@ import java.util.ArrayList;
  */
 @Data
 public class XiaoYuanCityListRes extends XiaoYuanResult {
-    private ArrayList<XiaoYuanCityRes> returlList;
+
+    private List<XiaoYuanCityRes> returlList;
 }

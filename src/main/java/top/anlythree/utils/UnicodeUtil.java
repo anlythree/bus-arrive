@@ -10,7 +10,7 @@ public class UnicodeUtil {
      * @param string
      * @return
      */
-    private String stringToUnicode(String string) {
+    public static String stringToUnicode(String string) {
 
         if (StringUtils.isBlank(string)) {
             return null;
@@ -46,7 +46,7 @@ public class UnicodeUtil {
      * @param unicode
      * @return
      */
-    private String unicodeToString(String unicode) {
+    public static String unicodeToString(String unicode) {
         if (StringUtils.isBlank(unicode)) {
             return null;
         }

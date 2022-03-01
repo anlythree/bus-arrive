@@ -6,13 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
-import top.anlythree.api.xiaoyuanimpl.res.city.XiaoYuanCityListRes;
 import top.anlythree.dto.City;
 import top.anlythree.dto.Route;
-import top.anlythree.utils.RestTemplateUtils;
-import top.anlythree.utils.ResultUtil;
-import top.anlythree.utils.UrlUtils;
-import top.anlythree.utils.exceptions.AException;
 
 @Service
 public class XiaoYuanRouteServiceImpl implements RouteService {
@@ -34,9 +29,10 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
         if(null == cityById){
             throw new AException("cityId错误，查不到指定的cityId，cityId："+cityId)
         }
-        XiaoYuanCityListRes xiaoYuanModel = ResultUtil.getXiaoYuanModel(
-                RestTemplateUtils.get(UrlUtils.createXiaoYuan("optype","luxian","uname",uname,"cityid",cityId,"keywords",routeName,),
-                        XiaoYuanCityListRes.class););
-        return null;
+        String keySecret = MD5Utils.getMd5(uname + key + "luxian")
+        XiaoYuanRouteList xiaoYuanRouteListRes = ResultUtil.getXiaoYuanModel(
+                RestTemplateUtils.get(UrlUtils.createXiaoYuan("optype","luxian","uname",uname,"cityid",cityId,"keywords",routeName,"keySecret",keySecret),
+                        XiaoYuanRouteListRes.class));
+        xiaoYuanRouteListRes
     }
 }

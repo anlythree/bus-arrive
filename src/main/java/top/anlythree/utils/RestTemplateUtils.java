@@ -45,7 +45,7 @@ public class RestTemplateUtils {
      * @param uriVariables URL中的变量，与Map中的key对应
      * @return ResponseEntity 响应对象封装类
      */
-    public static <T> ResponseEntity<T> get(String url, Class<T> responseType, Map<String, ?> uriVariables) {
+    public static <T> ResponseEntity<T> Rget(String url, Class<T> responseType, Map<String, ?> uriVariables) {
         return restTemplate.getForEntity(url, responseType, uriVariables);
     }
 

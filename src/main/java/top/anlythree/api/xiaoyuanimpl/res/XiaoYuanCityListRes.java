@@ -1,6 +1,6 @@
-package top.anlythree.api.res;
+package top.anlythree.api.xiaoyuanimpl.res;
 
-import top.anlythree.api.res.abs.XiaoYuanResult;
+import top.anlythree.api.xiaoyuanimpl.res.results.XiaoYuanResult;
 
 import java.util.ArrayList;
 
@@ -10,5 +10,5 @@ import java.util.ArrayList;
  * @time 2022/3/110:11 上午
  */
 public class XiaoYuanCityListRes extends XiaoYuanResult {
-    private ArrayList
+    private ArrayList<XiaoYuanCityRes> returlList;
 }

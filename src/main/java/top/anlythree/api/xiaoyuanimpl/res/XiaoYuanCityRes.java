@@ -1,4 +1,4 @@
-package top.anlythree.api.res;
+package top.anlythree.api.xiaoyuanimpl.res;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

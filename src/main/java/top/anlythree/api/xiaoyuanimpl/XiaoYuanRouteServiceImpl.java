@@ -30,9 +30,9 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
             throw new AException("cityId错误，查不到指定的cityId，cityId："+cityId)
         }
         String keySecret = MD5Utils.getMd5(uname + key + "luxian")
-        XiaoYuanRouteList xiaoYuanRouteListRes = ResultUtil.getXiaoYuanModel(
+        xiaoYuanRouteListRes xiaoYuanRouteListRes = ResultUtil.getXiaoYuanModel(
                 RestTemplateUtils.get(UrlUtils.createXiaoYuan("optype","luxian","uname",uname,"cityid",cityId,"keywords",routeName,"keySecret",keySecret),
                         XiaoYuanRouteListRes.class));
-        xiaoYuanRouteListRes
+
     }
 }

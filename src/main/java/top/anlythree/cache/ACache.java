@@ -3,6 +3,7 @@ package top.anlythree.cache;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 import top.anlythree.dto.City;
 import top.anlythree.dto.Route;
@@ -29,20 +30,30 @@ public class ACache {
 
     public static void addCity(City city) {
         for (City cityItem : cityCacheList) {
-            // 判断有重复的就覆盖掉原信息
+            // 缓存中有重复的就覆盖掉原信息
             if (Objects.equals(cityItem.getId(), city.getId())) {
                 // 更新城市名称
+                cityItem.setName(city.getName());
                 return;
             }
             if (Objects.equals(cityItem.getName(), city.getName())) {
                 // 更新城市id
                 cityItem.setId(city.getId());
+                return;
             }
         }
         cityCacheList.add(city);
     }
 
     public static void addRoute(Route route) {
+        for (Route routeItem : routeCacheList) {
+            // 缓存中有重复的就覆盖掉原信息
+            if (Objects.equals(routeItem.getRouteName(), route.getRouteName())) {
+                // 更新路线信息
+                BeanUtils.copyProperties(route,routeItem);
+                return;
+            }
+        }
         routeCacheList.add(route);
     }
 

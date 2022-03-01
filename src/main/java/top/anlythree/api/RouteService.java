@@ -8,6 +8,6 @@ import top.anlythree.dto.Route;
  */
 public interface RouteService {
 
-    Route getRouteByNameAndCityId(String routeName, Integer cityId);
+    Route getRouteByNameAndCityId(String routeName, String cityId);
 
 }

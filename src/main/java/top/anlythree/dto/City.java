@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class City {
 
-    private Integer id;
+    private String id;
 
     private String name;
 }

@@ -1,8 +1,7 @@
 package top.anlythree.api.xiaoyuanimpl;
 
-import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
@@ -14,7 +13,6 @@ import top.anlythree.utils.RestTemplateUtils;
 import top.anlythree.utils.ResultUtil;
 import top.anlythree.utils.UrlUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -41,10 +39,10 @@ public class XiaoYuanCityServiceImpl implements CityService {
     }
 
     @Override
-    public City getCityById(Integer id) {
+    public City getCityById(String id) {
         List<City> cityCacheList = ACache.getCityCacheList();
         for (City city : cityCacheList) {
-            if(Objects.equals(id,city.getId())){
+            if(Objects.equals(id , city.getId())){
                 return city;
             }
         }

@@ -33,7 +33,7 @@ public class XiaoYuanCityRes {
         if (this.getCityid() == null || StringUtils.isEmpty(this.getCity())) {
             throw new AException("城市信息不完整，无法转换，xiaoYuanCity:" + city);
         }
-        city.setId(Integer.valueOf(this.getCityid()));
+        city.setId(this.getCityid());
         city.setName(UnicodeUtil.unicodeToString(this.getCity()));
         return city;
     }

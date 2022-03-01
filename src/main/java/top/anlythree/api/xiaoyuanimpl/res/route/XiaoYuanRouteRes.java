@@ -1,7 +1,11 @@
 package top.anlythree.api.xiaoyuanimpl.res.route;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 import top.anlythree.dto.Route;
+import top.anlythree.utils.UnicodeUtil;
 import top.anlythree.utils.exceptions.AException;
 
 /**
@@ -9,6 +13,9 @@ import top.anlythree.utils.exceptions.AException;
  * @description:
  * @time 2022/3/13:31 下午
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class XiaoYuanRouteRes {
 
     /**
@@ -36,7 +43,7 @@ public class XiaoYuanRouteRes {
      */
     private String busStaname;
 
-    public Route castRoute(){
+    public Route castRoute(String cityId){
         Route route = new Route();
         if(StringUtils.isEmpty(busStastan) ||
         StringUtils.isEmpty(busEndstan) ||
@@ -44,11 +51,11 @@ public class XiaoYuanRouteRes {
         StringUtils.isEmpty(busStaname)){
             throw new AException("路线信息不全，无法转换，route："+this);
         }
-        route.setRouteId(this.busLinestrid);
-        route.setRouteCode(this.busLinenum);
-        route.setRouteName(this.busStaname);
-        route.setStartStation(this.busStastan);
-        route.setEndStation(this.busEndstan);
+        route.setRouteId(UnicodeUtil.unicodeToString(this.busLinestrid));
+        route.setRouteCode(UnicodeUtil.unicodeToString(this.busLinenum));
+        route.setRouteName(UnicodeUtil.unicodeToString(this.busStaname));
+        route.setStartStation(UnicodeUtil.unicodeToString(this.busStastan));
+        route.setEndStation(UnicodeUtil.unicodeToString(this.busEndstan));
         return route;
     }
 }

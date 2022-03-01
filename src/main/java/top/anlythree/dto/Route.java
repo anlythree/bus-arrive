@@ -33,4 +33,9 @@ public class Route {
      * 路线名称
      */
     private String routeName;
+
+    /**
+     * 城市id
+     */
+    private String cityId;
 }

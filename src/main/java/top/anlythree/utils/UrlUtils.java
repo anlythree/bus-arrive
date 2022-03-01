@@ -20,6 +20,7 @@ public class UrlUtils {
     private static StringBuffer urlStrBu = new StringBuffer();
 
     public static String createXiaoYuan(String ... params){
+        urlStrBu = new StringBuffer();
         if(params == null || params.length == 0){
             return StringUtils.EMPTY;
         }
@@ -30,7 +31,6 @@ public class UrlUtils {
         for (int i = 0; i < params.length; i+=2) {
             urlStrBu.append(params[i]).append(dengyu).append(params[i+1]).append("&");
         }
-        urlStrBu.deleteCharAt(urlStrBu.length()-1);
-        return urlStrBu.toString();
+        return urlStrBu.toString().substring(0,urlStrBu.length()-1);
     }
 }

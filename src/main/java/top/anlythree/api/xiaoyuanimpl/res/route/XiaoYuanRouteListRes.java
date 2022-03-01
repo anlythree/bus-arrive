@@ -17,5 +17,5 @@ import java.util.List;
 @AllArgsConstructor
 public class XiaoYuanRouteListRes extends XiaoYuanResult {
 
-    private List<XiaoYuanRouteRes> xiaoYuanRouteResList;
+    private List<XiaoYuanRouteRes> returlList;
 }

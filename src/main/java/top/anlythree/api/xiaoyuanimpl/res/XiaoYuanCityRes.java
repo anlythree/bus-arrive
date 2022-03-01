@@ -3,6 +3,9 @@ package top.anlythree.api.xiaoyuanimpl.res;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import top.anlythree.dto.City;
+
+import java.text.CharacterIterator;
 
 /**
  * @author anlythree
@@ -23,4 +26,11 @@ public class XiaoYuanCityRes {
      * 笑园城市名称
      */
     private String city;
+
+    public City castCity(){
+        City city = new City();
+        city.setId(Integer.valueOf(this.getCityId()));
+        city.setName(this.getCity());
+        return city;
+    }
 }

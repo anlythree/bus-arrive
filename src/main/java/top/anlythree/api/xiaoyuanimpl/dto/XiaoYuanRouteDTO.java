@@ -1,4 +1,4 @@
-package top.anlythree.dto;
+package top.anlythree.api.xiaoyuanimpl.dto;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import lombok.Data;
  * @time 2022/3/110:33 上午
  */
 @Data
-public class Route {
+public class XiaoYuanRouteDTO {
     /**
      * 起始站
      */

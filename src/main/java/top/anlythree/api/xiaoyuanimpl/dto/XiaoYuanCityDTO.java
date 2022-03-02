@@ -1,4 +1,4 @@
-package top.anlythree.dto;
+package top.anlythree.api.xiaoyuanimpl.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class City {
+public class XiaoYuanCityDTO {
 
     private String id;
 

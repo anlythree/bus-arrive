@@ -1,13 +1,8 @@
 package top.anlythree.api;
 
-import org.springframework.util.CollectionUtils;
-import top.anlythree.cache.ACache;
-import top.anlythree.dto.City;
-import top.anlythree.dto.Route;
-import top.anlythree.utils.exceptions.AException;
+import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 路线接口
@@ -21,7 +16,7 @@ public interface RouteService {
      * @param cityId
      * @return
      */
-    List<Route> getRouteListByNameAndCityId(String routeName, String cityId);
+    List<XiaoYuanRouteDTO> getRouteListByNameAndCityName(String routeName, String cityId);
 
     /**
      * 根据路线名称，城市名称，线路起始站查找公交线路
@@ -30,7 +25,7 @@ public interface RouteService {
      * @param startStation
      * @return
      */
-    Route getRoutByNameAndCityIdAndStartStation(String routeName, String cityName, String startStation);
+    XiaoYuanRouteDTO getRoutByNameAndCityIdAndStartStation(String routeName, String cityName, String startStation);
 
     /**
      * 根据城市名称和线路名称缓存公交线路
@@ -47,6 +42,6 @@ public interface RouteService {
      * @param rideEnd
      * @return
      */
-    Route getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd);
+    XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd);
 
 }

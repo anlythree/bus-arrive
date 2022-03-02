@@ -1,6 +1,7 @@
 package top.anlythree.utils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import top.anlythree.cache.ACache;
 import top.anlythree.utils.exceptions.AException;
 
@@ -19,6 +20,9 @@ public class UrlUtils {
 
     private static StringBuffer urlStrBu = new StringBuffer();
 
+    @Value("${xiaoyuan.url}")
+    private static String xiaoyuanUrl;
+
     public static String createXiaoYuan(String ... params){
         urlStrBu = new StringBuffer();
         if(params == null || params.length == 0){
@@ -27,7 +31,7 @@ public class UrlUtils {
         if((params.length & 1) == 1){
             throw new AException("语法错误，参数数量必须是成对存在的");
         }
-        urlStrBu.append(ACache.getXiaoyuanUrl()).append(wenhao);
+        urlStrBu.append(xiaoyuanUrl).append(wenhao);
         for (int i = 0; i < params.length; i+=2) {
             urlStrBu.append(params[i]).append(dengyu).append(params[i+1]).append("&");
         }

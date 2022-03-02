@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
-import top.anlythree.dto.City;
+import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.utils.UnicodeUtil;
 import top.anlythree.utils.exceptions.AException;
 
@@ -28,8 +28,8 @@ public class XiaoYuanCityRes {
      */
     private String city;
 
-    public City castCity(){
-        City city = new City();
+    public XiaoYuanCityDTO castCity(){
+        XiaoYuanCityDTO city = new XiaoYuanCityDTO();
         if (this.getCityid() == null || StringUtils.isEmpty(this.getCity())) {
             throw new AException("城市信息不完整，无法转换，xiaoYuanCity:" + city);
         }

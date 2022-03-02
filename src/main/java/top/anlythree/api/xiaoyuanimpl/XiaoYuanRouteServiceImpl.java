@@ -11,8 +11,8 @@ import top.anlythree.api.RouteService;
 import top.anlythree.api.xiaoyuanimpl.res.route.XiaoYuanRouteListRes;
 import top.anlythree.api.xiaoyuanimpl.res.route.XiaoYuanRouteRes;
 import top.anlythree.cache.ACache;
-import top.anlythree.dto.City;
-import top.anlythree.dto.Route;
+import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
+import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.utils.MD5Utils;
 import top.anlythree.utils.RestTemplateUtils;
 import top.anlythree.utils.ResultUtil;
@@ -39,17 +39,17 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
 
 
     @Override
-    public List<Route> getRouteListByNameAndCityId(String routeName, String cityId) {
-        City cityById = cityService.getCityById(cityId);
+    public List<XiaoYuanRouteDTO> getRouteListByNameAndCityName(String routeName, String cityName) {
+        XiaoYuanCityDTO cityById = cityService.getCityByName(cityName);
         if(null == cityById){
-            throw new AException("cityId错误，查不到指定的cityId，cityId："+cityId);
+            throw new AException("cityId错误，查不到指定的cityId，cityName："+cityName);
         }
         String keySecret = MD5Utils.getMd5(uname + key + "luxian");
         XiaoYuanRouteListRes xiaoYuanRouteListRes = ResultUtil.getXiaoYuanModel(
                 RestTemplateUtils.get(UrlUtils.createXiaoYuan(
                         "optype","luxian",
                                 "uname",uname,
-                                "cityid",cityId,
+                                "cityid",cityById.getId(),
                                 "keywords",routeName,
                                 "keySecret",keySecret),
                         XiaoYuanRouteListRes.class));
@@ -59,15 +59,15 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
         }
         return xiaoYuanRouteResList.stream()
                 .filter(f -> Objects.equals(f.getBusStaname(), routeName))
-                .map(f-> f.castRoute(cityId))
+                .map(f-> f.castRoute(cityById.getId()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Route getRoutByNameAndCityIdAndStartStation(String routeName, String cityName, String startStation) {
-        City cityByName = cityService.getCityByName(cityName);
-        List<Route> routeCacheList = ACache.getRouteCacheList();
-        for (Route route : routeCacheList) {
+    public XiaoYuanRouteDTO getRoutByNameAndCityIdAndStartStation(String routeName, String cityName, String startStation) {
+        XiaoYuanCityDTO cityByName = cityService.getCityByName(cityName);
+        List<XiaoYuanRouteDTO> routeCacheList = ACache.getRouteCacheList();
+        for (XiaoYuanRouteDTO route : routeCacheList) {
             if(Objects.equals(routeName,route.getRouteName()) &&
             Objects.equals(cityByName.getId(),route.getCityId()) &&
             Objects.equals(startStation,route.getStartStation())){
@@ -77,8 +77,8 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
         // 缓存中找不到，找到并加载到缓存
         // 重新在缓存中查找
         cacheRouteByNameAndCityName(cityName,routeName);
-        List<Route> newRouteCacheList = ACache.getRouteCacheList();
-        for (Route route : newRouteCacheList) {
+        List<XiaoYuanRouteDTO> newRouteCacheList = ACache.getRouteCacheList();
+        for (XiaoYuanRouteDTO route : newRouteCacheList) {
             if(Objects.equals(routeName,route.getRouteName()) &&
                     Objects.equals(cityByName.getId(),route.getCityId()) &&
                     Objects.equals(startStation,route.getStartStation())){
@@ -90,9 +90,7 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
 
     @Override
     public void cacheRouteByNameAndCityName(String cityName, String routeName) {
-
-        City cityByName = cityService.getCityByName(cityName);
-        List<Route> allRouteList = getRouteListByNameAndCityId(routeName, cityByName.getId());
+        List<XiaoYuanRouteDTO> allRouteList = getRouteListByNameAndCityName(routeName, cityName);
         if (CollectionUtils.isEmpty(allRouteList)) {
             log.error("根据位置路线名查询不到相关线路，缓存该线路失败：城市名称：" + cityName+"公交路线名称："+routeName );
             return;
@@ -101,8 +99,13 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public Route getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd) {
+    public XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd) {
+        List<XiaoYuanRouteDTO> allRouteList = getRouteListByNameAndCityName(routeName, cityName);
+        int rideStartIndex = 0;
+        int rideEndIndex = 0;
+        for (XiaoYuanRouteDTO route : allRouteList) {
 
+        }
         return null;
     }
 }

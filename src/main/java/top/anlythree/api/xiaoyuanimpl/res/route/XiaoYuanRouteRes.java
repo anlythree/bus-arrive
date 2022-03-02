@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
-import top.anlythree.dto.Route;
+import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.utils.UnicodeUtil;
 import top.anlythree.utils.exceptions.AException;
 
@@ -43,8 +43,8 @@ public class XiaoYuanRouteRes {
      */
     private String busStaname;
 
-    public Route castRoute(String cityId){
-        Route route = new Route();
+    public XiaoYuanRouteDTO castRoute(String cityId){
+        XiaoYuanRouteDTO route = new XiaoYuanRouteDTO();
         if(StringUtils.isEmpty(busStastan) ||
         StringUtils.isEmpty(busEndstan) ||
         StringUtils.isEmpty(busLinestrid) ||

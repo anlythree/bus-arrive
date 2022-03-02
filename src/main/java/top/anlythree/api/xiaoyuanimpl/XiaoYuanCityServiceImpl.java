@@ -8,7 +8,7 @@ import top.anlythree.api.CityService;
 import top.anlythree.api.xiaoyuanimpl.res.city.XiaoYuanCityListRes;
 import top.anlythree.api.xiaoyuanimpl.res.city.XiaoYuanCityRes;
 import top.anlythree.cache.ACache;
-import top.anlythree.dto.City;
+import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.utils.RestTemplateUtils;
 import top.anlythree.utils.ResultUtil;
 import top.anlythree.utils.UrlUtils;
@@ -24,7 +24,7 @@ public class XiaoYuanCityServiceImpl implements CityService {
     private String uname;
 
     @Override
-    public List<City> cityList() {
+    public List<XiaoYuanCityDTO> cityList() {
         XiaoYuanCityListRes xiaoYuanModel = ResultUtil.getXiaoYuanModel(RestTemplateUtils.get(
                 UrlUtils.createXiaoYuan("optype","city","uname",uname),
                 XiaoYuanCityListRes.class));
@@ -39,15 +39,15 @@ public class XiaoYuanCityServiceImpl implements CityService {
     }
 
     @Override
-    public City getCityById(String id) {
-        List<City> cityCacheList = ACache.getCityCacheList();
-        for (City city : cityCacheList) {
+    public XiaoYuanCityDTO getCityById(String id) {
+        List<XiaoYuanCityDTO> cityCacheList = ACache.getCityCacheList();
+        for (XiaoYuanCityDTO city : cityCacheList) {
             if(Objects.equals(id , city.getId())){
                 return city;
             }
         }
-        List<City> cityList = cityList();
-        for (City city : cityList) {
+        List<XiaoYuanCityDTO> cityList = cityList();
+        for (XiaoYuanCityDTO city : cityList) {
             if(Objects.equals(id,city.getId())){
                 return city;
             }
@@ -56,15 +56,15 @@ public class XiaoYuanCityServiceImpl implements CityService {
     }
 
     @Override
-    public City getCityByName(String name) {
-        List<City> cityCacheList = ACache.getCityCacheList();
-        for (City city : cityCacheList) {
+    public XiaoYuanCityDTO getCityByName(String name) {
+        List<XiaoYuanCityDTO> cityCacheList = ACache.getCityCacheList();
+        for (XiaoYuanCityDTO city : cityCacheList) {
             if(Objects.equals(name,city.getName())){
                 return city;
             }
         }
-        List<City> cityList = cityList();
-        for (City city : cityList) {
+        List<XiaoYuanCityDTO> cityList = cityList();
+        for (XiaoYuanCityDTO city : cityList) {
             if(Objects.equals(name,city.getName())){
                 return city;
             }

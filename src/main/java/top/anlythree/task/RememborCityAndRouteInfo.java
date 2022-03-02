@@ -9,18 +9,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
 import top.anlythree.cache.ACache;
-import top.anlythree.dto.City;
-import top.anlythree.dto.Route;
+import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.utils.exceptions.AException;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -48,8 +44,8 @@ public class RememborCityAndRouteInfo implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         // 缓存城市
         List<String> cityNameList = Arrays.stream(cityAndRouteList).map(f -> f.substring(0, f.indexOf(" "))).collect(Collectors.toList());
-        List<City> cities = cityService.cityList();
-        for (City city : cities) {
+        List<XiaoYuanCityDTO> cities = cityService.cityList();
+        for (XiaoYuanCityDTO city : cities) {
             if (cityNameList.contains(city.getName())) {
                 ACache.addCity(city);
             }

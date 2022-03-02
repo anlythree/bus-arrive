@@ -1,8 +1,7 @@
 package top.anlythree.api;
 
 
-import org.springframework.stereotype.Service;
-import top.anlythree.dto.City;
+import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 
 import java.util.List;
 
@@ -12,10 +11,10 @@ import java.util.List;
  */
 public interface CityService {
 
-    List<City> cityList();
+    List<XiaoYuanCityDTO> cityList();
 
-    City getCityById(String id);
+    XiaoYuanCityDTO getCityById(String id);
 
-    City getCityByName(String name);
+    XiaoYuanCityDTO getCityByName(String name);
 
 }

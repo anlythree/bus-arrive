@@ -2,12 +2,10 @@ package top.anlythree.cache;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.StringUtils;
-import top.anlythree.dto.City;
-import top.anlythree.dto.Route;
-import top.anlythree.utils.exceptions.AException;
+import org.springframework.beans.factory.annotation.Value;
+import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
+import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +20,15 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ACache {
 
-    private static String xiaoyuanUrl = "http://api.dwmm136.cn/z_busapi/BusApi.php";
+    @Value("${xiaoyuan.url}")
+    private static String xiaoyuanUrl;
 
-    private static List<City> cityCacheList = new ArrayList<>();
+    private static List<XiaoYuanCityDTO> cityCacheList = new ArrayList<>();
 
-    private static List<Route> routeCacheList = new ArrayList<>();
+    private static List<XiaoYuanRouteDTO> routeCacheList = new ArrayList<>();
 
-    public static void addCity(City city) {
-        for (City cityItem : cityCacheList) {
+    public static void addCity(XiaoYuanCityDTO city) {
+        for (XiaoYuanCityDTO cityItem : cityCacheList) {
             // 缓存中有重复的就覆盖掉原信息
             if (Objects.equals(cityItem.getId(), city.getId())) {
                 // 更新城市名称
@@ -45,8 +44,8 @@ public class ACache {
         cityCacheList.add(city);
     }
 
-    public static void addRoute(Route route) {
-        for (Route routeItem : routeCacheList) {
+    public static void addRoute(XiaoYuanRouteDTO route) {
+        for (XiaoYuanRouteDTO routeItem : routeCacheList) {
             // 缓存中有重复的就覆盖掉原信息
             if (Objects.equals(routeItem.getRouteName(), route.getRouteName()) &&
             Objects.equals(routeItem.getStartStation(),route.getStartStation())) {
@@ -58,19 +57,19 @@ public class ACache {
         routeCacheList.add(route);
     }
 
-    public static List<City> getCityCacheList() {
+    public static List<XiaoYuanCityDTO> getCityCacheList() {
         return cityCacheList;
     }
 
-    public static void setCityCacheList(List<City> cityCacheList) {
+    public static void setCityCacheList(List<XiaoYuanCityDTO> cityCacheList) {
         ACache.cityCacheList = cityCacheList;
     }
 
-    public static List<Route> getRouteCacheList() {
+    public static List<XiaoYuanRouteDTO> getRouteCacheList() {
         return routeCacheList;
     }
 
-    public static void setRouteCacheList(List<Route> routeCacheList) {
+    public static void setRouteCacheList(List<XiaoYuanRouteDTO> routeCacheList) {
         ACache.routeCacheList = routeCacheList;
     }
 

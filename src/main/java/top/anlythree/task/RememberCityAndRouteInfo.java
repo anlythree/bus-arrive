@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Data
 @Component
-public class RememborCityAndRouteInfo implements ApplicationRunner {
+public class RememberCityAndRouteInfo implements ApplicationRunner {
 
     @Autowired
     @Qualifier(value = "xiaoYuanCityServiceImpl")

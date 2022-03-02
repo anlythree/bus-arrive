@@ -3,8 +3,8 @@ package top.anlythree.api.xiaoyuanimpl.dto;
 import lombok.Data;
 
 /**
+ * 公交路线
  * @author anlythree
- * @description:
  * @time 2022/3/110:33 上午
  */
 @Data

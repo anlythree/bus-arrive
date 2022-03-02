@@ -56,6 +56,7 @@ public class XiaoYuanRouteRes {
         route.setRouteName(UnicodeUtil.unicodeToString(this.busStaname));
         route.setStartStation(UnicodeUtil.unicodeToString(this.busStastan));
         route.setEndStation(UnicodeUtil.unicodeToString(this.busEndstan));
+        route.setCityId(cityId);
         return route;
     }
 }

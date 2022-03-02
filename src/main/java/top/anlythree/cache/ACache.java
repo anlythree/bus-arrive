@@ -48,7 +48,8 @@ public class ACache {
     public static void addRoute(Route route) {
         for (Route routeItem : routeCacheList) {
             // 缓存中有重复的就覆盖掉原信息
-            if (Objects.equals(routeItem.getRouteName(), route.getRouteName())) {
+            if (Objects.equals(routeItem.getRouteName(), route.getRouteName()) &&
+            Objects.equals(routeItem.getStartStation(),route.getStartStation())) {
                 // 更新路线信息
                 BeanUtils.copyProperties(route,routeItem);
                 return;

@@ -57,7 +57,10 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
         if(CollectionUtils.isEmpty(xiaoYuanRouteResList)){
             return null;
         }
-        return xiaoYuanRouteResList.stream().map(f-> f.castRoute(cityId)).collect(Collectors.toList());
+        return xiaoYuanRouteResList.stream()
+                .filter(f -> Objects.equals(f.getBusStaname(), routeName))
+                .map(f-> f.castRoute(cityId))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -94,11 +97,12 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
             log.error("根据位置路线名查询不到相关线路，缓存该线路失败：城市名称：" + cityName+"公交路线名称："+routeName );
             return;
         }
-        for (Route route : allRouteList) {
-            if(Objects.equals(route.getRouteName(), routeName)){
-                //  这里手动剔除掉api查出来的模糊数据，只取路线名称完全一样的公交路线
-                ACache.addRoute(route);
-            }
-        }
+        allRouteList.forEach(ACache::addRoute);
+    }
+
+    @Override
+    public Route getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd) {
+
+        return null;
     }
 }

@@ -6,7 +6,7 @@ import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanStationDTO;
 public class AMapStationServiceImpl implements StationService {
 
     @Override
-    public XiaoYuanStationDTO getStationByStationName(String routeName, String stationName) {
+    public XiaoYuanStationDTO getStationByStationName(String cityName,String routeName, String stationName) {
         
         return null;
     }

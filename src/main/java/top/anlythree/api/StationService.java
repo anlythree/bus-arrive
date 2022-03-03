@@ -12,12 +12,11 @@ import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanStationDTO;
 public interface StationService {
 
     /**
-     * 根据路线名和站点名称获取站点信息
+     * 根据城市名路线名和站点名称获取站点信息
      *
      * @param stationName
      * @return
      */
-    XiaoYuanStationDTO getStationByStationName(String routeName, String stationName);
+    XiaoYuanStationDTO getStationByStationName(String cityName, String routeName, String stationName);
 
-    Map<String,>
 }

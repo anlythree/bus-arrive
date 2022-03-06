@@ -3,7 +3,7 @@ package top.anlythree.api.xiaoyuanimpl.res;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import top.anlythree.api.abs.AResult;
+import top.anlythree.api.abs.RootResult;
 import top.anlythree.utils.exceptions.AException;
 
 import java.util.Objects;
@@ -16,7 +16,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class XiaoYuanResult extends AResult {
+public class XiaoYuanResult extends RootResult {
 
     private String returnCode;
 
@@ -24,7 +24,7 @@ public class XiaoYuanResult extends AResult {
 
     @Override
     public void isApiError() {
-        if (!(Objects.equals("ok", this.returnCode) && Objects.equals("0", this.errorCode))) {
+        if (!(Objects.equals("ok", this.returnCode) || Objects.equals("0", this.errorCode))) {
             throw new AException("笑园api异常，returnCode:" + returnCode + ",errorCode:" + errorCode);
         }
     }

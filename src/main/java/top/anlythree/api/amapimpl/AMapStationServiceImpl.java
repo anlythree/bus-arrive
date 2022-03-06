@@ -1,12 +1,12 @@
 package top.anlythree.api.amapimpl;
 
 import top.anlythree.api.StationService;
-import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanStationDTO;
+import top.anlythree.api.amapimpl.dto.AMapStationDTO;
 
 public class AMapStationServiceImpl implements StationService {
 
     @Override
-    public XiaoYuanStationDTO getStationByStationName(String cityName,String routeName, String stationName) {
+    public AMapStationDTO getStation(String cityName, String stationName) {
         
         return null;
     }

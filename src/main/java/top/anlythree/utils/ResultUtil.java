@@ -31,7 +31,7 @@ public class ResultUtil {
         return responseEntity.getBody();
     }
 
-    public static <T extends AMapResult> getAMapModel(ResponseEntity<T> responseEntity){
+    public static <T extends AMapResult> T getAMapModel(ResponseEntity<T> responseEntity){
         if(!Objects.equals(HttpStatus.OK,responseEntity.getStatusCode())){
             throw new AException("api调用错误");
         }

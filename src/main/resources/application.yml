@@ -4,11 +4,14 @@ spring:
   application:
     name: bus-arrive
 xiaoyuan:
-  url:
   key: 632e6732f9e1a6bd4b3b4966a9009bcd
   username: 15610462126
+  url: http://api.dwmm136.cn/z_busapi/BusApi.php
 remembor:
   cityandroute:
     杭州市 353,杭州市 415
 amp:
   key: ca749b4a5f0fe299e8cd826f69c1c6bc
+  sign: 0dcee3a9115b5782fecfa7f90f876981
+  url: https://restapi.amap.com/v3/geocode/geo
+

@@ -26,7 +26,7 @@ public class XiaoYuanCityServiceImpl implements CityService {
     @Override
     public List<XiaoYuanCityDTO> cityList() {
         XiaoYuanCityListRes xiaoYuanModel = ResultUtil.getXiaoYuanModel(RestTemplateUtils.get(
-                UrlUtils.createXiaoYuan("optype","city","uname",uname),
+                UrlUtils.createXiaoYuanUrl("optype","city","uname",uname),
                 XiaoYuanCityListRes.class));
         if (null == xiaoYuanModel) {
             return null;

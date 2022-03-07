@@ -46,7 +46,7 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
         }
         String keySecret = MD5Utils.getMd5(uname + key + "luxian");
         XiaoYuanRouteListRes xiaoYuanRouteListRes = ResultUtil.getXiaoYuanModel(
-                RestTemplateUtils.get(UrlUtils.createXiaoYuan(
+                RestTemplateUtils.get(UrlUtils.createXiaoYuanUrl(
                         "optype","luxian",
                                 "uname",uname,
                                 "cityid",cityById.getId(),

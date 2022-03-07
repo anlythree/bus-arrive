@@ -21,9 +21,12 @@ public class UrlUtils {
     private static StringBuffer urlStrBu = new StringBuffer();
 
     @Value("${xiaoyuan.url}")
-    private static String xiaoyuanUrl;
+    private static final String xiaoyuanUrl = null;
 
-    public static String createXiaoYuan(String ... params){
+    @Value("${amap.url}")
+    private static final String amapUrl = null;
+
+    public static String createXiaoYuanUrl(String ... params){
         urlStrBu = new StringBuffer();
         if(params == null || params.length == 0){
             return StringUtils.EMPTY;
@@ -32,6 +35,21 @@ public class UrlUtils {
             throw new AException("语法错误，参数数量必须是成对存在的");
         }
         urlStrBu.append(xiaoyuanUrl).append(wenhao);
+        for (int i = 0; i < params.length; i+=2) {
+            urlStrBu.append(params[i]).append(dengyu).append(params[i+1]).append("&");
+        }
+        return urlStrBu.toString().substring(0,urlStrBu.length()-1);
+    }
+
+    public static String createAmapUrl(String ... params){
+        urlStrBu = new StringBuffer();
+        if(params == null || params.length == 0){
+            return StringUtils.EMPTY;
+        }
+        if((params.length & 1) == 1){
+            throw new AException("语法错误，参数数量必须是成对存在的");
+        }
+        urlStrBu.append(amapUrl).append(wenhao);
         for (int i = 0; i < params.length; i+=2) {
             urlStrBu.append(params[i]).append(dengyu).append(params[i+1]).append("&");
         }

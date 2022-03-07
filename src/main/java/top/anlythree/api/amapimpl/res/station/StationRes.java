@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetStationRes {
+public class StationRes {
 
     /**
      * 省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码
      */
-    private String formatted_address;
+    private String formattedAddress;
 
     /**
      * 国家。国内地址默认返回中国

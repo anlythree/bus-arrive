@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AMapStationDTO {
+public class StationDTO {
 
     private String cityName;
 

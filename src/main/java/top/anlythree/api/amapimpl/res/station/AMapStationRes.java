@@ -3,11 +3,12 @@ package top.anlythree.api.amapimpl.res.station;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import top.anlythree.api.amapimpl.dto.StationDTO;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StationRes {
+public class AMapStationRes {
 
     /**
      * 省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码
@@ -63,4 +64,8 @@ public class StationRes {
      * 匹配级别
      */
     private String level;
+
+    public StationDTO castStationDto(String stationName){
+        return new StationDTO(city,stationName,location);
+    }
 }

@@ -1,6 +1,6 @@
 package top.anlythree.api;
 
-import top.anlythree.api.amapimpl.dto.AMapStationDTO;
+import top.anlythree.api.amapimpl.dto.StationDTO;
 
 /**
  * 地点接口
@@ -17,6 +17,6 @@ public interface StationService {
      * @param stationName
      * @return
      */
-    AMapStationDTO getStation(String cityName, String stationName);
+    StationDTO getStation(String cityName, String stationName);
 
 }

@@ -11,16 +11,17 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetStationListRes extends AMapResult {
+public class AMapStationListRes extends AMapResult {
 
-    private List<StationRes> geocodes;
+    private List<AMapStationRes> geocodes;
 
-    public StationRes getOneStationRes(String keyWord){
-        for (StationRes geocode : this.getGeocodes()) {
+    public AMapStationRes getOneStationRes(String keyWord){
+        for (AMapStationRes geocode : this.getGeocodes()) {
             if(StringUtils.isNotEmpty(geocode.getFormattedAddress()) &&
                     geocode.getFormattedAddress().contains(keyWord)){
-
+                return geocode;
             }
         }
+        return null;
     }
 }

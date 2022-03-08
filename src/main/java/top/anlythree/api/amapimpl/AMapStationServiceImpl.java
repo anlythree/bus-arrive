@@ -2,9 +2,9 @@ package top.anlythree.api.amapimpl;
 
 import org.springframework.beans.factory.annotation.Value;
 import top.anlythree.api.StationService;
-import top.anlythree.api.amapimpl.dto.AMapStationDTO;
-import top.anlythree.api.amapimpl.res.station.GetStationListRes;
-import top.anlythree.api.amapimpl.res.station.StationRes;
+import top.anlythree.api.amapimpl.dto.StationDTO;
+import top.anlythree.api.amapimpl.res.station.AMapStationListRes;
+import top.anlythree.api.amapimpl.res.station.AMapStationRes;
 import top.anlythree.utils.RestTemplateUtils;
 import top.anlythree.utils.ResultUtil;
 import top.anlythree.utils.UrlUtils;
@@ -18,15 +18,15 @@ public class AMapStationServiceImpl implements StationService {
     private final String sign = null;
 
     @Override
-    public AMapStationDTO getStation(String cityName, String stationName) {
+    public StationDTO getStation(String cityName, String stationName) {
         String amapUrl = UrlUtils.createAmapUrl("key", key, "sig", sign, "city", cityName, "batch", "5",
                 "output", "JSON", "address", "stationName");
-        GetStationListRes getStationListRes = ResultUtil.getAMapModel(
-                RestTemplateUtils.get(amapUrl, GetStationListRes.class));
-        // 从5个搜索结果中找到最符合的那个位置
-        for (StationRes getStationRes : getStationListRes.getGeocodes()) {
-
+        AMapStationListRes getStationListRes = ResultUtil.getAMapModel(
+                RestTemplateUtils.get(amapUrl, AMapStationListRes.class));
+        if(null == getStationListRes){
+            return null;
         }
-        return null;
+        AMapStationRes oneStationRes = getStationListRes.getOneStationRes(stationName);
+        return oneStationRes.castStationDto(stationName);
     }
 }

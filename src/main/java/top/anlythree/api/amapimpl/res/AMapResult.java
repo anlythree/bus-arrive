@@ -21,7 +21,7 @@ public class AMapResult extends RootResult {
 
     @Override
     public void isApiError() {
-        if (!(Objects.equals(0, status) || Objects.equals("OK", info))) {
+        if (Objects.equals(0, status)) {
             throw new AException("高德api异常，status:" + status + ",info:" + info);
         }
     }

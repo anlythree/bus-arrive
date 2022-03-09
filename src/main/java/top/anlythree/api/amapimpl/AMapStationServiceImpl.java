@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import top.anlythree.api.StationService;
 import top.anlythree.bussiness.dto.StationDTO;
-import top.anlythree.api.amapimpl.res.station.AMapStationListRes;
-import top.anlythree.api.amapimpl.res.station.AMapStationRes;
+import top.anlythree.api.amapimpl.res.AMapStationListRes;
 import top.anlythree.utils.RestTemplateUtils;
 import top.anlythree.utils.ResultUtil;
 import top.anlythree.utils.UrlUtils;
@@ -30,7 +29,7 @@ public class AMapStationServiceImpl implements StationService {
         if(null == getStationListRes){
             return null;
         }
-        AMapStationRes oneStationRes = getStationListRes.getOneStationRes(stationName);
+        AMapStationListRes.AMapStationRes oneStationRes = getStationListRes.getOneStationRes(stationName);
         if(null == oneStationRes){
             throw new AException("获取不到"+stationName+"站的具体坐标，请尝试自定义关键字来获取站点名称");
         }

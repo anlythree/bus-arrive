@@ -25,7 +25,7 @@ public interface RouteService {
      * @param startStation
      * @return
      */
-    XiaoYuanRouteDTO getRoutByNameAndCityIdAndStartStation(String routeName, String cityName, String startStation);
+    XiaoYuanRouteDTO getRouteByNameAndCityIdAndStartStation(String routeName, String cityName, String startStation);
 
     /**
      * 在缓存中查找路线

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
-import top.anlythree.api.xiaoyuanimpl.res.route.XiaoYuanRouteListRes;
+import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanRouteListRes;
 import top.anlythree.api.xiaoyuanimpl.res.route.XiaoYuanRouteRes;
 import top.anlythree.cache.ACache;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
@@ -64,25 +64,25 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public XiaoYuanRouteDTO getRoutByNameAndCityIdAndStartStation(String routeName, String cityName, String startStation) {
+    public XiaoYuanRouteDTO getRouteByNameAndCityIdAndStartStation(String routeName, String cityName, String endStation) {
         XiaoYuanCityDTO cityByName = cityService.getCityByName(cityName);
-        XiaoYuanRouteDTO routeFromCache = getRouteFromCache(cityByName.getId(), routeName, startStation);
+        XiaoYuanRouteDTO routeFromCache = getRouteFromCache(cityByName.getId(), routeName, endStation);
         if(null != routeFromCache){
             return routeFromCache;
         }
         // 缓存中找不到，找到并加载到缓存
         cacheRouteByNameAndCityName(cityName,routeName);
         // 重新在缓存中查找
-        return getRouteFromCache(cityByName.getId(), routeName, startStation);
+        return getRouteFromCache(cityByName.getId(), routeName, endStation);
     }
 
     @Override
-    public XiaoYuanRouteDTO getRouteFromCache(String cityId,String routeName,String startStation){
+    public XiaoYuanRouteDTO getRouteFromCache(String cityId,String routeName,String endStation){
         List<XiaoYuanRouteDTO> routeCacheList = ACache.getRouteCacheList();
         for (XiaoYuanRouteDTO route : routeCacheList) {
             if(Objects.equals(routeName,route.getRouteName()) &&
                     Objects.equals(cityId,route.getCityId()) &&
-                    Objects.equals(startStation,route.getStartStation())){
+                    Objects.equals(endStation,route.getEndStation())){
                 return route;
             }
         }

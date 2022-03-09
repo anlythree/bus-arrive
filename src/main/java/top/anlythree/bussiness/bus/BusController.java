@@ -35,6 +35,6 @@ public class BusController {
 
     @GetMapping("/getRoute")
     public XiaoYuanRouteDTO getRouteList(@RequestParam String routeName, @RequestParam String cityName, @RequestParam String startStation){
-        return routeService.getRoutByNameAndCityIdAndStartStation(routeName,cityName,startStation);
+        return routeService.getRouteByNameAndCityIdAndStartStation(routeName,cityName,startStation);
     }
 }

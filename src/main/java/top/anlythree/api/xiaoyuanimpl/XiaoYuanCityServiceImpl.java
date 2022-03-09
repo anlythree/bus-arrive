@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
-import top.anlythree.api.xiaoyuanimpl.res.city.XiaoYuanCityListRes;
+import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanCityListRes;
 import top.anlythree.api.xiaoyuanimpl.res.city.XiaoYuanCityRes;
 import top.anlythree.cache.ACache;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;

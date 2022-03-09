@@ -1,5 +1,9 @@
 package top.anlythree.api;
 
+import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanBusRes;
+
+import java.util.List;
+
 /**
  * @author anlythree
  * @description:
@@ -7,6 +11,12 @@ package top.anlythree.api;
  */
 public interface BusService {
 
-
+    /**
+     * 根据城市名和路线名获取公交列表
+     * @param cityName
+     * @param routeName
+     * @return
+     */
+    List<XiaoYuanBusRes> getBusLocation(String cityName, String routeName, String endStation);
 
 }

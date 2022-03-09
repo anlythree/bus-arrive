@@ -1,4 +1,4 @@
-package top.anlythree.controller;
+package top.anlythree.bussiness.bus;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

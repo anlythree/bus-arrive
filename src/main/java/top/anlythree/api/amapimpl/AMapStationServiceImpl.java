@@ -3,7 +3,7 @@ package top.anlythree.api.amapimpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import top.anlythree.api.StationService;
-import top.anlythree.api.amapimpl.dto.StationDTO;
+import top.anlythree.bussiness.dto.StationDTO;
 import top.anlythree.api.amapimpl.res.station.AMapStationListRes;
 import top.anlythree.api.amapimpl.res.station.AMapStationRes;
 import top.anlythree.utils.RestTemplateUtils;

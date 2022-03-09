@@ -1,6 +1,6 @@
 package top.anlythree.api;
 
-import top.anlythree.api.amapimpl.dto.StationDTO;
+import top.anlythree.bussiness.dto.StationDTO;
 
 /**
  * 地点接口

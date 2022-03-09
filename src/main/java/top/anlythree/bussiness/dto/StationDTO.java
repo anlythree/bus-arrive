@@ -1,4 +1,4 @@
-package top.anlythree.api.amapimpl.dto;
+package top.anlythree.bussiness.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

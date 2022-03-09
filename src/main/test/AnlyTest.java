@@ -1,4 +1,3 @@
-import com.google.common.collect.Maps;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import top.anlythree.SpringApplicationMain;
 import top.anlythree.api.StationService;
-import top.anlythree.api.amapimpl.dto.StationDTO;
-
-import java.util.Map;
+import top.anlythree.bussiness.dto.StationDTO;
 
 /**
  * @author anlythree

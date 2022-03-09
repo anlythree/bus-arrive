@@ -3,7 +3,7 @@ package top.anlythree.api.amapimpl.res.station;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import top.anlythree.api.amapimpl.dto.StationDTO;
+import top.anlythree.bussiness.dto.StationDTO;
 
 @Data
 @NoArgsConstructor

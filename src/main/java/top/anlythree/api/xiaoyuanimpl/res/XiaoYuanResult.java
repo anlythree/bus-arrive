@@ -3,7 +3,7 @@ package top.anlythree.api.xiaoyuanimpl.res;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import top.anlythree.api.abs.RootResult;
+import top.anlythree.api.absres.ApiRootResult;
 import top.anlythree.utils.exceptions.AException;
 
 import java.util.Objects;
@@ -16,7 +16,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class XiaoYuanResult extends RootResult {
+public class XiaoYuanResult extends ApiRootResult {
 
     private String returnCode;
 

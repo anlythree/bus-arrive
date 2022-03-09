@@ -1,4 +1,4 @@
-package top.anlythree.api.abs;
+package top.anlythree.api.absres;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
  * @time 2022/3/111:35 上午
  */
 @Slf4j
-public abstract class RootResult {
+public abstract class ApiRootResult {
 
     public void isApiError() {
         log.info("class:" + this.getClass() + "不支持检查api错误。");

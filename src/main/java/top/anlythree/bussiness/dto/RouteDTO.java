@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RouteDTO {
+
+    private String bizIdRoute;
+
     /**
      * 起始站
      */

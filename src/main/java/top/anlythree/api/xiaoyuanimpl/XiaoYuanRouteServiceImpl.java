@@ -66,21 +66,22 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     @Override
     public XiaoYuanRouteDTO getRoutByNameAndCityIdAndStartStation(String routeName, String cityName, String startStation) {
         XiaoYuanCityDTO cityByName = cityService.getCityByName(cityName);
+        XiaoYuanRouteDTO routeFromCache = getRouteFromCache(cityByName.getId(), routeName, startStation);
+        if(null != routeFromCache){
+            return routeFromCache;
+        }
+        // 缓存中找不到，找到并加载到缓存
+        cacheRouteByNameAndCityName(cityName,routeName);
+        // 重新在缓存中查找
+        return getRouteFromCache(cityByName.getId(), routeName, startStation);
+    }
+
+    @Override
+    public XiaoYuanRouteDTO getRouteFromCache(String cityId,String routeName,String startStation){
         List<XiaoYuanRouteDTO> routeCacheList = ACache.getRouteCacheList();
         for (XiaoYuanRouteDTO route : routeCacheList) {
             if(Objects.equals(routeName,route.getRouteName()) &&
-            Objects.equals(cityByName.getId(),route.getCityId()) &&
-            Objects.equals(startStation,route.getStartStation())){
-                return route;
-            }
-        }
-        // 缓存中找不到，找到并加载到缓存
-        // 重新在缓存中查找
-        cacheRouteByNameAndCityName(cityName,routeName);
-        List<XiaoYuanRouteDTO> newRouteCacheList = ACache.getRouteCacheList();
-        for (XiaoYuanRouteDTO route : newRouteCacheList) {
-            if(Objects.equals(routeName,route.getRouteName()) &&
-                    Objects.equals(cityByName.getId(),route.getCityId()) &&
+                    Objects.equals(cityId,route.getCityId()) &&
                     Objects.equals(startStation,route.getStartStation())){
                 return route;
             }

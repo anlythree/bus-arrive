@@ -15,6 +15,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StationDTO {
 
+    private String bizIdStation;
+
+    /**
+     * 站点名称
+     */
     private String stationName;
 
     /**

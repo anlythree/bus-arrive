@@ -28,6 +28,15 @@ public interface RouteService {
     XiaoYuanRouteDTO getRoutByNameAndCityIdAndStartStation(String routeName, String cityName, String startStation);
 
     /**
+     * 在缓存中查找路线
+     * @param cityId
+     * @param routeName
+     * @param startStation
+     * @return
+     */
+    XiaoYuanRouteDTO getRouteFromCache(String cityId,String routeName,String startStation);
+
+    /**
      * 根据城市名称和线路名称缓存公交线路
      * @param cityName
      * @param routeName

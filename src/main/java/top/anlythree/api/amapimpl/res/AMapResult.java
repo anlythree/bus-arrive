@@ -17,6 +17,8 @@ public class AMapResult extends RootResult {
 
     private String info;
 
+    private String infocode;
+
     private Integer count;
 
     @Override

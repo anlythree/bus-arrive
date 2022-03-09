@@ -17,6 +17,6 @@ public interface StationService {
      * @param stationName
      * @return
      */
-    StationDTO getStation(String cityName, String routeName, String stationName);
+    StationDTO getStation(String cityName, String district, String stationName);
 
 }

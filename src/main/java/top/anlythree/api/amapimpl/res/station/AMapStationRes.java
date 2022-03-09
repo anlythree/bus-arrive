@@ -43,12 +43,12 @@ public class AMapStationRes {
     /**
      * 街道
      */
-    private String street;
+    private String[] street;
 
     /**
      * 门牌
      */
-    private String number;
+    private String[] number;
 
     /**
      * 区域编码
@@ -56,7 +56,7 @@ public class AMapStationRes {
     private String adcode;
 
     /**
-     * 坐标点（经度，纬度）
+     * 坐标点经度,纬度
      */
     private String location;
 
@@ -66,6 +66,6 @@ public class AMapStationRes {
     private String level;
 
     public StationDTO castStationDto(String stationName){
-        return new StationDTO(city,stationName,location);
+        return new StationDTO(stationName,formattedAddress,location,country,province,city,district);
     }
 }

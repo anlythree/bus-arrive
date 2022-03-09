@@ -3,6 +3,7 @@ package top.anlythree.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -24,7 +25,6 @@ public class RestTemplateConfig {
 
     @Bean
     public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
         MappingJackson2HttpMessageConverter httpMessageConverter = new MappingJackson2HttpMessageConverter();
         httpMessageConverter.setSupportedMediaTypes(
                 Arrays.asList(MediaType.TEXT_HTML,
@@ -35,8 +35,9 @@ public class RestTemplateConfig {
 //        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL); //忽略null数据
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); //未知属性不报错
         objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8")); //时区设置
-        restTemplate.getMessageConverters().add(httpMessageConverter);
-        return restTemplate;
+        return new RestTemplateBuilder()
+                .messageConverters(httpMessageConverter)
+                .build();
     }
 
 }

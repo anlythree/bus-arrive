@@ -1,6 +1,8 @@
 package top.anlythree.utils;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,7 +10,12 @@ import org.springframework.stereotype.Component;
 import top.anlythree.cache.ACache;
 import top.anlythree.utils.exceptions.AException;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author anlythree
@@ -46,43 +53,48 @@ public class UrlUtils {
     }
 
 
-    public static String createXiaoYuanUrl(String... params) {
+    public static String createXiaoYuanUrl(UrlParam... params) {
         urlStrBu = new StringBuffer();
         if (params == null || params.length == 0) {
             return StringUtils.EMPTY;
         }
-        if ((params.length & 1) == 1) {
-            throw new AException("语法错误，参数数量必须是成对存在的");
-        }
         urlStrBu.append(xiaoyuanUrl).append(wenhao);
-        for (int i = 0; i < params.length; i += 2) {
-            urlStrBu.append(params[i]).append(dengyu).append(params[i + 1]).append("&");
+        for (int i = 0; i < params.length; i++) {
+            urlStrBu.append(params[i].getKey()).append(dengyu).append(params[i].getValue()).append("&");
         }
         return urlStrBu.toString().substring(0, urlStrBu.length() - 1);
     }
 
-    public static String createAmapUrl(String... params) {
+    public static String createAmapUrl(UrlParam... params) {
         urlStrBu = new StringBuffer();
         urlStrBu.append(amapUrl);
         if (params == null || params.length == 0) {
             return urlStrBu.toString();
         }
-        if ((params.length & 1) == 1) {
-            throw new AException("语法错误，参数数量必须是成对存在的");
-        }
         urlStrBu.append(wenhao);
         // 生成sig
         StringBuffer createSigBuffer = new StringBuffer();
-        for (int i = 0; i < params.length; i += 2) {
-            urlStrBu.append(params[i]).append(dengyu).append(params[i + 1]).append("&");
-//            if(Objects.equals(params[i],"key")){
-//                continue;
-//            }
-            createSigBuffer.append(params[i]).append(dengyu).append(params[i + 1]).append("&");
-        }
+        // 根据key来排序
+        Arrays.stream(params)
+                .sorted(Comparator.comparing(UrlParam::getKey))
+                .forEach(urlParam -> {
+                    urlStrBu.append(urlParam.getKey()).append(dengyu).append(urlParam.getValue()).append("&");
+                    createSigBuffer.append(urlParam.getKey()).append(dengyu).append(urlParam.getValue()).append("&");
+                });
         String createSig = createSigBuffer.toString().substring(0, createSigBuffer.length() - 1);
         createSig += sig;
-        return urlStrBu.toString().substring(0, urlStrBu.length() - 1)+"&sig="+MD5Utils.getMd5(createSig);
+        return urlStrBu.toString().substring(0, urlStrBu.length() - 1) + "&sig=" + MD5Utils.getMd5(createSig);
+    }
+
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UrlParam {
+
+        private String key;
+
+        private String value;
     }
 
 }

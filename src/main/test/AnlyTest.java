@@ -1,3 +1,4 @@
+import com.google.common.collect.Maps;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import top.anlythree.SpringApplicationMain;
 import top.anlythree.api.StationService;
 import top.anlythree.api.amapimpl.dto.StationDTO;
+
+import java.util.Map;
 
 /**
  * @author anlythree
@@ -23,7 +26,8 @@ public class AnlyTest{
 
     @Test
     public void test1(){
-        StationDTO station = stationService.getStation("杭州", "415", "永福村");
+        StationDTO station = stationService.getStation("杭州", "余杭", "永福村");
         System.out.println(station);
     }
+
 }

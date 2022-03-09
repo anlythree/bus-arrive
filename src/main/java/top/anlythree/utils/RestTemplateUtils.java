@@ -1,20 +1,45 @@
 package top.anlythree.utils;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import top.anlythree.config.XiaoYuanMappingJackson2HttpMessageConverter;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.TimeZone;
+
+import static org.springframework.http.MediaType.APPLICATION_XML;
+
 
 public class RestTemplateUtils {
 
-    private static RestTemplate restTemplate = new RestTemplate();
+    private static RestTemplate restTemplate;
 
     static {
-        restTemplate.getMessageConverters().add(new XiaoYuanMappingJackson2HttpMessageConverter());
+        MappingJackson2HttpMessageConverter httpMessageConverter = new MappingJackson2HttpMessageConverter();
+        httpMessageConverter.setSupportedMediaTypes(
+                Arrays.asList(MediaType.TEXT_HTML,
+                        MediaType.APPLICATION_XHTML_XML,
+                        MediaType.APPLICATION_JSON_UTF8,
+                        APPLICATION_XML));
+        ObjectMapper objectMapper = httpMessageConverter.getObjectMapper();
+        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE); //命名策略
+//        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL); //忽略null数据
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); //未知属性不报错
+        objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8")); //时区设置
+        restTemplate = new RestTemplateBuilder()
+                .messageConverters(httpMessageConverter)
+                .build();
     }
 
     // ----------------------------------GET-------------------------------------------------------

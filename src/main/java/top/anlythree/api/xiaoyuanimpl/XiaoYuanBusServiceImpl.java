@@ -11,6 +11,7 @@ import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.utils.MD5Utils;
 import top.anlythree.utils.RestTemplateUtils;
+import top.anlythree.utils.ResultUtil;
 import top.anlythree.utils.UrlUtils;
 
 import java.util.List;
@@ -50,7 +51,8 @@ public class XiaoYuanBusServiceImpl implements BusService {
                 new UrlUtils.UrlParam("bus_staname", route.getRouteName()),
                 new UrlUtils.UrlParam("keySecret", MD5Utils.getMd5(uname + key + "rtbus"))
         );
-        RestTemplateUtils.get(getBusLocationUrl,)
+        XiaoYuanBusRes xiaoYuanModel = ResultUtil.getXiaoYuanModel(RestTemplateUtils.get(getBusLocationUrl, XiaoYuanBusRes.class));
+        System.out.println(xiaoYuanModel);
         return null;
     }
 }

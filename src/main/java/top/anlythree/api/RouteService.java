@@ -13,10 +13,10 @@ public interface RouteService {
     /**
      * 根据路线名和城市id获取路线列表（正常可以查到2条线路，因为有往返）
      * @param routeName
-     * @param cityId
+     * @param cityName
      * @return
      */
-    List<XiaoYuanRouteDTO> getRouteListByNameAndCityName(String routeName, String cityId);
+    List<XiaoYuanRouteDTO> getRouteListByNameAndCityName(String routeName, String cityName);
 
     /**
      * 根据路线名称，城市名称，线路起始站查找公交线路

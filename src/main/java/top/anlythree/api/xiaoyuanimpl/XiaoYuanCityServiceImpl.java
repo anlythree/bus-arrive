@@ -59,13 +59,15 @@ public class XiaoYuanCityServiceImpl implements CityService {
     public XiaoYuanCityDTO getCityByName(String name) {
         List<XiaoYuanCityDTO> cityCacheList = ACache.getCityCacheList();
         for (XiaoYuanCityDTO city : cityCacheList) {
-            if(Objects.equals(name,city.getName())){
+            if(Objects.equals(name+"市",city.getName())){
                 return city;
             }
         }
         List<XiaoYuanCityDTO> cityList = cityList();
         for (XiaoYuanCityDTO city : cityList) {
-            if(Objects.equals(name,city.getName())){
+            if(Objects.equals(name,city.getName()) ||
+                    Objects.equals(name+"市",city.getName())){
+                ACache.addCity(city);
                 return city;
             }
         }

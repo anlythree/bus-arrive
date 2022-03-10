@@ -9,16 +9,16 @@ import java.util.List;
 /**
  * @author anlythree
  * @description:
- * @time 2022/3/95:13 下午
+ * @time 2022/3/104:01 下午
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class XiaoYuanBusRes extends XiaoYuanResult{
+public class ReturlInfoRes {
 
-    private List<ReturlInfoRes> returlList;
+    private List<LineInfoRes> lineinfo;
 
+    private List<StationInfoRes> stations;
+
+    private List<BusInfoRes> buses;
 }
-
-
-

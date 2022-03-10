@@ -24,7 +24,7 @@ public class XiaoYuanCityListRes extends XiaoYuanResult {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public class XiaoYuanCityRes {
+    public static class XiaoYuanCityRes {
 
         /**
          * 笑园城市业务id

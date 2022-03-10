@@ -29,10 +29,11 @@ public class RestTemplateConfig {
         httpMessageConverter.setSupportedMediaTypes(
                 Arrays.asList(MediaType.TEXT_HTML,
                         MediaType.APPLICATION_XHTML_XML,
+                        MediaType.APPLICATION_JSON_UTF8,
+                        MediaType.APPLICATION_JSON,
                         APPLICATION_XML));
         ObjectMapper objectMapper = httpMessageConverter.getObjectMapper();
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE); //命名策略
-//        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL); //忽略null数据
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); //未知属性不报错
         objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8")); //时区设置
         return new RestTemplateBuilder()

@@ -26,7 +26,7 @@ public class XiaoYuanRouteListRes extends XiaoYuanResult {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public class XiaoYuanRouteRes {
+    public static class XiaoYuanRouteRes {
 
         /**
          * 起始站

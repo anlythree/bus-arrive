@@ -32,7 +32,7 @@ public class AMapStationListRes extends AMapResult {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public class AMapStationRes {
+    public static class AMapStationRes {
 
         /**
          * 省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码

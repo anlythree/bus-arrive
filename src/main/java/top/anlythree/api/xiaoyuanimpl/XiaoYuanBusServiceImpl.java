@@ -3,6 +3,7 @@ package top.anlythree.api.xiaoyuanimpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import top.anlythree.api.BusService;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
@@ -21,6 +22,7 @@ import java.util.List;
  * @description:
  * @time 2022/3/95:18 下午
  */
+@Service
 public class XiaoYuanBusServiceImpl implements BusService {
 
     @Value("${xiaoyuan.username}")

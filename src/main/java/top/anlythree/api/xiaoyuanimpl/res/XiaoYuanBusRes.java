@@ -26,7 +26,7 @@ public class XiaoYuanBusRes extends XiaoYuanResult {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    class LineInfo{
+    public static class LineInfo{
         /**
          *  路线名称
          */
@@ -60,7 +60,7 @@ public class XiaoYuanBusRes extends XiaoYuanResult {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    class BusInfo{
+    public static class BusInfo{
         /**
          * 纬度
          */

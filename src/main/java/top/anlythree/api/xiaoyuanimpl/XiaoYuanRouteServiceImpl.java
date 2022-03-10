@@ -9,7 +9,6 @@ import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanRouteListRes;
-import top.anlythree.api.xiaoyuanimpl.res.route.XiaoYuanRouteRes;
 import top.anlythree.cache.ACache;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
@@ -53,7 +52,7 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
                         new UrlUtils.UrlParam("keywords",routeName),
                         new UrlUtils.UrlParam("keySecret",keySecret)),
                         XiaoYuanRouteListRes.class));
-        List<XiaoYuanRouteRes> xiaoYuanRouteResList = xiaoYuanRouteListRes.getReturlList();
+        List<XiaoYuanRouteListRes.XiaoYuanRouteRes> xiaoYuanRouteResList = xiaoYuanRouteListRes.getReturlList();
         if(CollectionUtils.isEmpty(xiaoYuanRouteResList)){
             return null;
         }

@@ -26,7 +26,7 @@ public class AnlyTest{
     private StationService stationService;
 
     @Autowired
-    @Qualifier(value = "XiaoYuanBusServiceImpl")
+    @Qualifier(value = "xiaoYuanBusServiceImpl")
     private BusService busService;
 
     @Test
@@ -35,9 +35,10 @@ public class AnlyTest{
         System.out.println(station);
     }
 
+    @Test
     public void test2(){
         List<XiaoYuanBusRes> busLocationList = busService.getBusLocation("杭州", "353", "梦想小镇");
-
+        System.out.println(busLocationList);
     }
 
 }

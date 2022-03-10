@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
 import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanCityListRes;
-import top.anlythree.api.xiaoyuanimpl.res.city.XiaoYuanCityRes;
 import top.anlythree.cache.ACache;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.utils.RestTemplateUtils;
@@ -32,11 +31,11 @@ public class XiaoYuanCityServiceImpl implements CityService {
         if (null == xiaoYuanModel) {
             return null;
         }
-        List<XiaoYuanCityRes> returlList = xiaoYuanModel.getReturlList();
+        List<XiaoYuanCityListRes.XiaoYuanCityRes> returlList = xiaoYuanModel.getReturlList();
         if (CollectionUtils.isEmpty(returlList)) {
             return null;
         }
-        return returlList.stream().map(XiaoYuanCityRes::castCity).collect(Collectors.toList());
+        return returlList.stream().map(XiaoYuanCityListRes.XiaoYuanCityRes::castCity).collect(Collectors.toList());
     }
 
     @Override

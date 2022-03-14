@@ -12,7 +12,7 @@ import java.util.List;
 public interface BusService {
 
     /**
-     * 根据城市名和路线名获取公交列表（其中还包含路线的所有站点名称，路线费用，首班车末班车）
+     * 根据城市名和路线名和方向获取当前公交列表（其中还包含路线的所有站点名称，路线费用，首班车末班车）
      * @param cityName
      * @param routeName
      * @return

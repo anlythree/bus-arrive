@@ -3,6 +3,7 @@ package top.anlythree.api.xiaoyuanimpl.res;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import top.anlythree.bussiness.dto.BusDTO;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class XiaoYuanBusRes extends XiaoYuanResult{
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    static class ReturlInfoRes {
+    public static class ReturlInfoRes {
 
         private LineInfoRes lineinfo;
 
@@ -33,7 +34,7 @@ public class XiaoYuanBusRes extends XiaoYuanResult{
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    static class LineInfoRes {
+    public static class LineInfoRes {
         /**
          *  路线名称
          */
@@ -67,7 +68,7 @@ public class XiaoYuanBusRes extends XiaoYuanResult{
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    static class StationInfoRes {
+    public static class StationInfoRes {
 
         private String busStaname;
     }
@@ -75,7 +76,7 @@ public class XiaoYuanBusRes extends XiaoYuanResult{
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    static class BusInfoRes {
+    public static class BusInfoRes {
         /**
          * 纬度
          */
@@ -92,6 +93,15 @@ public class XiaoYuanBusRes extends XiaoYuanResult{
          * 距第几个站点（如：2，距离第2个站还有distance米，distance是0为已到站！）
          */
         private String disStat;
+
+        public BusDTO castBusDTO(){
+            BusDTO busDTO = new BusDTO();
+            busDTO.setLating(lating);
+            busDTO.setLonging(longing);
+            busDTO.setDistance(distance);
+            busDTO.setDisStat(disStat);
+            return busDTO;
+        }
     }
 
 

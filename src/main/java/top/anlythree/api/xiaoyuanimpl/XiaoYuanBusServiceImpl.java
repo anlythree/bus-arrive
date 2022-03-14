@@ -4,18 +4,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import top.anlythree.api.BusService;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanBusRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
+import top.anlythree.bussiness.dto.BusDTO;
+import top.anlythree.cache.ACache;
 import top.anlythree.utils.MD5Utils;
 import top.anlythree.utils.RestTemplateUtils;
 import top.anlythree.utils.ResultUtil;
 import top.anlythree.utils.UrlUtils;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author anlythree
@@ -40,8 +46,7 @@ public class XiaoYuanBusServiceImpl implements BusService {
     private RouteService routeService;
 
     @Override
-    public List<XiaoYuanBusRes> getBusLocation(String cityName, String routeName, String endStation) {
-
+    public List<BusDTO> getBusLocationAndEndStation(String cityName, String routeName, String endStation) {
         XiaoYuanCityDTO cityByName = cityService.getCityByName(cityName);
         XiaoYuanRouteDTO route = routeService.getRouteByNameAndCityIdAndStartStation(routeName, cityName, endStation);
         String getBusLocationUrl = UrlUtils.createXiaoYuanUrl(
@@ -54,7 +59,20 @@ public class XiaoYuanBusServiceImpl implements BusService {
                 new UrlUtils.UrlParam("keySecret", MD5Utils.getMd5(uname + key + "rtbus"))
         );
         XiaoYuanBusRes xiaoYuanModel = ResultUtil.getXiaoYuanModel(RestTemplateUtils.get(getBusLocationUrl, XiaoYuanBusRes.class));
-        System.out.println(xiaoYuanModel);
-        return null;
+        if(null == xiaoYuanModel || null == xiaoYuanModel.getReturlList()){
+            return null;
+        }
+        // 把新的路线信息填充到缓存中
+        XiaoYuanRouteDTO routeByNameAndCityIdAndStartStation = routeService.getRouteByNameAndCityIdAndStartStation(routeName, cityName, endStation);
+        XiaoYuanBusRes.LineInfoRes lineinfo = xiaoYuanModel.getReturlList().getLineinfo();
+        routeByNameAndCityIdAndStartStation.setFirstTime(lineinfo.getFirTime());
+        routeByNameAndCityIdAndStartStation.setEndTime(lineinfo.getEndTime());
+        routeByNameAndCityIdAndStartStation.setMoneyQty(new BigDecimal(lineinfo.getBusMoney()));
+        ACache.addRoute(routeByNameAndCityIdAndStartStation);
+        // 返回公交列表
+        if(CollectionUtils.isEmpty(xiaoYuanModel.getReturlList().getBuses())){
+            return null;
+        }
+        return xiaoYuanModel.getReturlList().getBuses().stream().map(XiaoYuanBusRes.BusInfoRes::castBusDTO).collect(Collectors.toList());
     }
 }

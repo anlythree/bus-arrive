@@ -40,8 +40,7 @@ public class XiaoYuanCityServiceImpl implements CityService {
 
     @Override
     public XiaoYuanCityDTO getCityById(String id) {
-        List<XiaoYuanCityDTO> cityCacheList = ACache.getCityCacheList();
-        for (XiaoYuanCityDTO city : cityCacheList) {
+        for (XiaoYuanCityDTO city : ACache.getCityCacheList()) {
             if(Objects.equals(id , city.getId())){
                 return city;
             }

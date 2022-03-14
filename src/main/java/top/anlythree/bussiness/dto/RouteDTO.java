@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * todo-anlythree 路线DTO，暂时没用到，需要和笑园API脱勾，暂时先储存到XiaoYuanRouteRes中
  * @author anlythree
  * @description:
  * @time 2022/3/93:58 下午

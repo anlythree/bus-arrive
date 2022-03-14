@@ -72,7 +72,11 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
         // 缓存中找不到，找到并加载到缓存
         cacheRouteByNameAndCityName(cityName,routeName);
         // 重新在缓存中查找
-        return getRouteFromCache(cityByName.getId(), routeName, endStation);
+        XiaoYuanRouteDTO routeFromCacheDTO = getRouteFromCache(cityByName.getId(), routeName, endStation);
+        if(null == routeFromCacheDTO){
+            throw new AException("查找不到路线信息："+cityName+"，"+routeName+"，"+endStation);
+        }
+        return routeFromCacheDTO;
     }
 
     @Override

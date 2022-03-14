@@ -2,6 +2,8 @@ package top.anlythree.api.xiaoyuanimpl.dto;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
  * 公交路线
  * @author anlythree
@@ -38,4 +40,18 @@ public class XiaoYuanRouteDTO {
      * 城市id
      */
     private String cityId;
+
+    /**
+     * 首班车时间
+     */
+    private String firstTime;
+    /**
+     * 末班车时间
+     */
+    private String endTime;
+    /**
+     * 票价
+     */
+    private BigDecimal moneyQty;
+
 }

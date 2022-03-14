@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanResult;
+import top.anlythree.cache.ACache;
 import top.anlythree.utils.UnicodeUtil;
 import top.anlythree.utils.exceptions.AException;
 

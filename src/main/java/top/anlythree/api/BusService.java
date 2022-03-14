@@ -1,6 +1,7 @@
 package top.anlythree.api;
 
 import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanBusRes;
+import top.anlythree.bussiness.dto.BusDTO;
 
 import java.util.List;
 
@@ -17,6 +18,6 @@ public interface BusService {
      * @param routeName
      * @return
      */
-    List<XiaoYuanBusRes> getBusLocation(String cityName, String routeName, String endStation);
+    List<BusDTO> getBusLocationAndEndStation(String cityName, String routeName, String endStation);
 
 }

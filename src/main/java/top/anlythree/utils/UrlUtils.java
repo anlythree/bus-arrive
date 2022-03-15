@@ -4,18 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import top.anlythree.cache.ACache;
-import top.anlythree.utils.exceptions.AException;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author anlythree
@@ -33,7 +26,9 @@ public class UrlUtils {
 
     private static String xiaoyuanUrl = null;
 
-    private static String amapUrl = null;
+    private static String amapGetStationUrl = null;
+
+    private static String amapGetBusRouteTime = null;
 
     private static String sig = null;
 
@@ -42,9 +37,14 @@ public class UrlUtils {
         UrlUtils.xiaoyuanUrl = xiaoyuanUrl;
     }
 
-    @Value("${amap.url}")
-    public void setAmapUrl(String amapUrl) {
-        UrlUtils.amapUrl = amapUrl;
+    @Value("${amap.amapGetStationUrl}")
+    public void setAmapGetStationUrl(String amapUrl) {
+        UrlUtils.amapGetStationUrl = amapUrl;
+    }
+
+    @Value("${amap.amapGetBusRouteTime}")
+    public void setAmapGetBusRouteTime(String amapUrl) {
+        UrlUtils.amapGetBusRouteTime = amapUrl;
     }
 
     @Value("${amap.sign}")
@@ -65,9 +65,19 @@ public class UrlUtils {
         return urlStrBu.toString().substring(0, urlStrBu.length() - 1);
     }
 
-    public static String createAmapUrl(UrlParam... params) {
+    /**
+     * todo-anlythree 抽取枚举类
+     * @param type
+     * @param params
+     * @return
+     */
+    public static String createAmapUrl(String type, UrlParam... params) {
         urlStrBu = new StringBuffer();
-        urlStrBu.append(amapUrl);
+        if(StringUtils.equals("getStation",type)){
+            urlStrBu.append(amapGetStationUrl);
+        }else if(StringUtils.equals("getBusRouteTime",type)){
+            urlStrBu.append(amapGetBusRouteTime);
+        }
         if (params == null || params.length == 0) {
             return urlStrBu.toString();
         }

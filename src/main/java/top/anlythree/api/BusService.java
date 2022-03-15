@@ -20,4 +20,10 @@ public interface BusService {
      */
     List<BusDTO> getBusLocationAndEndStation(String cityName, String routeName, String endStation);
 
+    /**
+     * todo-anlythree 高德公交路线规划
+     */
+    getBusRouteTimeByCityNameAndRouteNameAndEndStation(String cityName,String routeName,String endStation,
+                                                     String startLocation,String endLocation);
+
 }

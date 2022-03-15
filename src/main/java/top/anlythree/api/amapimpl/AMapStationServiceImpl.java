@@ -19,6 +19,7 @@ public class AMapStationServiceImpl implements StationService {
     @Override
     public StationDTO getStation(String cityName,String district, String stationName) {
         String amapUrl = UrlUtils.createAmapUrl(
+                "getStation",
                 new UrlUtils.UrlParam("key", key),
                 new UrlUtils.UrlParam("city", cityName),
                 new UrlUtils.UrlParam( "batch", "5"),

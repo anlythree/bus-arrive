@@ -42,10 +42,12 @@ public class AMapBusRouteTimeRes extends AMapResult{
              * 本条路线的总距离，单位：米
              */
             private String distance;
+
             /**
              * 0：非夜班车；1：夜班车
              */
             private Integer nightflag;
+
             /**
              * 路线分段
              */
@@ -116,7 +118,5 @@ public class AMapBusRouteTimeRes extends AMapResult{
                 }
             }
         }
-
     }
-
 }

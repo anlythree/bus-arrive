@@ -1,5 +1,6 @@
 package top.anlythree.api;
 
+import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 
 import java.util.List;
@@ -52,5 +53,11 @@ public interface RouteService {
      * @return
      */
     XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd);
+
+    /**
+     * todo-anlythree 高德公交路线规划
+     */
+    AMapBusRouteTimeRes getBusRouteTimeByCityNameAndRouteNameAndEndStation(String cityName, String routeName, String endStation,
+                                                                           String startLocation, String endLocation);
 
 }

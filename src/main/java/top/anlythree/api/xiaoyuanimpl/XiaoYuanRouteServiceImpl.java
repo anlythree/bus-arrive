@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
+import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanRouteListRes;
 import top.anlythree.cache.ACache;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
@@ -111,5 +112,10 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
 
         }
         return null;
+    }
+
+    @Override
+    public AMapBusRouteTimeRes getBusRouteTimeByCityNameAndRouteNameAndEndStation(String cityName, String routeName, String endStation, String startLocation, String endLocation) {
+        throw new AException("no suport impl, use startOf AMap……class to impl");
     }
 }

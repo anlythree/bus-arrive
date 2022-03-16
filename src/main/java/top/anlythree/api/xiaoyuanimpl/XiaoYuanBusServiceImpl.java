@@ -48,7 +48,7 @@ public class XiaoYuanBusServiceImpl implements BusService {
     private RouteService routeService;
 
     @Override
-    public List<BusDTO> getBusLocationAndEndStation(String cityName, String routeName, String endStation) {
+    public List<BusDTO> getBusLocationList(String cityName, String routeName, String endStation) {
         XiaoYuanCityDTO cityByName = cityService.getCityByName(cityName);
         XiaoYuanRouteDTO route = routeService.getRouteByNameAndCityIdAndStartStation(routeName, cityName, endStation);
         String getBusLocationUrl = UrlUtils.createXiaoYuanUrl(

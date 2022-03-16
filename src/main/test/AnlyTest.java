@@ -9,7 +9,6 @@ import top.anlythree.api.BusService;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
-import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanBusRes;
 import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.StationDTO;
 
@@ -44,7 +43,7 @@ public class AnlyTest{
 
     @Test
     public void test2(){
-        List<BusDTO> busLocation = busService.getBusLocation("杭州", "353", "梦想小镇");
+        List<BusDTO> busLocation = busService.getBusLocationList("杭州", "353", "梦想小镇");
         System.out.println(busLocation);
     }
 

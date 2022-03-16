@@ -116,6 +116,6 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
 
     @Override
     public AMapBusRouteTimeRes getBusRouteTimeByCityNameAndRouteNameAndEndStation(String cityName, String routeName, String endStation, String startLocation, String endLocation) {
-        throw new AException("no suport impl, use startOf AMap……class to impl");
+        throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 }

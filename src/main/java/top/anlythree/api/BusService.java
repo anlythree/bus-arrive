@@ -19,7 +19,7 @@ public interface BusService {
      * @param routeName
      * @return
      */
-    List<BusDTO> getBusLocationAndEndStation(String cityName, String routeName, String endStation);
+    List<BusDTO> getBusLocationList(String cityName, String routeName, String endStation);
 
 
 

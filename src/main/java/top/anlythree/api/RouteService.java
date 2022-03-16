@@ -55,9 +55,11 @@ public interface RouteService {
     XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd);
 
     /**
-     * todo-anlythree 高德公交路线规划
+     *  高德公交路线规划
+     * @param startLocation
+     * @param endLocation
+     * @return
      */
-    AMapBusRouteTimeRes getBusRouteTimeByCityNameAndRouteNameAndEndStation(String cityName, String routeName, String endStation,
-                                                                           String startLocation, String endLocation);
+    AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName,String startLocation, String endLocation);
 
 }

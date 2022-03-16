@@ -8,6 +8,8 @@ import top.anlythree.SpringApplicationMain;
 import top.anlythree.api.BusService;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
+import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
+import top.anlythree.api.amapimpl.res.AMapStationListRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.StationDTO;
@@ -35,6 +37,10 @@ public class AnlyTest{
     @Qualifier(value = "xiaoYuanRouteServiceImpl")
     private RouteService routeService;
 
+    @Autowired
+    @Qualifier(value = "AMapRouteServiceImpl")
+    private RouteService aMapRouteService;
+
     @Test
     public void test1(){
         StationDTO station = stationService.getStation("杭州", "余杭", "永福村");
@@ -51,6 +57,18 @@ public class AnlyTest{
     public void test3(){
         List<XiaoYuanRouteDTO> routeListByNameAndCityName = routeService.getRouteListByNameAndCityName("353", "杭州");
         System.out.println(routeListByNameAndCityName);
+    }
+
+    @Test
+    public void test4(){
+        AMapStationListRes aMapStationListRes = stationService.getLocationByName("杭州", "浙江省杭州市余杭区文一西路969号阿里巴巴西溪A5楼");
+        System.out.println(aMapStationListRes.getOneLocationRes("").getLocation());
+    }
+
+    @Test
+    public void test5(){
+        AMapBusRouteTimeRes busRouteTimeByLocation = aMapRouteService.getBusRouteTimeByLocation("杭州","120.034084,30.242901", "120.026686,30.280905");
+        System.out.println(busRouteTimeByLocation);
     }
 
 }

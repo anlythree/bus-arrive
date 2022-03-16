@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * 高德公交路线规划api返回值
  * @author anlythree
@@ -20,6 +22,9 @@ public class AMapBusRouteTimeRes extends AMapResult{
      */
     private AMapBusRouteInfo route;
 
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class AMapBusRouteInfo{
 
         /**
@@ -35,88 +40,88 @@ public class AMapBusRouteTimeRes extends AMapResult{
         /**
          * 公交方案列表
          */
-        private TransitsInfo transits;
+        private List<TransitsInfo> transits;
 
+        @Data
+        @NoArgsConstructor
+        @AllArgsConstructor
         public static class TransitsInfo{
             /**
-             * 本条路线的总距离，单位：米
+             * 此换乘方案价格 单位：元
+             */
+            private String cost;
+
+            /**
+             * 此换乘方案预期时间 单位：秒
+             */
+            private String duration;
+
+            /**
+             * 总距离
              */
             private String distance;
 
             /**
-             * 0：非夜班车；1：夜班车
+             * 是否夜班车 0：非夜班车；1：夜班车
              */
-            private Integer nightflag;
+            private String nightflag;
 
             /**
-             * 路线分段
+             * 此方案总步行距离 单位：米
              */
-            private SegmentsInfo segments;
+            private String walkingDistance;
 
+            private List<SegmentsInfo> segments;
+
+            @Data
+            @NoArgsConstructor
+            @AllArgsConstructor
             public static class SegmentsInfo{
+                /**
+                 * 此路段步行导航信息
+                 */
+                private Object walking;
 
                 /**
-                 * 此分段中需要步行导航的信息
+                 * 此路段公交导航信息
                  */
-                private String walking;
+                private BusInfo bus;
 
-                /**
-                 * 此分段中需要公交导航的信息
-                 */
-                private String bus;
+                @Data
+                @NoArgsConstructor
+                @AllArgsConstructor
+                public static class BusInfo{
 
-                /**
-                 * 此分段中需要火车的信息
-                 */
-                private String railway;
+                    private List<BusLinesInfo> buslines;
 
-                /**
-                 * 打车信息
-                 */
-                private TexiInfo taxi;
+                    @Data
+                    @NoArgsConstructor
+                    @AllArgsConstructor
+                    public static class BusLinesInfo{
+                        /**
+                         * 公交名称
+                         */
+                        private String name;
 
-                public static class TexiInfo{
-                    /**
-                     * 打车预计花费金额
-                     */
-                    private String price;
+                        /**
+                         * 公交类型
+                         */
+                        private String type;
 
-                    /**
-                     * 打车预计花费时间
-                     */
-                    private String drivetime;
+                        /**
+                         * 距离
+                         */
+                        private String distance;
 
-                    /**
-                     * 打车距离
-                     */
-                    private String distance;
-
-                    /**
-                     * 线路点集合，通过show_fields控制返回与否
-                     */
-                    private String polyline;
-
-                    /**
-                     * 打车起点经纬度
-                     */
-                    private String startpoint;
-
-                    /**
-                     * 打车起点名称
-                     */
-                    private String startname;
-
-                    /**
-                     * 打车终点经纬度
-                     */
-                    private String endpoint;
-
-                    /**
-                     * 打车终点名称
-                     */
-                    private String endname;
+                        /**
+                         * 用时
+                         */
+                        private String duration;
+                    }
                 }
+
             }
+
         }
     }
 }

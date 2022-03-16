@@ -1,5 +1,6 @@
 package top.anlythree.api.amapimpl.res;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,17 @@ public class AMapStationListRes extends AMapResult {
             }
         }
         return null;
+    }
+
+    public AMapStationRes getOneLocationRes(String keyWord){
+        for (AMapStationRes geocode : this.getGeocodes()) {
+            if(StringUtils.isNotEmpty(geocode.getFormattedAddress()) &&
+                    StringUtils.isNotEmpty(keyWord) &&
+                    geocode.getFormattedAddress().contains(keyWord)){
+                return geocode;
+            }
+        }
+        return geocodes.get(0);
     }
 
     @Data
@@ -67,12 +79,12 @@ public class AMapStationListRes extends AMapResult {
         /**
          * 街道
          */
-        private String[] street;
+        private Object street;
 
         /**
          * 门牌
          */
-        private String[] number;
+        private Object number;
 
         /**
          * 区域编码

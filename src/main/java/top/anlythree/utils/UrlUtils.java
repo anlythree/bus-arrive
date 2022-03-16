@@ -7,8 +7,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Null;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * @author anlythree
@@ -37,12 +39,12 @@ public class UrlUtils {
         UrlUtils.xiaoyuanUrl = xiaoyuanUrl;
     }
 
-    @Value("${amap.amapGetStationUrl}")
+    @Value("${amap.stationUrl}")
     public void setAmapGetStationUrl(String amapUrl) {
         UrlUtils.amapGetStationUrl = amapUrl;
     }
 
-    @Value("${amap.amapGetBusRouteTime}")
+    @Value("${amap.busRouteTimeUrl}")
     public void setAmapGetBusRouteTime(String amapUrl) {
         UrlUtils.amapGetBusRouteTime = amapUrl;
     }
@@ -87,10 +89,15 @@ public class UrlUtils {
         // 根据key来排序
         Arrays.stream(params)
                 .sorted(Comparator.comparing(UrlParam::getKey))
+                .filter(urlParam -> urlParam.getValue() != null && urlParam.getKey() != null)
                 .forEach(urlParam -> {
                     urlStrBu.append(urlParam.getKey()).append(dengyu).append(urlParam.getValue()).append("&");
                     createSigBuffer.append(urlParam.getKey()).append(dengyu).append(urlParam.getValue()).append("&");
                 });
+        if(StringUtils.isEmpty(createSigBuffer)){
+            // 如果没有传任何参数，那么createSigBuffer会是一个空字符串，直接返回，或者不需要拼接sig也直接返回
+            return urlStrBu.toString().substring(0, urlStrBu.length() - 1);
+        }
         String createSig = createSigBuffer.toString().substring(0, createSigBuffer.length() - 1);
         createSig += sig;
         return urlStrBu.toString().substring(0, urlStrBu.length() - 1) + "&sig=" + MD5Utils.getMd5(createSig);

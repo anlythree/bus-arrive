@@ -1,8 +1,13 @@
 package top.anlythree.api.amapimpl;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
+import top.anlythree.utils.RestTemplateUtils;
+import top.anlythree.utils.ResultUtil;
+import top.anlythree.utils.UrlUtils;
 import top.anlythree.utils.exceptions.AException;
 
 import java.util.List;
@@ -12,13 +17,11 @@ import java.util.List;
  * @description:
  * @time 2022/3/1610:31 上午
  */
+@Service
 public class AMapRouteServiceImpl implements RouteService {
 
-    @Override
-    public AMapBusRouteTimeRes getBusRouteTimeByCityNameAndRouteNameAndEndStation(String cityName, String routeName, String endStation, String startLocation, String endLocation) {
-        // todo-anlythree
-        return null;
-    }
+    @Value("${amap.key}")
+    private final String key = null;
 
     @Override
     public List<XiaoYuanRouteDTO> getRouteListByNameAndCityName(String routeName, String cityName) {
@@ -43,5 +46,15 @@ public class AMapRouteServiceImpl implements RouteService {
     @Override
     public XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd) {
         throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
+    }
+
+    @Override
+    public AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName,String startLocation, String endLocation) {
+        String amapUrl = UrlUtils.createAmapUrl("getBusRouteTime",
+                new UrlUtils.UrlParam("key", key),
+                new UrlUtils.UrlParam("city",cityName),
+                new UrlUtils.UrlParam("origin", startLocation),
+                new UrlUtils.UrlParam("destination", endLocation));
+        return ResultUtil.getAMapModel(RestTemplateUtils.get(amapUrl, AMapBusRouteTimeRes.class));
     }
 }

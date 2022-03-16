@@ -13,7 +13,7 @@ remembor:
 amap:
   key: ca749b4a5f0fe299e8cd826f69c1c6bc
   sign: 0dcee3a9115b5782fecfa7f90f876981
-  amapGetStationUrl: https://restapi.amap.com/v3/geocode/geo
-  busRouteTimeUrl: https://restapi.amap.com/v5/direction/transit/integrated
+  stationUrl: https://restapi.amap.com/v3/geocode/geo
+  busRouteTimeUrl: https://restapi.amap.com/v3/direction/transit/integrated
 
 

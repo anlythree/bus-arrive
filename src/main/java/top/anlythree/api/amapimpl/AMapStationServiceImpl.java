@@ -1,5 +1,6 @@
 package top.anlythree.api.amapimpl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import top.anlythree.api.StationService;
@@ -17,23 +18,25 @@ public class AMapStationServiceImpl implements StationService {
     private final String key = null;
 
     @Override
-    public StationDTO getStation(String cityName,String district, String stationName) {
+    public StationDTO getStation(String cityName, String district, String stationName) {
+        AMapStationListRes locationByName = getLocationByName(cityName, district + "区" + stationName + "公交站");
+        AMapStationListRes.AMapStationRes oneStationRes = locationByName.getOneStationRes(stationName);
+        if (null == oneStationRes) {
+            throw new AException("获取不到" + stationName + "站的具体坐标，请尝试自定义关键字来获取站点名称");
+        }
+        return oneStationRes.castStationDto(stationName);
+    }
+
+    @Override
+    public AMapStationListRes getLocationByName(String cityName, String keyWord) {
         String amapUrl = UrlUtils.createAmapUrl(
                 "getStation",
                 new UrlUtils.UrlParam("key", key),
                 new UrlUtils.UrlParam("city", cityName),
-                new UrlUtils.UrlParam( "batch", "5"),
+                new UrlUtils.UrlParam("batch", "2"),
                 new UrlUtils.UrlParam("output", "JSON"),
-                new UrlUtils.UrlParam( "address", district+"区"+stationName+"公交站"));
-        AMapStationListRes getStationListRes = ResultUtil.getAMapModel(
+                new UrlUtils.UrlParam("address", keyWord));
+        return ResultUtil.getAMapModel(
                 RestTemplateUtils.get(amapUrl, AMapStationListRes.class));
-        if(null == getStationListRes){
-            return null;
-        }
-        AMapStationListRes.AMapStationRes oneStationRes = getStationListRes.getOneStationRes(stationName);
-        if(null == oneStationRes){
-            throw new AException("获取不到"+stationName+"站的具体坐标，请尝试自定义关键字来获取站点名称");
-        }
-        return oneStationRes.castStationDto(stationName);
     }
 }

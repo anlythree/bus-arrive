@@ -2,6 +2,7 @@ package top.anlythree.api.amapimpl;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
@@ -51,8 +52,8 @@ public class AMapRouteServiceImpl implements RouteService {
 
     @Override
     public AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName,String startLocation, String endLocation,String dateTime) {
-        String time = "";
-        String date = "";
+        String time = null;
+        String date = null;
         if(null != dateTime){
             String[] dateAndTimeByDateTimeStr = TimeUtils.getDateAndTimeByDateTimeStr(dateTime);
             date = dateAndTimeByDateTimeStr[0];
@@ -69,8 +70,21 @@ public class AMapRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public Integer getSecondsByBus(String cityName, String startLocation, String endLocation, String busName, String dateTime) {
-        getBusRouteTimeByLocation(cityName,startLocation,endLocation,dateTime);
-        return null;
+    public AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo getSecondsByBusAndLocation(String cityName, String startLocation, String endLocation, String busName, String dateTime) {
+        AMapBusRouteTimeRes busRouteTimeByLocation = getBusRouteTimeByLocation(cityName, startLocation, endLocation, dateTime);
+        if(null == busRouteTimeByLocation ||
+                null == busRouteTimeByLocation.getRoute() ||
+                CollectionUtils.isEmpty(busRouteTimeByLocation.getRoute().getTransits())){
+            return null;
+        }
+        for (AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo transit : busRouteTimeByLocation.getRoute().getTransits()) {
+            for (AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo.SegmentsInfo segment : transit.getSegments()) {
+                if(segment.getBus().getBuslines().size() == 1 &&
+                        segment.getBus().getBuslines().get(0).getName().contains(busName)){
+                    return transit;
+                }
+            }
+        }
+        throw new AException("查询不到直达的"+busName+"公交方案，所有的方案："+busRouteTimeByLocation.getRoute().getTransits());
     }
 }

@@ -122,6 +122,14 @@ public class AMapBusRouteTimeRes extends AMapResult{
 
             }
 
+            /**
+             * 获取方案所需毫秒数
+             * @return
+             */
+            public Integer getSeconds(){
+                return Integer.parseInt(duration);
+            }
+
         }
     }
 }

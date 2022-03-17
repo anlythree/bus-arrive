@@ -70,6 +70,6 @@ public interface RouteService {
      * @param endLocation
      * @return
      */
-    Integer getSecondsByBus(String cityName,String startLocation,String endLocation,String busName,String time);
+    AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo getSecondsByBusAndLocation(String cityName, String startLocation, String endLocation, String busName, String time);
 
 }

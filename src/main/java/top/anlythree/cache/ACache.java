@@ -6,6 +6,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
+import top.anlythree.bussiness.dto.StationDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,15 @@ public class ACache {
     private static List<XiaoYuanCityDTO> cityCacheList = new ArrayList<>();
 
     private static List<XiaoYuanRouteDTO> routeCacheList = new ArrayList<>();
+
+    private static List<StationDTO> stationCacheList = new ArrayList<>();
+
+    static {
+        // 添加阿里巴巴A5门坐标位置
+        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴A5门","120.026525,30.281248"));
+        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","","120.024556,30.280789"));
+
+    }
 
     public static void addCity(XiaoYuanCityDTO city) {
         for (XiaoYuanCityDTO cityItem : cityCacheList) {
@@ -56,6 +66,17 @@ public class ACache {
             }
         }
         routeCacheList.add(route);
+    }
+
+    public static void addStation(StationDTO stationDTO){
+        for (StationDTO stationDtoItem : stationCacheList) {
+            if(stationDtoItem.eqauls(stationDTO)){
+                // 更新站点信息
+                BeanUtils.copyProperties(stationDTO,stationDtoItem);
+                return;
+            }
+        }
+        stationCacheList.add(stationDTO);
     }
 
     public static List<XiaoYuanCityDTO> getCityCacheList() {

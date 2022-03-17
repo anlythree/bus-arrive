@@ -3,9 +3,13 @@ package top.anlythree.bussiness.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Objects;
 
 /**
  * 地点DTO
+ *
  * @author anlythree
  * @description:
  * @time 2022/3/110:33 上午
@@ -26,7 +30,7 @@ public class StationDTO {
     private String stationFullName;
 
     /**
-     * （经，纬）
+     * 经,纬
      */
     private String longitudeAndLatitude;
 
@@ -49,4 +53,35 @@ public class StationDTO {
      * 区
      */
     private String district;
+
+
+    public boolean eqauls(StationDTO stationDTO) {
+        if (Objects.equals(StringUtils.substringBeforeLast(stationDTO.getCountry(), "国"),
+                StringUtils.substringBeforeLast(this.getCountry(), "国")) &&
+                Objects.equals(StringUtils.substringBeforeLast(stationDTO.getCity(), "市"),
+                        StringUtils.substringBeforeLast(this.getCity(), "市")) &&
+                Objects.equals(StringUtils.substringBeforeLast(stationDTO.getProvince(), "省"),
+                        StringUtils.substringBeforeLast(this.getProvince(), "省")) &&
+                Objects.equals(StringUtils.substringBeforeLast(this.getDistrict(), "区"),
+                        StringUtils.substringBeforeLast(stationDTO.getDistrict(), "区")) &&
+                Objects.equals(StringUtils.substringBeforeLast(this.getStationName(), "公交站"),
+                        StringUtils.substringBeforeLast(stationDTO.getStationName(), "公交站"))) {
+            return true;
+        }
+        return false;
+    }
+
+    public StationDTO(String country, String province, String city, String district, String stationName, String longitudeAndLatitude) {
+        this.stationName = stationName;
+        if(StringUtils.isEmpty(country)){
+            this.country = "中国";
+        }else{
+            this.country = country;
+        }
+        this.province = province;
+        this.city = city;
+        this.district = district;
+        this.stationFullName = this.country+this.province+this.city+this.district+this.stationName;
+        this.longitudeAndLatitude = longitudeAndLatitude;
+    }
 }

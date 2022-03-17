@@ -62,8 +62,8 @@ public class AnlyTest{
 
     @Test
     public void test4(){
-        AMapStationListRes aMapStationListRes = stationService.getLocationByName("杭州", "浙江省杭州市余杭区文一西路969号阿里巴巴西溪A5楼");
-        System.out.println(aMapStationListRes.getOneLocationRes("").getLocation());
+        AMapStationListRes aMapStationListRes = stationService.getLocationByName("杭州", "杭州市阿里巴巴A5门");
+        System.out.println(aMapStationListRes.getOneLocationRes("杭州市阿里巴巴A5门").getLocation());
     }
 
     @Test
@@ -79,4 +79,11 @@ public class AnlyTest{
         System.out.println(dateAndTimeByDateTimeStr[1]);
     }
 
+    @Test
+    public void test7(){
+        AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo transitsInfo = aMapRouteService.getSecondsByBusAndLocation("杭州",
+                "120.034084,30.242901", "120.026686,30.280905",
+                "353", null);
+        System.out.println(transitsInfo.getSeconds()/60);
+    }
 }

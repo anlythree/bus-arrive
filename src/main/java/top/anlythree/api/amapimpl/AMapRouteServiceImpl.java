@@ -7,6 +7,7 @@ import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.utils.RestTemplateUtils;
 import top.anlythree.utils.ResultUtil;
+import top.anlythree.utils.TimeUtils;
 import top.anlythree.utils.UrlUtils;
 import top.anlythree.utils.exceptions.AException;
 
@@ -52,19 +53,24 @@ public class AMapRouteServiceImpl implements RouteService {
     public AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName,String startLocation, String endLocation,String dateTime) {
         String time = "";
         String date = "";
+        if(null != dateTime){
+            String[] dateAndTimeByDateTimeStr = TimeUtils.getDateAndTimeByDateTimeStr(dateTime);
+            date = dateAndTimeByDateTimeStr[0];
+            time = dateAndTimeByDateTimeStr[1];
+        }
         String amapUrl = UrlUtils.createAmapUrl("getBusRouteTime",
                 new UrlUtils.UrlParam("key", key),
                 new UrlUtils.UrlParam("city",cityName),
                 new UrlUtils.UrlParam("origin", startLocation),
-                new UrlUtils.UrlParam("dateTime",time),
                 new UrlUtils.UrlParam("date",date),
+                new UrlUtils.UrlParam("time",time),
                 new UrlUtils.UrlParam("destination", endLocation));
         return ResultUtil.getAMapModel(RestTemplateUtils.get(amapUrl, AMapBusRouteTimeRes.class));
     }
 
     @Override
     public Integer getSecondsByBus(String cityName, String startLocation, String endLocation, String busName, String dateTime) {
-
+        getBusRouteTimeByLocation(cityName,startLocation,endLocation,dateTime);
         return null;
     }
 }

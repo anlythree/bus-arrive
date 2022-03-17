@@ -33,8 +33,8 @@ public class ACache {
     static {
         // 添加阿里巴巴A5门坐标位置
         stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴A5门","120.026525,30.281248"));
-        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","","120.024556,30.280789"));
-
+        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴西溪园区(蔡家阁)公交站","120.024556,30.280789"));
+        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","五常大道联胜路口公交站","120.031884,30.243976"));
     }
 
     public static void addCity(XiaoYuanCityDTO city) {

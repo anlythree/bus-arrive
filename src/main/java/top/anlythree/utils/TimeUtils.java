@@ -1,5 +1,7 @@
 package top.anlythree.utils;
 
+import top.anlythree.utils.exceptions.AException;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -49,6 +51,11 @@ public class TimeUtils {
         return LocalDate.parse(localDate, FMT_DATE);
     }
 
+    /**
+     * String格式转成LocalDateTime类型
+     * @param localDateTime
+     * @return
+     */
     public static LocalDateTime stringToTime (String localDateTime){
         return LocalDateTime.parse(localDateTime,FMT_DATE_TIME);
     }
@@ -69,5 +76,21 @@ public class TimeUtils {
      */
     public static LocalDate timeToDate(LocalDateTime localDateTime){
         return localDateTime.toLocalDate();
+    }
+
+    /**
+     *  根据时间格式分离出日期和时间，（时间只到分钟，不到秒）
+     * @param dateTime
+     * @return
+     */
+    public static String[] getDateAndTimeByDateTimeStr(String dateTime){
+        try {
+            stringToTime(dateTime);
+        }catch (Exception e){
+            throw new AException(dateTime+"时间格式错误,正确格式：yyyy-MM-dd HH:mm:ss");
+        }
+        String[] s = dateTime.split(" ");
+        s[1] = s[1].substring(0,s[1].lastIndexOf(":"));
+        return s;
     }
 }

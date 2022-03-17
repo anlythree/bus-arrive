@@ -49,12 +49,22 @@ public class AMapRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName,String startLocation, String endLocation) {
+    public AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName,String startLocation, String endLocation,String dateTime) {
+        String time = "";
+        String date = "";
         String amapUrl = UrlUtils.createAmapUrl("getBusRouteTime",
                 new UrlUtils.UrlParam("key", key),
                 new UrlUtils.UrlParam("city",cityName),
                 new UrlUtils.UrlParam("origin", startLocation),
+                new UrlUtils.UrlParam("dateTime",time),
+                new UrlUtils.UrlParam("date",date),
                 new UrlUtils.UrlParam("destination", endLocation));
         return ResultUtil.getAMapModel(RestTemplateUtils.get(amapUrl, AMapBusRouteTimeRes.class));
+    }
+
+    @Override
+    public Integer getSecondsByBus(String cityName, String startLocation, String endLocation, String busName, String dateTime) {
+
+        return null;
     }
 }

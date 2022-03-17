@@ -115,7 +115,12 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName, String startLocation, String endLocation) {
+    public AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName, String startLocation, String endLocation, String time) {
+        throw new AException("no suport impl, use begin with AMap……class to impl");
+    }
+
+    @Override
+    public Integer getSecondsByBus(String cityName, String startLocation, String endLocation, String busName, String time) {
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 }

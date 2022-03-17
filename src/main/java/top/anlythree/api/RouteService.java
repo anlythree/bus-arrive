@@ -60,6 +60,16 @@ public interface RouteService {
      * @param endLocation
      * @return
      */
-    AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName,String startLocation, String endLocation);
+    AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName,String startLocation, String endLocation, String time);
+
+    /**
+     * 根据城市名称，开始结束坐标点和公交车号和出发时间（默认当前）查询当前所需要的时间
+     *
+     * @param cityName
+     * @param startLocation
+     * @param endLocation
+     * @return
+     */
+    Integer getSecondsByBus(String cityName,String startLocation,String endLocation,String busName,String time);
 
 }

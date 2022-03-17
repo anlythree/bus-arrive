@@ -13,6 +13,7 @@ import top.anlythree.api.amapimpl.res.AMapStationListRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.StationDTO;
+import top.anlythree.utils.TimeUtils;
 
 import java.util.List;
 
@@ -67,8 +68,15 @@ public class AnlyTest{
 
     @Test
     public void test5(){
-        AMapBusRouteTimeRes busRouteTimeByLocation = aMapRouteService.getBusRouteTimeByLocation("杭州","120.034084,30.242901", "120.026686,30.280905");
+        AMapBusRouteTimeRes busRouteTimeByLocation = aMapRouteService.getBusRouteTimeByLocation("杭州","120.034084,30.242901", "120.026686,30.280905",null);
         System.out.println(busRouteTimeByLocation);
+    }
+
+    @Test
+    public void test6(){
+        String[] dateAndTimeByDateTimeStr = TimeUtils.getDateAndTimeByDateTimeStr("2022-03-17 11:19:01");
+        System.out.println(dateAndTimeByDateTimeStr[0]);
+        System.out.println(dateAndTimeByDateTimeStr[1]);
     }
 
 }

@@ -1,11 +1,14 @@
 package top.anlythree.bussiness.bus.service.impl;
 
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import top.anlythree.api.BusService;
 import top.anlythree.api.RouteService;
 import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusDTO;
+
+import java.time.LocalDateTime;
 
 /**
  * @author anlythree
@@ -22,12 +25,17 @@ public class BusArriveServiceImpl implements BusArriveService {
     private RouteService routeServiceAMapImpl;
 
     @Autowired
-    @Qualifier(value = "AMapRouteServiceImpl")
-    private RouteService routeServiceAMapImpl;
+    @Qualifier(value = "xiaoYuanRouteServiceImpl")
+    private RouteService routeServiceXiaoYuanImpl;
 
     @Override
-    public BusDTO getBusByArriveTimeAndLocation(String dateTime, String startLocation, String endLocation) {
-        // 根据
+    public LocalDateTime getStartTimeByArriveTime(String cityName, String busName, String arriveTime, String startLocation, String endLocation) {
+        // 根据当前时间路况来计算 开始到结束需要多久
+        Integer minuteDifference = 0;
+        LocalDateTime
+        do{
+
+        }while (minuteDifference < 5)
         return null;
     }
 }

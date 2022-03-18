@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BusDTO {
 
+    private String cityName;
+
     /**
      * 纬度
      */

@@ -31,4 +31,12 @@ public class BusDTO {
      */
     private String disStat;
 
+    /**
+     * 返回经,纬
+     * @return
+     */
+    public String getLocation(){
+        return longing+","+lating;
+    }
+
 }

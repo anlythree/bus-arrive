@@ -11,10 +11,13 @@ import top.anlythree.api.StationService;
 import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
 import top.anlythree.api.amapimpl.res.AMapStationListRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
+import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.StationDTO;
+import top.anlythree.cache.ACache;
 import top.anlythree.utils.TimeUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -41,6 +44,9 @@ public class AnlyTest{
     @Autowired
     @Qualifier(value = "AMapRouteServiceImpl")
     private RouteService aMapRouteService;
+
+    @Autowired
+    private BusArriveService busArriveService;
 
     @Test
     public void test1(){
@@ -85,5 +91,21 @@ public class AnlyTest{
                 "120.034084,30.242901", "120.026686,30.280905",
                 "353", null);
         System.out.println(transitsInfo.getSeconds()/60);
+    }
+
+    @Test
+    public void test8(){
+        StationDTO startStation = stationService.getStation("杭州", "余杭", "西湖体育馆");
+        StationDTO arriveStation = stationService.getStation("杭州", "余杭", "阿里巴巴A5门");
+        LocalDateTime startTimeByArriveTime = busArriveService.getStartTimeByArriveTime("杭州", "353",
+                null, TimeUtils.stringToTime("2022-03-18 10:00:00"),
+                startStation.getLongitudeAndLatitude(), arriveStation.getLongitudeAndLatitude(),null);
+        System.out.println(TimeUtils.timeToString(startTimeByArriveTime));
+    }
+
+    @Test
+    public void test9(){
+        BusDTO bestBusFromStartTime = busArriveService.getBestBusFromStartTime("杭州", "415", "西溪花城");
+        System.out.println(bestBusFromStartTime);
     }
 }

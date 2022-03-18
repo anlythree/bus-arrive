@@ -15,5 +15,7 @@ amap:
   sign: 0dcee3a9115b5782fecfa7f90f876981
   stationUrl: https://restapi.amap.com/v3/geocode/geo
   busRouteTimeUrl: https://restapi.amap.com/v3/direction/transit/integrated
+bus-arrive:
+  default-difference-seconds: 300
 
 

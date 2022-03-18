@@ -17,7 +17,6 @@ import java.util.Objects;
  * @description:
  * @time 2022/3/13:04 下午
  */
-@Data
 @AllArgsConstructor
 public class ACache {
 
@@ -35,6 +34,8 @@ public class ACache {
         stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴A5门","120.026525,30.281248"));
         stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴西溪园区(蔡家阁)公交站","120.024556,30.280789"));
         stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","五常大道联胜路口公交站","120.031884,30.243976"));
+        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","西湖体育馆公交站","120.13072,30.267691"));
+        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","爱橙街贺翠路口公交站","120.022539,30.274492"));
     }
 
     public static void addCity(XiaoYuanCityDTO city) {
@@ -97,5 +98,13 @@ public class ACache {
 
     public static String getXiaoyuanUrl() {
         return xiaoyuanUrl;
+    }
+
+    public static List<StationDTO> getStationCacheList() {
+        return stationCacheList;
+    }
+
+    public static void setStationCacheList(List<StationDTO> stationCacheList) {
+        ACache.stationCacheList = stationCacheList;
     }
 }

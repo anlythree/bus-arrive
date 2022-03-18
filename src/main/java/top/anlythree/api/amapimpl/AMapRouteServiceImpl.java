@@ -51,40 +51,40 @@ public class AMapRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName,String startLocation, String endLocation,String dateTime) {
+    public AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName, String startLocation, String endLocation, String dateTime) {
         String time = null;
         String date = null;
-        if(null != dateTime){
+        if (null != dateTime) {
             String[] dateAndTimeByDateTimeStr = TimeUtils.getDateAndTimeByDateTimeStr(dateTime);
             date = dateAndTimeByDateTimeStr[0];
             time = dateAndTimeByDateTimeStr[1];
         }
         String amapUrl = UrlUtils.createAmapUrl("getBusRouteTime",
                 new UrlUtils.UrlParam("key", key),
-                new UrlUtils.UrlParam("city",cityName),
+                new UrlUtils.UrlParam("city", cityName),
                 new UrlUtils.UrlParam("origin", startLocation),
-                new UrlUtils.UrlParam("date",date),
-                new UrlUtils.UrlParam("time",time),
+                new UrlUtils.UrlParam("date", date),
+                new UrlUtils.UrlParam("time", time),
                 new UrlUtils.UrlParam("destination", endLocation));
         return ResultUtil.getAMapModel(RestTemplateUtils.get(amapUrl, AMapBusRouteTimeRes.class));
     }
 
     @Override
-    public AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo getSecondsByBusAndLocation(String cityName, String startLocation, String endLocation, String busName, String dateTime) {
+    public AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo getSecondsByBusAndLocation(String cityName, String busName, String startLocation, String endLocation, String dateTime) {
         AMapBusRouteTimeRes busRouteTimeByLocation = getBusRouteTimeByLocation(cityName, startLocation, endLocation, dateTime);
-        if(null == busRouteTimeByLocation ||
+        if (null == busRouteTimeByLocation ||
                 null == busRouteTimeByLocation.getRoute() ||
-                CollectionUtils.isEmpty(busRouteTimeByLocation.getRoute().getTransits())){
+                CollectionUtils.isEmpty(busRouteTimeByLocation.getRoute().getTransits())) {
             return null;
         }
         for (AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo transit : busRouteTimeByLocation.getRoute().getTransits()) {
             for (AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo.SegmentsInfo segment : transit.getSegments()) {
-                if(segment.getBus().getBuslines().size() == 1 &&
-                        segment.getBus().getBuslines().get(0).getName().contains(busName)){
+                if (segment.getBus().getBuslines().size() == 1 &&
+                        segment.getBus().getBuslines().get(0).getName().contains(busName)) {
                     return transit;
                 }
             }
         }
-        throw new AException("查询不到直达的"+busName+"公交方案，所有的方案："+busRouteTimeByLocation.getRoute().getTransits());
+        throw new AException("查询不到直达的" + busName + "公交方案，所有的方案：" + busRouteTimeByLocation.getRoute().getTransits());
     }
 }

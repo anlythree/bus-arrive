@@ -1,18 +1,15 @@
 package top.anlythree.api.amapimpl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import top.anlythree.api.StationService;
 import top.anlythree.bussiness.dto.StationDTO;
 import top.anlythree.api.amapimpl.res.AMapStationListRes;
 import top.anlythree.cache.ACache;
-import top.anlythree.utils.RestTemplateUtils;
+import top.anlythree.utils.RestTemplateUtil;
 import top.anlythree.utils.ResultUtil;
-import top.anlythree.utils.UrlUtils;
+import top.anlythree.utils.UrlUtil;
 import top.anlythree.utils.exceptions.AException;
-
-import java.util.List;
 
 @Service
 public class AMapStationServiceImpl implements StationService {
@@ -39,14 +36,14 @@ public class AMapStationServiceImpl implements StationService {
 
     @Override
     public AMapStationListRes getLocationByName(String cityName, String keyWord) {
-        String amapUrl = UrlUtils.createAmapUrl(
+        String amapUrl = UrlUtil.createAmapUrl(
                 "getStation",
-                new UrlUtils.UrlParam("key", key),
-                new UrlUtils.UrlParam("city", cityName),
-                new UrlUtils.UrlParam("batch", "2"),
-                new UrlUtils.UrlParam("output", "JSON"),
-                new UrlUtils.UrlParam("address", keyWord));
+                new UrlUtil.UrlParam("key", key),
+                new UrlUtil.UrlParam("city", cityName),
+                new UrlUtil.UrlParam("batch", "2"),
+                new UrlUtil.UrlParam("output", "JSON"),
+                new UrlUtil.UrlParam("address", keyWord));
         return ResultUtil.getAMapModel(
-                RestTemplateUtils.get(amapUrl, AMapStationListRes.class));
+                RestTemplateUtil.get(amapUrl, AMapStationListRes.class));
     }
 }

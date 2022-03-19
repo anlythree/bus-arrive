@@ -1,8 +1,6 @@
 package top.anlythree.bussiness.bus.service.impl;
 
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,18 +11,13 @@ import top.anlythree.api.RouteService;
 import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
 import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusDTO;
-import top.anlythree.utils.TimeUtils;
-import top.anlythree.utils.exceptions.AException;
+import top.anlythree.utils.TimeUtil;
 
-import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author anlythree
@@ -63,7 +56,7 @@ public class BusArriveServiceImpl implements BusArriveService {
         }
         // 路径规划
         AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation =
-                routeServiceAMapImpl.getSecondsByBusAndLocation(cityName, routeName, startLocation, endLocation, TimeUtils.timeToString(startTime));
+                routeServiceAMapImpl.getSecondsByBusAndLocation(cityName, routeName, startLocation, endLocation, TimeUtil.timeToString(startTime));
         //预计到达时间
         LocalDateTime expectArriveTime = startTime.plusSeconds(secondsByBusAndLocation.getSeconds());
         long secondsDifferenceLong = Duration.between(expectArriveTime, arriveTime).getSeconds();

@@ -12,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
  * @time 2022/3/16:14 下午
  */
 @Slf4j
-public class MD5Utils {
+public class MD5Util {
 
     /**
      * md5加密

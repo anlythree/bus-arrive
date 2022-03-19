@@ -8,9 +8,9 @@ import top.anlythree.api.CityService;
 import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanCityListRes;
 import top.anlythree.cache.ACache;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
-import top.anlythree.utils.RestTemplateUtils;
+import top.anlythree.utils.RestTemplateUtil;
 import top.anlythree.utils.ResultUtil;
-import top.anlythree.utils.UrlUtils;
+import top.anlythree.utils.UrlUtil;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,9 +24,9 @@ public class XiaoYuanCityServiceImpl implements CityService {
 
     @Override
     public List<XiaoYuanCityDTO> cityList() {
-        XiaoYuanCityListRes xiaoYuanModel = ResultUtil.getXiaoYuanModel(RestTemplateUtils.get(
-                UrlUtils.createXiaoYuanUrl(new UrlUtils.UrlParam("optype","city"),
-                        new UrlUtils.UrlParam("uname",uname)),
+        XiaoYuanCityListRes xiaoYuanModel = ResultUtil.getXiaoYuanModel(RestTemplateUtil.get(
+                UrlUtil.createXiaoYuanUrl(new UrlUtil.UrlParam("optype","city"),
+                        new UrlUtil.UrlParam("uname",uname)),
                 XiaoYuanCityListRes.class));
         if (null == xiaoYuanModel) {
             return null;

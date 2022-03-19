@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
  * @author wangli
  * @date 2020/5/16 9:07
  */
-public class TimeUtils {
+public class TimeUtil {
 
     /**
      * 通用日期格式

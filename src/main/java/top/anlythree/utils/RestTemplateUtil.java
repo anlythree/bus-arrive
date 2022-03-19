@@ -1,33 +1,23 @@
 package top.anlythree.utils;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.TimeZone;
-
-import static org.springframework.http.MediaType.APPLICATION_XML;
 
 @Component
-public class RestTemplateUtils {
+public class RestTemplateUtil {
 
     private static RestTemplate restTemplate;
 
     @Autowired
     public void setRestTemplate(RestTemplate restTemplate) {
-        RestTemplateUtils.restTemplate = restTemplate;
+        RestTemplateUtil.restTemplate = restTemplate;
     }
 
     /**

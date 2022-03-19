@@ -6,10 +6,10 @@ import org.springframework.util.CollectionUtils;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
-import top.anlythree.utils.RestTemplateUtils;
+import top.anlythree.utils.RestTemplateUtil;
 import top.anlythree.utils.ResultUtil;
-import top.anlythree.utils.TimeUtils;
-import top.anlythree.utils.UrlUtils;
+import top.anlythree.utils.TimeUtil;
+import top.anlythree.utils.UrlUtil;
 import top.anlythree.utils.exceptions.AException;
 
 import java.util.List;
@@ -55,18 +55,18 @@ public class AMapRouteServiceImpl implements RouteService {
         String time = null;
         String date = null;
         if (null != dateTime) {
-            String[] dateAndTimeByDateTimeStr = TimeUtils.getDateAndTimeByDateTimeStr(dateTime);
+            String[] dateAndTimeByDateTimeStr = TimeUtil.getDateAndTimeByDateTimeStr(dateTime);
             date = dateAndTimeByDateTimeStr[0];
             time = dateAndTimeByDateTimeStr[1];
         }
-        String amapUrl = UrlUtils.createAmapUrl("getBusRouteTime",
-                new UrlUtils.UrlParam("key", key),
-                new UrlUtils.UrlParam("city", cityName),
-                new UrlUtils.UrlParam("origin", startLocation),
-                new UrlUtils.UrlParam("date", date),
-                new UrlUtils.UrlParam("time", time),
-                new UrlUtils.UrlParam("destination", endLocation));
-        return ResultUtil.getAMapModel(RestTemplateUtils.get(amapUrl, AMapBusRouteTimeRes.class));
+        String amapUrl = UrlUtil.createAmapUrl("getBusRouteTime",
+                new UrlUtil.UrlParam("key", key),
+                new UrlUtil.UrlParam("city", cityName),
+                new UrlUtil.UrlParam("origin", startLocation),
+                new UrlUtil.UrlParam("date", date),
+                new UrlUtil.UrlParam("time", time),
+                new UrlUtil.UrlParam("destination", endLocation));
+        return ResultUtil.getAMapModel(RestTemplateUtil.get(amapUrl, AMapBusRouteTimeRes.class));
     }
 
     @Override

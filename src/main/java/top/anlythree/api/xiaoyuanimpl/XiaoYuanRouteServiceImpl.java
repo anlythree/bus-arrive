@@ -13,10 +13,10 @@ import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanRouteListRes;
 import top.anlythree.cache.ACache;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
-import top.anlythree.utils.MD5Utils;
-import top.anlythree.utils.RestTemplateUtils;
+import top.anlythree.utils.MD5Util;
+import top.anlythree.utils.RestTemplateUtil;
 import top.anlythree.utils.ResultUtil;
-import top.anlythree.utils.UrlUtils;
+import top.anlythree.utils.UrlUtil;
 import top.anlythree.utils.exceptions.AException;
 
 import java.util.List;
@@ -44,14 +44,14 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
         if(null == cityById){
             throw new AException("cityId错误，查不到指定的cityId，cityName："+cityName);
         }
-        String keySecret = MD5Utils.getMd5(uname + key + "luxian");
+        String keySecret = MD5Util.getMd5(uname + key + "luxian");
         XiaoYuanRouteListRes xiaoYuanRouteListRes = ResultUtil.getXiaoYuanModel(
-                RestTemplateUtils.get(UrlUtils.createXiaoYuanUrl(
-                        new UrlUtils.UrlParam("optype","luxian"),
-                        new UrlUtils.UrlParam("uname",uname),
-                        new UrlUtils.UrlParam("cityid",cityById.getId()),
-                        new UrlUtils.UrlParam("keywords",routeName),
-                        new UrlUtils.UrlParam("keySecret",keySecret)),
+                RestTemplateUtil.get(UrlUtil.createXiaoYuanUrl(
+                        new UrlUtil.UrlParam("optype","luxian"),
+                        new UrlUtil.UrlParam("uname",uname),
+                        new UrlUtil.UrlParam("cityid",cityById.getId()),
+                        new UrlUtil.UrlParam("keywords",routeName),
+                        new UrlUtil.UrlParam("keySecret",keySecret)),
                         XiaoYuanRouteListRes.class));
         List<XiaoYuanRouteListRes.XiaoYuanRouteRes> xiaoYuanRouteResList = xiaoYuanRouteListRes.getReturlList();
         if(CollectionUtils.isEmpty(xiaoYuanRouteResList)){

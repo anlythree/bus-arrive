@@ -7,10 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.Null;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Objects;
 
 /**
  * @author anlythree
@@ -18,7 +16,7 @@ import java.util.Objects;
  * @time 2022/2/2811:07 上午
  */
 @Component
-public class UrlUtils {
+public class UrlUtil {
 
     private final static String dengyu = "=";
 
@@ -36,22 +34,22 @@ public class UrlUtils {
 
     @Value("${xiaoyuan.url}")
     public void setXiaoyuanUrl(String xiaoyuanUrl) {
-        UrlUtils.xiaoyuanUrl = xiaoyuanUrl;
+        UrlUtil.xiaoyuanUrl = xiaoyuanUrl;
     }
 
     @Value("${amap.stationUrl}")
     public void setAmapGetStationUrl(String amapUrl) {
-        UrlUtils.amapGetStationUrl = amapUrl;
+        UrlUtil.amapGetStationUrl = amapUrl;
     }
 
     @Value("${amap.busRouteTimeUrl}")
     public void setAmapGetBusRouteTime(String amapUrl) {
-        UrlUtils.amapGetBusRouteTime = amapUrl;
+        UrlUtil.amapGetBusRouteTime = amapUrl;
     }
 
     @Value("${amap.sign}")
     public void setSig(String sig) {
-        UrlUtils.sig = sig;
+        UrlUtil.sig = sig;
     }
 
 
@@ -100,7 +98,7 @@ public class UrlUtils {
         }
         String createSig = createSigBuffer.toString().substring(0, createSigBuffer.length() - 1);
         createSig += sig;
-        return urlStrBu.toString().substring(0, urlStrBu.length() - 1) + "&sig=" + MD5Utils.getMd5(createSig);
+        return urlStrBu.toString().substring(0, urlStrBu.length() - 1) + "&sig=" + MD5Util.getMd5(createSig);
     }
 
 

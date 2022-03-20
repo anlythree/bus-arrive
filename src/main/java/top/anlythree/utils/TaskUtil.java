@@ -10,7 +10,7 @@ import java.util.concurrent.*;
 @Slf4j
 public class TaskUtil {
 
-    private static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
+    private static final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
 
     /**
      * 延时执行任务

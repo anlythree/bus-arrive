@@ -33,7 +33,7 @@ public class BusController {
         return ACache.getRouteCacheList();
     }
 
-    @GetMapping("/getRoute")
+    @GetMapping("/getDo")
     public XiaoYuanRouteDTO getRouteList(@RequestParam String routeName, @RequestParam String cityName, @RequestParam String startStation){
         return routeService.getRouteByNameAndCityIdAndStartStation(routeName,cityName,startStation);
     }

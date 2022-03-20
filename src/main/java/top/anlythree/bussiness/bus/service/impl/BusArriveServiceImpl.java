@@ -13,6 +13,7 @@ import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
 import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.StationDTO;
+import top.anlythree.cache.ACache;
 import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
 
@@ -113,8 +114,13 @@ public class BusArriveServiceImpl implements BusArriveService {
             if(null == secondsByBusAndLocation || null == secondsByBusAndLocation.getSeconds()){
                 return null;
             }
-            // 计算当前时间向前推准备时间+车到达起始站点时间
-            return doCalculateTime.minusSeconds(secondsByBusAndLocation.getSeconds()+prepareSeconds);
+            // 计算当前时间向后推时间 = 车到达起始站点所需时间-准备时间
+            LocalDateTime localDateTime = doCalculateTime.plusSeconds(secondsByBusAndLocation.getSeconds() - prepareSeconds);
+            //城市-公交路线名-出发站点-到达时间
+            ACache.addResult(cityName+"-"+routeName+"-"+startStation+"-"+TimeUtil.timeToString(doCalculateTime),
+                    TimeUtil.timeToString(localDateTime));
+            // 缓存需要的时间
+            return localDateTime;
         }, doCalculateTime);
     }
 }

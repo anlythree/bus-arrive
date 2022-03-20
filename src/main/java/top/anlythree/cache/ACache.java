@@ -29,7 +29,7 @@ public class ACache {
     private static List<StationDTO> stationCacheList = new ArrayList<>(8);
 
     /**
-     * key: 城市-公交路线名-出发站点-到达站点-到达时间
+     * key: 城市-公交路线名-出发站点-查询时间
      */
     private static Map<String,String> keyToResultMap = new HashMap<>();
 
@@ -91,7 +91,7 @@ public class ACache {
 
     /**
      * 获取缓存中的计算结果
-     * @param key 城市-公交路线名-出发站点-到达站点-到达时间
+     * @param key
      * @return
      */
     public static String getResult(String key){

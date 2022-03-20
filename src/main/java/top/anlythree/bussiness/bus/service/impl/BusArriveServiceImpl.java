@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.anlythree.api.BusService;
 import top.anlythree.api.RouteService;
+import top.anlythree.api.StationService;
 import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
 import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusDTO;
+import top.anlythree.bussiness.dto.StationDTO;
+import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
 
 import java.time.Duration;
@@ -36,8 +39,9 @@ public class BusArriveServiceImpl implements BusArriveService {
     private RouteService routeServiceAMapImpl;
 
     @Autowired
-    @Qualifier(value = "xiaoYuanRouteServiceImpl")
-    private RouteService routeServiceXiaoYuanImpl;
+    @Qualifier(value = "AMapStationServiceImpl")
+    private StationService stationService;
+
 
     @Value("${bus-arrive.default-difference-seconds}")
     private Long defaultDifferenceSeconds;
@@ -71,8 +75,8 @@ public class BusArriveServiceImpl implements BusArriveService {
     }
 
     @Override
-    public BusDTO getBestBusFromStartTime(String cityName, String routeName, String endStationName) {
-        List<BusDTO> busLocationList = busService.getBusLocationList(cityName, routeName, endStationName);
+    public BusDTO getBestBusFromStartTime(String cityName, String routeName, String directionStationName) {
+        List<BusDTO> busLocationList = busService.getBusLocationList(cityName, routeName, directionStationName);
         if(CollectionUtils.isEmpty(busLocationList)){
             return null;
         }
@@ -91,5 +95,26 @@ public class BusArriveServiceImpl implements BusArriveService {
             // 只有一辆那么返回这辆
             return busLocationList.get(0);
         }
+    }
+
+    @Override
+    public LocalDateTime calculateTimeToGo(LocalDateTime doCalculateTime,
+                                           LocalDateTime arriveTime,
+                                           String cityName,
+                                           String district,
+                                           String routeName, String startStation, String directionStationName,
+                                           Long prepareSeconds) {
+        return TaskUtil.doSomeThingLater(()->{
+            StationDTO startStationDto = stationService.getStation(cityName, district, startStation);
+            BusDTO bestBus = getBestBusFromStartTime(cityName, routeName, directionStationName);
+            AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation = routeServiceAMapImpl.getSecondsByBusAndLocation(cityName, routeName,
+                    bestBus.getLocation(), startStationDto.getLongitudeAndLatitude(),
+                    TimeUtil.timeToString(doCalculateTime));
+            if(null == secondsByBusAndLocation || null == secondsByBusAndLocation.getSeconds()){
+                return null;
+            }
+            // 计算当前时间向前推准备时间+车到达起始站点时间
+            return doCalculateTime.minusSeconds(secondsByBusAndLocation.getSeconds()+prepareSeconds);
+        }, doCalculateTime);
     }
 }

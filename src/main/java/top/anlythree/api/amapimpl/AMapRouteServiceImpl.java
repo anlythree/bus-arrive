@@ -70,7 +70,7 @@ public class AMapRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo getSecondsByBusAndLocation(String cityName, String busName, String startLocation, String endLocation, String dateTime) {
+    public AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo getSecondsByBusAndLocation(String cityName, String routeName, String startLocation, String endLocation, String dateTime) {
         AMapBusRouteTimeRes busRouteTimeByLocation = getBusRouteTimeByLocation(cityName, startLocation, endLocation, dateTime);
         if (null == busRouteTimeByLocation ||
                 null == busRouteTimeByLocation.getRoute() ||
@@ -80,11 +80,11 @@ public class AMapRouteServiceImpl implements RouteService {
         for (AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo transit : busRouteTimeByLocation.getRoute().getTransits()) {
             for (AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo.SegmentsInfo segment : transit.getSegments()) {
                 if (segment.getBus().getBuslines().size() == 1 &&
-                        segment.getBus().getBuslines().get(0).getName().contains(busName)) {
+                        segment.getBus().getBuslines().get(0).getName().contains(routeName)) {
                     return transit;
                 }
             }
         }
-        throw new AException("查询不到直达的" + busName + "公交方案，所有的方案：" + busRouteTimeByLocation.getRoute().getTransits());
+        throw new AException("查询不到直达的" + routeName + "公交方案，所有的方案：" + busRouteTimeByLocation.getRoute().getTransits());
     }
 }

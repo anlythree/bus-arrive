@@ -1,22 +1,21 @@
 package top.anlythree.cache;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.dto.StationDTO;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author anlythree
  * @description:
  * @time 2022/3/13:04 下午
  */
+@Slf4j
 @AllArgsConstructor
 public class ACache {
 
@@ -27,7 +26,12 @@ public class ACache {
 
     private static List<XiaoYuanRouteDTO> routeCacheList = new ArrayList<>();
 
-    private static List<StationDTO> stationCacheList = new ArrayList<>();
+    private static List<StationDTO> stationCacheList = new ArrayList<>(8);
+
+    /**
+     * key: 城市-公交路线名-出发站点-到达站点-到达时间
+     */
+    private static Map<String,String> keyToResultMap = new HashMap<>();
 
     static {
         // 添加阿里巴巴A5门坐标位置
@@ -78,6 +82,20 @@ public class ACache {
             }
         }
         stationCacheList.add(stationDTO);
+    }
+
+    public static void addResult(String key,String result){
+        log.info("缓存计算结果:{key:"+key+",result:"+result+"}");
+        keyToResultMap.put(key,result);
+    }
+
+    /**
+     * 获取缓存中的计算结果
+     * @param key 城市-公交路线名-出发站点-到达站点-到达时间
+     * @return
+     */
+    public static String getResult(String key){
+        return keyToResultMap.get(key);
     }
 
     public static List<XiaoYuanCityDTO> getCityCacheList() {

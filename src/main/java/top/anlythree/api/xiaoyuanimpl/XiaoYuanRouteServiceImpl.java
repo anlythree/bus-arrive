@@ -106,8 +106,8 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     @Override
     public XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd) {
         List<XiaoYuanRouteDTO> allRouteList = getRouteListByNameAndCityName(routeName, cityName);
-        int rideStartIndex = 0;
-        int rideEndIndex = 0;
+        Integer rideStartIndex = 0;
+        Integer rideEndIndex = 0;
         for (XiaoYuanRouteDTO route : allRouteList) {
 
         }

@@ -1,5 +1,6 @@
 package top.anlythree.api.amapimpl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import top.anlythree.api.StationService;
@@ -20,7 +21,10 @@ public class AMapStationServiceImpl implements StationService {
     @Override
     public StationDTO getStation(String cityName, String district, String stationName) {
         for (StationDTO stationDTO : ACache.getStationCacheList()) {
-            if(stationDTO.getStationFullName().contains(stationName)){
+            if(StringUtils.isNotEmpty(stationDTO.getStationFullName()) &&
+                    stationDTO.getStationFullName().contains(stationName) &&
+                    stationDTO.getStationFullName().contains(district) &&
+                    stationDTO.getStationFullName().contains(cityName)){
                 return stationDTO;
             }
         }

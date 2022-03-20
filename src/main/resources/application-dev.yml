@@ -1,0 +1,28 @@
+server:
+  port: 8099
+spring:
+  application:
+    name: bus-arrive
+logging:
+  level:
+    root: info
+    com.bestvike: debug
+    org.springframework.security: warn
+  # path: ./log
+  # logback.xml路径，默认为classpath:logback.xml
+xiaoyuan:
+  key: 632e6732f9e1a6bd4b3b4966a9009bcd
+  username: 15610462126
+  url: http://api.dwmm136.cn/z_busapi/BusApi.php
+remembor:
+  cityandroute:
+    杭州市 353,杭州市 415
+amap:
+  key: ca749b4a5f0fe299e8cd826f69c1c6bc
+  sign: 0dcee3a9115b5782fecfa7f90f876981
+  stationUrl: https://restapi.amap.com/v3/geocode/geo
+  busRouteTimeUrl: https://restapi.amap.com/v3/direction/transit/integrated
+bus-arrive:
+  default-difference-seconds: 300
+
+

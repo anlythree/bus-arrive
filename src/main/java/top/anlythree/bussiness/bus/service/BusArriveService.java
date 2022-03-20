@@ -32,9 +32,32 @@ public interface BusArriveService {
      *
      * @param cityName
      * @param routeName
-     * @param endStationName 终点站
+     * @param directionStationName 该线路最后一站
      * @return
      */
-    BusDTO getBestBusFromStartTime(String cityName, String routeName, String endStationName);
+    BusDTO getBestBusFromStartTime(String cityName, String routeName, String directionStationName);
+
+
+    /**
+     * 计算需要什么时候出发
+     *
+     * @param doCalculateTime 开始计算的时间（获取在线公交位置的时间）
+     * @param arriveTime 到达时间
+     * @param cityName
+     * @param district
+     * @param routeName
+     * @param startStation 出发站点名称
+     * @param directionStationName 方向站名称（该公交路线的最后一站）
+     * @param prepareSeconds 准备时间，从准备出发到出发站点的时间（单位：秒）
+     * @return
+     */
+    LocalDateTime calculateTimeToGo(LocalDateTime doCalculateTime,
+                                    LocalDateTime arriveTime,
+                                    String cityName,
+                                    String district,
+                                    String routeName,
+                                    String startStation,
+                                    String directionStationName,
+                                    Long prepareSeconds);
 
 }

@@ -1,24 +1,34 @@
 package top.anlythree.utils;
 
-import java.time.LocalDateTime;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.function.Function;
+import lombok.extern.slf4j.Slf4j;
+import top.anlythree.utils.exceptions.AException;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.concurrent.*;
+
+@Slf4j
 public class TaskUtil {
 
     private static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
 
     /**
      * 延时执行任务
-     * @param function
+     * @param callable
      */
-    public static void doSomeThingLater(Function<Object,Void> function, LocalDateTime doTime){
-
-        scheduledExecutorService.execute(function);
+    public static <T> T doSomeThingLater(Callable<T> callable, LocalDateTime doTime){
+        T returnValue;
+        try {
+            returnValue = scheduledExecutorService.schedule(callable,
+                    Duration.between(LocalDateTime.now(), doTime).getSeconds(), TimeUnit.SECONDS).get();
+            log.info("task success.return:"+ returnValue.toString() +";");
+        } catch (InterruptedException e) {
+            throw new AException("执行定时任务失败,错误类型：InterruptedException："+e.getMessage());
+        } catch (ExecutionException e) {
+            throw new AException("执行定时任务失败,错误类型：ExecutionException："+e.getMessage());
+        }
+        return returnValue;
     }
-
 
 
 }

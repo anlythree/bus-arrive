@@ -14,10 +14,12 @@ import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.StationDTO;
+import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author anlythree
@@ -106,6 +108,13 @@ public class AnlyTest{
     public void test9(){
         BusDTO bestBusFromStartTime = busArriveService.getBestBusFromStartTime("杭州", "415", "西溪花城");
         System.out.println(bestBusFromStartTime);
-        Timer
+    }
+
+    @Test
+    public void test10() {
+        TaskUtil.doSomeThingLater(()->{
+            System.out.println("延时测试");
+            return "返回值成功";
+        },LocalDateTime.now().plusSeconds(60));
     }
 }

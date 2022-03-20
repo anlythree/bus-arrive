@@ -75,8 +75,9 @@ public interface RouteService {
      * @param cityName
      * @param startLocation
      * @param endLocation
+     * @param dateTime 出发时间
      * @return
      */
-    AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo getSecondsByBusAndLocation(String cityName, String busName, String startLocation, String endLocation, String dateTime);
+    AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo getSecondsByBusAndLocation(String cityName, String routeName, String startLocation, String endLocation, String dateTime);
 
 }

@@ -21,6 +21,13 @@ public interface BusService {
      */
     List<BusDTO> getBusLocationList(String cityName, String routeName, String endStation);
 
-
+    /**
+     * 根据城市名和路线名和方向获取所有笑园api接口信息
+     * @param cityName
+     * @param routeName
+     * @param endStation
+     * @return
+     */
+    XiaoYuanBusRes getXiaoYuanBusRes(String cityName, String routeName, String endStation);
 
 }

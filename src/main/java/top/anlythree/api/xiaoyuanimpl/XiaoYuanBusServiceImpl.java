@@ -46,6 +46,17 @@ public class XiaoYuanBusServiceImpl implements BusService {
 
     @Override
     public List<BusDTO> getBusLocationList(String cityName, String routeName, String endStation) {
+        XiaoYuanBusRes xiaoYuanModel = getXiaoYuanBusRes(cityName, routeName, endStation);
+        if (xiaoYuanModel == null) return null;
+        // 返回公交列表
+        if(CollectionUtils.isEmpty(xiaoYuanModel.getReturlList().getBuses())){
+            return null;
+        }
+        return xiaoYuanModel.getReturlList().getBuses().stream().map(XiaoYuanBusRes.BusInfoRes::castBusDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public XiaoYuanBusRes getXiaoYuanBusRes(String cityName, String routeName, String endStation) {
         XiaoYuanCityDTO cityByName = cityService.getCityByName(cityName);
         XiaoYuanRouteDTO route = routeService.getRouteByNameAndCityIdAndStartStation(routeName, cityName, endStation);
         String getBusLocationUrl = UrlUtil.createXiaoYuanUrl(
@@ -67,11 +78,9 @@ public class XiaoYuanBusServiceImpl implements BusService {
         routeByNameAndCityIdAndStartStation.setFirstTime(lineinfo.getFirTime());
         routeByNameAndCityIdAndStartStation.setEndTime(lineinfo.getEndTime());
         routeByNameAndCityIdAndStartStation.setMoneyQty(new BigDecimal(lineinfo.getBusMoney()));
+        routeByNameAndCityIdAndStartStation.setStationList(xiaoYuanModel.getReturlList().getStations().stream()
+                .map(XiaoYuanBusRes.StationInfoRes::getBusStaname).collect(Collectors.toList()));
         ACache.addRoute(routeByNameAndCityIdAndStartStation);
-        // 返回公交列表
-        if(CollectionUtils.isEmpty(xiaoYuanModel.getReturlList().getBuses())){
-            return null;
-        }
-        return xiaoYuanModel.getReturlList().getBuses().stream().map(XiaoYuanBusRes.BusInfoRes::castBusDTO).collect(Collectors.toList());
+        return xiaoYuanModel;
     }
 }

@@ -99,12 +99,13 @@ public class BusArriveServiceImpl implements BusArriveService {
     }
 
     @Override
-    public LocalDateTime calculateTimeToGo(LocalDateTime doCalculateTime,
-                                           LocalDateTime arriveTime,
+    public LocalDateTime calculateTimeToGo(
                                            String cityName,
                                            String district,
                                            String routeName, String startStation, String directionStationName,
-                                           Long prepareSeconds) {
+                                           Long prepareSeconds,
+                                           LocalDateTime doCalculateTime,
+                                           LocalDateTime arriveTime) {
         return TaskUtil.doSomeThingLater(()->{
             StationDTO startStationDto = stationService.getStation(cityName, district, startStation);
             BusDTO bestBus = getBestBusFromStartTime(cityName, routeName, directionStationName);

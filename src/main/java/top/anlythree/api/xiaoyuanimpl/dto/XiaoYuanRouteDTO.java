@@ -3,6 +3,7 @@ package top.anlythree.api.xiaoyuanimpl.dto;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 公交路线
@@ -53,5 +54,7 @@ public class XiaoYuanRouteDTO {
      * 票价
      */
     private BigDecimal moneyQty;
+
+    private List<String> stationList;
 
 }

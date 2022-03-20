@@ -80,4 +80,6 @@ public interface RouteService {
      */
     AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo getSecondsByBusAndLocation(String cityName, String routeName, String startLocation, String endLocation, String dateTime);
 
+
+
 }

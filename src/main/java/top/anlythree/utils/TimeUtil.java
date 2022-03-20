@@ -25,6 +25,11 @@ public class TimeUtil {
     private final static DateTimeFormatter FMT_DATE_TIME = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
+     * 时分格式
+     */
+    private final static DateTimeFormatter ONLY_TIME = DateTimeFormatter.ofPattern("HH:mm");
+
+    /**
      * 时间(日期)格式转成String类型
      * @param localDate
      * @return
@@ -58,6 +63,15 @@ public class TimeUtil {
      */
     public static LocalDateTime stringToTime (String localDateTime){
         return LocalDateTime.parse(localDateTime,FMT_DATE_TIME);
+    }
+
+    /**
+     * 时分格式转成LocalDateTime类型
+     * @param localDateTime
+     * @return
+     */
+    public static LocalDateTime onlyTimeStrToTime(String localDateTime){
+        return LocalDateTime.parse(localDateTime,ONLY_TIME);
     }
 
     /**

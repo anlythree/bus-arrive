@@ -9,7 +9,9 @@ import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
+import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanBusRes;
 import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanRouteListRes;
+import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.cache.ACache;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
@@ -36,6 +38,10 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     @Autowired
     @Qualifier(value = "xiaoYuanCityServiceImpl")
     private CityService cityService;
+
+    @Autowired
+    @Qualifier(value = "xiaoYuanBusServiceImpl")
+    private XiaoYuanBusServiceImpl xiaoYuanBusService;
 
 
     @Override
@@ -105,11 +111,11 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
 
     @Override
     public XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd) {
-        List<XiaoYuanRouteDTO> allRouteList = getRouteListByNameAndCityName(routeName, cityName);
+        //
         Integer rideStartIndex = 0;
         Integer rideEndIndex = 0;
+        List<XiaoYuanRouteDTO> allRouteList = getRouteListByNameAndCityName(routeName, cityName);
         for (XiaoYuanRouteDTO route : allRouteList) {
-
         }
         return null;
     }

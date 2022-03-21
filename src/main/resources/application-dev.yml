@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   application:
     name: bus-arrive
@@ -8,6 +10,12 @@ spring:
 #    org.springframework.security: warn
   # path: ./log
   # logback.xml路径，默认为classpath:logback.xml
+swagger:
+  enable: true
+  application-name: ${spring.application.name}
+  application-version: 1.0
+  application-description: 公交到达预提醒
+  try-host: http://localhost:${server.port}
 xiaoyuan:
   key: 632e6732f9e1a6bd4b3b4966a9009bcd
   username: 15610462126

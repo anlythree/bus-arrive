@@ -89,9 +89,11 @@ public class AnlyTest{
     @Test
     public void test7(){
         AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo transitsInfo = aMapRouteService.getSecondsByBusAndLocation("杭州",
-                "120.034084,30.242901", "120.026686,30.280905",
-                "353", null);
+                "353", "120.026686,30.280905",
+                "120.034084,30.242901", null);
         System.out.println(transitsInfo.getSeconds()/60);
+        String[] startStationAndEndStation = transitsInfo.getStartStationAndEndStation();
+        System.out.println("起始站："+startStationAndEndStation[0]+";结束站："+startStationAndEndStation[1]);
     }
 
     @Test
@@ -116,5 +118,15 @@ public class AnlyTest{
             System.out.println("延时测试");
             return "返回值成功";
         },LocalDateTime.now().plusSeconds(60));
+    }
+
+    @Test
+    public void test11(){
+        StationDTO startStation = stationService.getStation("杭州", "余杭", "西湖体育馆");
+        StationDTO arriveStation = stationService.getStation("杭州", "余杭", "阿里巴巴A5门");
+        LocalDateTime startTimeByArriveTime = busArriveService.getStartTimeByArriveTime("杭州", "353",
+                null, TimeUtil.stringToTime("2022-03-18 10:00:00"),
+                startStation.getLongitudeAndLatitude(), arriveStation.getLongitudeAndLatitude(),null);
+        System.out.println(TimeUtil.timeToString(startTimeByArriveTime));
     }
 }

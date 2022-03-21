@@ -13,7 +13,7 @@ import java.util.List;
 public interface RouteService {
 
     /**
-     * 根据路线名和城市id获取路线列表（正常可以查到2条线路，因为有往返）
+     * 根据路线名和城市名称获取路线列表（正常可以查到2条线路，因为有往返）
      *
      * @param routeName
      * @param cityName
@@ -54,11 +54,11 @@ public interface RouteService {
      *
      * @param routeName
      * @param cityName
-     * @param rideStart
-     * @param rideEnd
+     * @param startStation 起点坐标
+     * @param endStation 终点坐标
      * @return
      */
-    XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd);
+    XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String cityName, String routeName, String startStation, String endStation);
 
     /**
      * 高德公交路线规划

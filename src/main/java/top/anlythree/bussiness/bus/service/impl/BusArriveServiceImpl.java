@@ -16,6 +16,7 @@ import top.anlythree.bussiness.dto.StationDTO;
 import top.anlythree.cache.ACache;
 import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
+import top.anlythree.utils.exceptions.AException;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -66,6 +67,9 @@ public class BusArriveServiceImpl implements BusArriveService {
         LocalDateTime expectArriveTime = startTime.plusSeconds(secondsByBusAndLocation.getSeconds());
         long secondsDifferenceLong = Duration.between(expectArriveTime, arriveTime).getSeconds();
         if (Math.abs(secondsDifferenceLong) < allowDifferenceSeconds) {
+            if (expectArriveTime.compareTo(LocalDateTime.now()) < 0) {
+                throw new AException("已错过最后的出发时间，最晚应：" + startTime + "出发，才可能"+ expectArriveTime + "到达目的地");
+            }
             log.info("预计" + routeName + "路公交车如果在" + startTime + "出发，将会在" + expectArriveTime + "到达目的地");
             return startTime;
         } else {
@@ -78,21 +82,21 @@ public class BusArriveServiceImpl implements BusArriveService {
     @Override
     public BusDTO getBestBusFromStartTime(String cityName, String routeName, String directionStationName) {
         List<BusDTO> busLocationList = busService.getBusLocationList(cityName, routeName, directionStationName);
-        if(CollectionUtils.isEmpty(busLocationList)){
+        if (CollectionUtils.isEmpty(busLocationList)) {
             return null;
         }
         busLocationList.sort(Comparator.comparing(BusDTO::getDisStat).reversed());
         int size = busLocationList.size();
         // 如果有两辆车在同两个站点之间且是在倒数第三辆或之后，那么优先考虑，否则取倒数第2辆公交
-        if(size >1){
-            if(size >2 && Objects.equals(busLocationList.get(2).getDisStat(),busLocationList.get(1).getDisStat())){
+        if (size > 1) {
+            if (size > 2 && Objects.equals(busLocationList.get(2).getDisStat(), busLocationList.get(1).getDisStat())) {
                 // 返回倒数第3辆
                 return busLocationList.get(2);
-            }else {
+            } else {
                 // 返回倒数第2辆
                 return busLocationList.get(1);
             }
-        }else {
+        } else {
             // 只有一辆那么返回这辆
             return busLocationList.get(0);
         }
@@ -100,25 +104,25 @@ public class BusArriveServiceImpl implements BusArriveService {
 
     @Override
     public LocalDateTime calculateTimeToGo(
-                                           String cityName,
-                                           String district,
-                                           String routeName, String startStation, String directionStationName,
-                                           Long prepareSeconds,
-                                           LocalDateTime doCalculateTime,
-                                           LocalDateTime arriveTime) {
-        return TaskUtil.doSomeThingLater(()->{
+            String cityName,
+            String district,
+            String routeName, String startStation, String directionStationName,
+            Long prepareSeconds,
+            LocalDateTime doCalculateTime,
+            LocalDateTime arriveTime) {
+        return TaskUtil.doSomeThingLater(() -> {
             StationDTO startStationDto = stationService.getStation(cityName, district, startStation);
             BusDTO bestBus = getBestBusFromStartTime(cityName, routeName, directionStationName);
             AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation = routeServiceAMapImpl.getSecondsByBusAndLocation(cityName, routeName,
                     bestBus.getLocation(), startStationDto.getLongitudeAndLatitude(),
                     TimeUtil.timeToString(doCalculateTime));
-            if(null == secondsByBusAndLocation || null == secondsByBusAndLocation.getSeconds()){
+            if (null == secondsByBusAndLocation || null == secondsByBusAndLocation.getSeconds()) {
                 return null;
             }
             // 计算当前时间向后推时间 = 车到达起始站点所需时间-准备时间
             LocalDateTime localDateTime = doCalculateTime.plusSeconds(secondsByBusAndLocation.getSeconds() - prepareSeconds);
             //城市-公交路线名-出发站点-到达时间
-            ACache.addResult(cityName+"-"+routeName+"-"+startStation+"-"+TimeUtil.timeToString(doCalculateTime),
+            ACache.addResult(cityName + "-" + routeName + "-" + startStation + "-" + TimeUtil.timeToString(doCalculateTime),
                     TimeUtil.timeToString(localDateTime));
             // 缓存需要的时间
             return localDateTime;

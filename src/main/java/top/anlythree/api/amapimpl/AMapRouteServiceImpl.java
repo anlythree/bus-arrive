@@ -46,7 +46,7 @@ public class AMapRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd) {
+    public XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String cityName, String routeName, String rideStart, String rideEnd) {
         throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
     }
 
@@ -75,7 +75,7 @@ public class AMapRouteServiceImpl implements RouteService {
         if (null == busRouteTimeByLocation ||
                 null == busRouteTimeByLocation.getRoute() ||
                 CollectionUtils.isEmpty(busRouteTimeByLocation.getRoute().getTransits())) {
-            return null;
+            throw new AException("查询不到直达的" + routeName + "公交方案，来自高德api的信息：" + busRouteTimeByLocation);
         }
         for (AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo transit : busRouteTimeByLocation.getRoute().getTransits()) {
             for (AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo.SegmentsInfo segment : transit.getSegments()) {

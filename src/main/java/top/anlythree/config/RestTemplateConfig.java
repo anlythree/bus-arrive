@@ -20,12 +20,12 @@ import java.util.TimeZone;
 import static org.springframework.http.MediaType.APPLICATION_XML;
 
 /**
- * RestTempale及swagger页面访问配置
+ * RestTempale解析配置
  * @author anlythree
  * @time 2022/3/111:12 上午
  */
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer {
+public class RestTemplateConfig {
 
     @Bean
     public RestTemplate restTemplate() {
@@ -44,15 +44,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .messageConverters(httpMessageConverter)
                 .build();
     }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
-
 }

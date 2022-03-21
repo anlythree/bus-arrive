@@ -40,6 +40,7 @@ public class ACache {
         stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","五常大道联胜路口公交站","120.031884,30.243976"));
         stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","西湖体育馆公交站","120.13072,30.267691"));
         stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","爱橙街贺翠路口公交站","120.022539,30.274492"));
+        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","永兴村公交站","120.020833,30.278499"));
     }
 
     public static void addCity(XiaoYuanCityDTO city) {

@@ -8,13 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
+import top.anlythree.api.amapimpl.AMapRouteServiceImpl;
 import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
-import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanBusRes;
-import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanRouteListRes;
-import top.anlythree.bussiness.dto.BusDTO;
-import top.anlythree.cache.ACache;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
+import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanRouteListRes;
+import top.anlythree.cache.ACache;
 import top.anlythree.utils.MD5Util;
 import top.anlythree.utils.RestTemplateUtil;
 import top.anlythree.utils.ResultUtil;
@@ -40,8 +39,8 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     private CityService cityService;
 
     @Autowired
-    @Qualifier(value = "xiaoYuanBusServiceImpl")
-    private XiaoYuanBusServiceImpl xiaoYuanBusService;
+    @Qualifier(value = "AMapRouteServiceImpl")
+    private RouteService routeService;
 
 
     @Override
@@ -110,12 +109,15 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd) {
-        //
-        Integer rideStartIndex = 0;
-        Integer rideEndIndex = 0;
+    public XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String cityName, String routeName, String startStation, String endStation) {
         List<XiaoYuanRouteDTO> allRouteList = getRouteListByNameAndCityName(routeName, cityName);
-        for (XiaoYuanRouteDTO route : allRouteList) {
+        AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation = routeService.getSecondsByBusAndLocation(cityName, routeName, startStation, endStation, null);
+        String[] startStationAndEndStation = secondsByBusAndLocation.getStartStationAndEndStation();
+        for (XiaoYuanRouteDTO xiaoYuanRouteDTO : allRouteList) {
+            if(xiaoYuanRouteDTO.getStartStation().contains(startStationAndEndStation[0]) ||
+            xiaoYuanRouteDTO.getEndStation().contains(startStationAndEndStation[1])){
+                return xiaoYuanRouteDTO;
+            }
         }
         return null;
     }

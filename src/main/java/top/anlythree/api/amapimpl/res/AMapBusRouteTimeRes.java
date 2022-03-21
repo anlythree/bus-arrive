@@ -3,6 +3,7 @@ package top.anlythree.api.amapimpl.res;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -131,6 +132,22 @@ public class AMapBusRouteTimeRes extends AMapResult{
                     return null;
                 }
                 return Long.parseLong(duration);
+            }
+
+            /**
+             * 获取起始站和结束站
+             * @return
+             */
+            public String[] getStartStationAndEndStation(){
+                for (SegmentsInfo segment : this.getSegments()) {
+                    for (SegmentsInfo.BusInfo.BusLinesInfo busline : segment.getBus().getBuslines()) {
+                        String busName;
+                        if(StringUtils.isNotEmpty(busName = busline.getName())){
+                            return busName.substring(busName.indexOf("(")+1, busName.lastIndexOf(")")).split("--");
+                        }
+                    }
+                }
+                return null;
             }
 
         }

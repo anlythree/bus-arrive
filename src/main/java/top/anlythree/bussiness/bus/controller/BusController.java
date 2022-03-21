@@ -48,24 +48,39 @@ public class BusController {
     }
 
     @GetMapping("/calculateTime")
-    public String getRouteList(@RequestParam String routeName,
-                               @RequestParam String cityName,
-                               @RequestParam String district,
-                               @RequestParam String startStation,
-                               @RequestParam String endStation,
-                               @RequestParam String directStation,
-                               @RequestParam String prepareSeconds,
-                               @RequestParam String arriveTime){
+    public String getRouteList(@RequestParam(required = true) String cityName,
+                               @RequestParam(required = true) String district,
+                               @RequestParam(required = true) String routeName,
+                               @RequestParam(required = true) String startStation,
+                               @RequestParam(required = true) String endStation,
+                               @RequestParam(required = true) String prepareMinutes,
+                               @RequestParam(required = true) String arriveTime){
         LocalDateTime arriveLocalTime = TimeUtil.onlyTimeStrToTime(arriveTime);
 
         StationDTO startStationDto = stationService.getStation(cityName, district, startStation);
         StationDTO endStationDto = stationService.getStation(cityName, district, endStation);
-
+        XiaoYuanRouteDTO routeByNameAndCityAndRideStartAndRideEnd = routeService.getRouteByNameAndCityAndRideStartAndRideEnd(cityName, routeName, startStationDto.getLongitudeAndLatitude(), endStationDto.getLongitudeAndLatitude());
         LocalDateTime startTimeByArriveTime = busArriveService.getStartTimeByArriveTime(cityName, routeName, null, arriveLocalTime,
                 startStationDto.getLongitudeAndLatitude(), endStationDto.getLongitudeAndLatitude(), null);
             busArriveService.calculateTimeToGo(cityName, district, routeName,
-                    startStation,directStation,
-                    Long.parseLong(prepareSeconds),startTimeByArriveTime,arriveLocalTime);
+                    startStation,routeByNameAndCityAndRideStartAndRideEnd.getEndStation(),
+                    Long.parseLong(prepareMinutes)*60,startTimeByArriveTime,arriveLocalTime);
+        return TimeUtil.timeToString(startTimeByArriveTime);
+    }
+
+    @GetMapping("/whenLeave")
+    public String whenLeave(@RequestParam(required = true) String cityName,
+                               @RequestParam(required = true) String district,
+                               @RequestParam(required = true) String routeName,
+                               @RequestParam(required = true) String startStation,
+                               @RequestParam(required = true) String endStation,
+                               @RequestParam(required = true) String arriveTime){
+        LocalDateTime arriveLocalTime = TimeUtil.onlyTimeStrToTime(arriveTime);
+        StationDTO startStationDto = stationService.getStation(cityName, district, startStation);
+        StationDTO arriveStationDto = stationService.getStation(cityName, district, endStation);
+        LocalDateTime startTimeByArriveTime = busArriveService.getStartTimeByArriveTime(cityName, routeName,
+                null, arriveLocalTime,
+                startStationDto.getLongitudeAndLatitude(), arriveStationDto.getLongitudeAndLatitude(),null);
         return TimeUtil.timeToString(startTimeByArriveTime);
     }
 }

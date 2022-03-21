@@ -55,6 +55,9 @@ public class XiaoYuanRouteDTO {
      */
     private BigDecimal moneyQty;
 
+    /**
+     * 所有站点名称（需要自己赋值）
+     */
     private List<String> stationList;
 
 }

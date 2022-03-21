@@ -19,7 +19,7 @@ public interface BusService {
      * @param routeName
      * @return
      */
-    List<BusDTO> getBusLocationList(String cityName, String routeName, String endStation);
+    List<BusDTO> getBusLocationList(String cityName, String routeName, String endStationName);
 
     /**
      * 根据城市名和路线名和方向获取所有笑园api接口信息

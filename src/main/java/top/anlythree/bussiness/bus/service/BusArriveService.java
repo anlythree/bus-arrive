@@ -18,13 +18,13 @@ public interface BusArriveService {
     * @param routeName
     * @param startTime 非必填，默认当前时间，该参数为预估出发时间
     * @param arriveTime 到达时间
-    * @param startLocation
-    * @param endLocation
+    * @param startLocationLal 公交起始站经纬度
+    * @param endLocationLal 我们的出发站点经纬度
     * @return 这个时间将是播报的时间，在 这个时间 会提示还可以准备多久
     */
     LocalDateTime getStartTimeByArriveTime(String cityName, String routeName,
                                            LocalDateTime startTime, LocalDateTime arriveTime,
-                                           String startLocation, String endLocation,
+                                           String startLocationLal, String endLocationLal,
                                            Long allowDifferenceSeconds);
 
     /**
@@ -46,7 +46,7 @@ public interface BusArriveService {
      * @param cityName
      * @param district
      * @param routeName
-     * @param startStation 出发站点名称
+     * @param startStationName 出发站点名称
      * @param directionStationName 方向站名称（该公交路线的最后一站）
      * @param prepareSeconds 准备时间，从准备出发到出发站点的时间（单位：秒）
      * @return
@@ -55,10 +55,11 @@ public interface BusArriveService {
                                     String cityName,
                                     String district,
                                     String routeName,
-                                    String startStation,
+                                    String startStationName,
                                     String directionStationName,
                                     Long prepareSeconds,
                                     LocalDateTime doCalculateTime,
-                                    LocalDateTime arriveTime);
+                                    LocalDateTime arriveTime,
+                                    String key);
 
 }

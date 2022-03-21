@@ -45,8 +45,8 @@ public class XiaoYuanBusServiceImpl implements BusService {
     private RouteService routeService;
 
     @Override
-    public List<BusDTO> getBusLocationList(String cityName, String routeName, String endStation) {
-        XiaoYuanBusRes xiaoYuanModel = getXiaoYuanBusRes(cityName, routeName, endStation);
+    public List<BusDTO> getBusLocationList(String cityName, String routeName, String endStationName) {
+        XiaoYuanBusRes xiaoYuanModel = getXiaoYuanBusRes(cityName, routeName, endStationName);
         if (xiaoYuanModel == null) return null;
         // 返回公交列表
         if(CollectionUtils.isEmpty(xiaoYuanModel.getReturlList().getBuses())){

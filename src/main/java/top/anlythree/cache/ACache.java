@@ -41,6 +41,8 @@ public class ACache {
         stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","西湖体育馆公交站","120.13072,30.267691"));
         stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","爱橙街贺翠路口公交站","120.022539,30.274492"));
         stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","永兴村公交站","120.020833,30.278499"));
+        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","何母桥公交站","120.022676,30.273249"));
+        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","梦想小镇公交站","120.004066,30.294739"));
     }
 
     public static void addCity(XiaoYuanCityDTO city) {

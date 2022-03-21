@@ -79,9 +79,10 @@ public class AMapRouteServiceImpl implements RouteService {
         }
         for (AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo transit : busRouteTimeByLocation.getRoute().getTransits()) {
             for (AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo.SegmentsInfo segment : transit.getSegments()) {
-                if (segment.getBus().getBuslines().size() == 1 &&
-                        segment.getBus().getBuslines().get(0).getName().contains(routeName)) {
-                    return transit;
+                for (AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo.SegmentsInfo.BusInfo.BusLinesInfo busline : segment.getBus().getBuslines()) {
+                    if(busline.getName().contains(routeName)){
+                        return transit;
+                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 package top.anlythree.bussiness.bus.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -69,23 +70,12 @@ public class BusController {
         String key = MD5Util.getMd5(cityName + "-" + routeName + "-" + startStationName + "-" + TimeUtil.timeToString(arriveLocalTime));
         busArriveService.calculateTimeToGo(cityName, district, routeName,
                 startStationName, routeByNameAndCityAndRideStartAndRideEnd.getEndStation(),
-                Long.parseLong(prepareMinutes) * 60, startTimeByArriveTime, arriveLocalTime,key);
+                Long.parseLong(prepareMinutes) * 60, startTimeByArriveTime, arriveLocalTime, key);
         return "获取结果时间:{"+TimeUtil.timeToString(startTimeByArriveTime)+"},key="+key;
     }
 
     @GetMapping("/getResult")
-    public String getResult(@RequestParam(required = true) String cityName,
-                            @RequestParam(required = true) String district,
-                            @RequestParam(required = true) String routeName,
-                            @RequestParam(required = true) String startStation,
-                            @RequestParam(required = true) String endStation,
-                            @RequestParam(required = true) String arriveTime) {
-        LocalDateTime arriveLocalTime = TimeUtil.onlyTimeStrToTime(arriveTime);
-        StationDTO startStationDto = stationService.getStation(cityName, district, startStation);
-        StationDTO arriveStationDto = stationService.getStation(cityName, district, endStation);
-        LocalDateTime startTimeByArriveTime = busArriveService.getStartTimeByArriveTime(cityName, routeName,
-                null, arriveLocalTime,
-                startStationDto.getLongitudeAndLatitude(), arriveStationDto.getLongitudeAndLatitude(), null);
-        return TimeUtil.timeToString(startTimeByArriveTime);
+    public String getResult(@RequestParam(required = true) String key) {
+        return StringUtils.defaultIfEmpty(ACache.getResult(key),"");
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import sun.applet.AppletIOException;
 import top.anlythree.api.BusService;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
@@ -68,6 +69,9 @@ public class BusArriveServiceImpl implements BusArriveService {
         long secondsDifferenceLong = Duration.between(expectArriveTime, arriveTime).getSeconds();
         if (Math.abs(secondsDifferenceLong) < allowDifferenceSeconds) {
             log.info("预计" + routeName + "路公交车如果在" + startTime + "出发，将会在" + expectArriveTime + "到达目的地");
+            if(LocalDateTime.now().isAfter(startTime)){
+                log.warn("当前时间晚于最佳计算时间（"+startTime+"）");
+            }
             return startTime;
         } else {
             return getStartTimeByArriveTime(cityName, routeName,

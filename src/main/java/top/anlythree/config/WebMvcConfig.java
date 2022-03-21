@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 import java.util.TimeZone;
@@ -16,12 +19,12 @@ import java.util.TimeZone;
 import static org.springframework.http.MediaType.APPLICATION_XML;
 
 /**
- * RestTempale配置
+ * RestTempale及swagger页面访问配置
  * @author anlythree
  * @time 2022/3/111:12 上午
  */
 @Configuration
-public class RestTemplateConfig {
+public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public RestTemplate restTemplate() {
@@ -39,6 +42,16 @@ public class RestTemplateConfig {
         return new RestTemplateBuilder()
                 .messageConverters(httpMessageConverter)
                 .build();
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
 }

@@ -1,11 +1,11 @@
 spring:
   application:
     name: bus-arrive
-logging:
-  level:
-    root: info
-    com.bestvike: debug
-    org.springframework.security: warn
+#logging:
+#  level:
+#    root: info
+#    com.bestvike: debug
+#    org.springframework.security: warn
   # path: ./log
   # logback.xml路径，默认为classpath:logback.xml
 xiaoyuan:

@@ -17,10 +17,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig implements WebMvcConfigurer {
+public class SwaggerConfig{
 
     @Bean
-    public Docket createRestApi() {
+    public Docket petApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
@@ -37,15 +37,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 //.contact(contact)
                 .version("1.0")
                 .build();
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
 }

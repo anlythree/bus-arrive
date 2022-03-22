@@ -51,7 +51,7 @@ public interface BusArriveService {
      * @param prepareSeconds 准备时间，从准备出发到出发站点的时间（单位：秒）
      * @return
      */
-    LocalDateTime calculateTimeToGo(
+    void calculateTimeToGo(
                                     String cityName,
                                     String district,
                                     String routeName,

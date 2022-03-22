@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.anlythree.utils.TaskUtil;
 
 import java.time.LocalDateTime;
 
@@ -17,6 +18,15 @@ public class DemoController {
     public String getDemoStr() {
         String demoStr = "demoStr:controller链接成功。当前时间：" + LocalDateTime.now();
         System.out.println(demoStr);
+        System.out.println("开始");
+        new Thread(()->{
+            TaskUtil.doSomeThingLater(()->{
+                System.out.println("延时测试");
+            },LocalDateTime.now().plusSeconds(10));
+        }).start();
+        System.out.println("结束");
         return demoStr;
     }
+
+
 }

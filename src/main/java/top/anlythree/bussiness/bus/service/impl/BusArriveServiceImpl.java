@@ -104,7 +104,7 @@ public class BusArriveServiceImpl implements BusArriveService {
     }
 
     @Override
-    public LocalDateTime calculateTimeToGo(
+    public void calculateTimeToGo(
             String cityName,
             String district,
             String routeName, String startStationName, String directionStationName,
@@ -112,21 +112,19 @@ public class BusArriveServiceImpl implements BusArriveService {
             LocalDateTime doCalculateTime,
             LocalDateTime arriveTime,
             String key) {
-        return TaskUtil.doSomeThingLater(() -> {
+        TaskUtil.doSomeThingLater(() -> {
             StationDTO startStationDto = stationService.getStation(cityName, district, startStationName);
             BusDTO bestBus = getBestBusFromStartTime(cityName, routeName, directionStationName);
             AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation = routeServiceAMapImpl.getSecondsByBusAndLocation(cityName, routeName,
                     bestBus.getLocation(), startStationDto.getLongitudeAndLatitude(),
                     TimeUtil.timeToString(doCalculateTime));
             if (null == secondsByBusAndLocation || null == secondsByBusAndLocation.getSeconds()) {
-                return null;
+                return;
             }
             // 计算当前时间向后推时间 = 车到达起始站点所需时间-准备时间
             LocalDateTime localDateTime = doCalculateTime.plusSeconds(secondsByBusAndLocation.getSeconds() - prepareSeconds);
             //城市-公交路线名-出发站点-到达时间
             ACache.addResult(key, TimeUtil.timeToString(localDateTime));
-            // 缓存需要的时间
-            return localDateTime;
         }, doCalculateTime);
     }
 }

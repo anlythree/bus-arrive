@@ -48,13 +48,13 @@ public class BusController {
     }
 
     @GetMapping("/calculateTime")
-    public String getRouteList(@RequestParam(required = true) String cityName,
-                               @RequestParam(required = true) String district,
-                               @RequestParam(required = true) String routeName,
-                               @RequestParam(required = true) String startStationName,
-                               @RequestParam(required = true) String endStationName,
-                               @RequestParam(required = true) String prepareMinutes,
-                               @RequestParam(required = true) String arriveTime) {
+    public String getRouteList(String cityName,
+                               String district,
+                               String routeName,
+                               String startStationName,
+                               String endStationName,
+                               String prepareMinutes,
+                               String arriveTime) {
         LocalDateTime arriveLocalTime = TimeUtil.onlyTimeStrToTime(arriveTime);
 
         StationDTO startStationDto = stationService.getStation(cityName, district, startStationName);

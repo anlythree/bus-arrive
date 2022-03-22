@@ -18,8 +18,10 @@ import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @author anlythree
@@ -114,10 +116,13 @@ public class AnlyTest{
 
     @Test
     public void test10() {
-        TaskUtil.doSomeThingLater(()->{
-            System.out.println("延时测试");
-            return "返回值成功";
-        },LocalDateTime.now().plusSeconds(60));
+        System.out.println("开始");
+        new Thread(()->{
+            TaskUtil.doSomeThingLater(()->{
+                System.out.println("延时测试");
+            },LocalDateTime.now().plusSeconds(60));
+        }).start();
+        System.out.println("结束");
     }
 
     @Test

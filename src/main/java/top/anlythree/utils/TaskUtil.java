@@ -17,6 +17,9 @@ public class TaskUtil {
 
     private static final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(15);
 
+    /**
+     * 用于创建延时任务的线程池
+     */
     private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
 

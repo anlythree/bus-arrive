@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -81,12 +82,33 @@ public class AMapBusRouteRes extends AMapResult{
                 /**
                  * 此路段步行导航信息
                  */
-                private Object walking;
+                private Walking walking;
 
                 /**
                  * 此路段公交导航信息
                  */
                 private BusInfo bus;
+
+                @Data
+                @NoArgsConstructor
+                @AllArgsConstructor
+                public static class Walking{
+                    private String origin;
+
+                    private String destination;
+
+                    /**
+                     * 距离
+                     */
+                    private String distance;
+
+                    /**
+                     * 用时
+                     */
+                    private String duration;
+
+                    private Object steps;
+                }
 
                 @Data
                 @NoArgsConstructor
@@ -135,7 +157,7 @@ public class AMapBusRouteRes extends AMapResult{
             }
 
             /**
-             * 获取起始站和结束站
+             * 获取路线起始站和结束站的名称
              * @return
              */
             public String[] getStartStationAndEndStation(){
@@ -145,6 +167,18 @@ public class AMapBusRouteRes extends AMapResult{
                         if(StringUtils.isNotEmpty(busName = busline.getName())){
                             return busName.substring(busName.indexOf("(")+1, busName.lastIndexOf(")")).split("--");
                         }
+                    }
+                }
+                return null;
+            }
+
+            /**
+             * 获取该路线起点公交站的坐标（步行的终点）
+             */
+            public String getStartBusStationLal(){
+                for (SegmentsInfo segment : this.getSegments()) {
+                    if(null != segment.getBus().getBuslines() && segment.getBus().getBuslines().size() == 1){
+                        return segment.getWalking().getDestination();
                     }
                 }
                 return null;

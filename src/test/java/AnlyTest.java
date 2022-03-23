@@ -12,6 +12,7 @@ import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.api.amapimpl.res.AMapStationListRes;
 import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
+import top.anlythree.bussiness.bus.controller.BusController;
 import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.StationDTO;
@@ -48,6 +49,9 @@ public class AnlyTest{
 
     @Autowired
     private BusArriveService busArriveService;
+
+    @Autowired
+    private BusController busController;
 
     @Test
     public void test1(){
@@ -137,5 +141,23 @@ public class AnlyTest{
     public void test12(){
         AMapWalkRouteTimeRes.Route.Path walkSecondsByLocationName = aMapRouteService.getWalkSecondsByLocationName("杭州", "爱橙街", "阿里巴巴A5门", null);
         System.out.println(walkSecondsByLocationName);
+    }
+
+    @Test
+    public void test13(){
+        LocalDateTime now = LocalDateTime.now();
+        String[] dateAndTimeByTime = TimeUtil.getDateAndTimeByTime(now);
+        System.out.println(dateAndTimeByTime[0]+dateAndTimeByTime[1]);
+    }
+
+    @Test
+    public void test14(){
+        busController.calculateTime("杭州",
+                "353",
+                "阿里巴巴访客中心",
+                "五常大道风铃路追梦家公寓",
+                "5",
+                "20:40"
+                );
     }
 }

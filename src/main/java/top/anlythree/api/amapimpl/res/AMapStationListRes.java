@@ -40,7 +40,7 @@ public class AMapStationListRes extends AMapResult {
                 return geocode;
             }
         }
-        return null;
+        return geocodes.get(0);
     }
 
     @Data

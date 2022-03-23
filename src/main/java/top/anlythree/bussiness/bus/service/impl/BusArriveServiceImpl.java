@@ -110,11 +110,12 @@ public class BusArriveServiceImpl implements BusArriveService {
                                                            String prepareMinutes,
                                                            LocalDateTime arriveLocalTime) {
         // 获取高德路线信息
-        routeServiceAMapImpl.getBusRouteByLocation(cityName,
+        AMapBusRouteRes busRouteByLocation = routeServiceAMapImpl.getBusRouteByLocation(cityName,
                 startLocation.getLongitudeAndLatitude(),
                 endLocation.getLongitudeAndLatitude(),
-                null
-                );
+                arriveLocalTime
+        );
+        System.out.println(busRouteByLocation);
         return null;
     }
 

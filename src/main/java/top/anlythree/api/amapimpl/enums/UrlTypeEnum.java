@@ -15,14 +15,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public enum UrlTypeEnum {
 
+    // 经纬度查询
+    LOCATION("https://restapi.amap.com/v3/geocode/geo", ServiceEnum.AMAP),
     // 公交路径规划
-    BUS_ROUTE("https://restapi.amap.com/v3/geocode/geo", ServiceEnum.AMAP),
+    BUS_ROUTE("https://restapi.amap.com/v3/direction/transit/integrated", ServiceEnum.AMAP),
     // 步行路径规划
     WALK_ROUTE("https://restapi.amap.com/v3/direction/walking", ServiceEnum.AMAP),
     // 乘车路径规划
     CAR_ROUTE("https://restapi.amap.com/v3/direction/walking", ServiceEnum.AMAP),
-    // 经纬度查询
-    LOCATION("https://restapi.amap.com/v3/geocode/geo", ServiceEnum.AMAP),
 
     // 公交实时位置
     BUS_LOCATION("http://api.dwmm136.cn/z_busapi/BusApi.php", ServiceEnum.XIAO_YUAN),

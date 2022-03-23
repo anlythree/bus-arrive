@@ -20,6 +20,7 @@ import top.anlythree.utils.ResultUtil;
 import top.anlythree.utils.UrlUtil;
 import top.anlythree.utils.exceptions.AException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -123,22 +124,22 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapBusRouteRes getBusRouteByLocation(String cityName, String startLocationLal, String endLocationLal, String time) {
+    public AMapBusRouteRes getBusRouteByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime time) {
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 
     @Override
-    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String startLocation, String endLocation, String busName, String dateTime) {
+    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String startLocation, String endLocation, String busName, LocalDateTime dateTime) {
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 
     @Override
-    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocationName(String cityName, String startLocation, String endLocation, String dateTime) {
+    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocationName(String cityName, String startLocation, String endLocation, LocalDateTime dateTime) {
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 
     @Override
-    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocation, String endLocation, String dateTime) {
+    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocation, String endLocation, LocalDateTime dateTime) {
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 }

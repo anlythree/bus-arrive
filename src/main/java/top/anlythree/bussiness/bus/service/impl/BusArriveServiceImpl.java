@@ -12,6 +12,7 @@ import top.anlythree.api.StationService;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusDTO;
+import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.bussiness.dto.StationDTO;
 import top.anlythree.cache.ACache;
 import top.anlythree.utils.TaskUtil;
@@ -61,7 +62,7 @@ public class BusArriveServiceImpl implements BusArriveService {
         }
         // 路径规划
         AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation =
-                routeServiceAMapImpl.getBusSecondsByLocation(cityName, routeName, startLocationLal, endLocationLal, TimeUtil.timeToString(startTime));
+                routeServiceAMapImpl.getBusSecondsByLocation(cityName, routeName, startLocationLal, endLocationLal, startTime);
         //预计到达时间
         LocalDateTime expectArriveTime = startTime.plusSeconds(secondsByBusAndLocation.getSeconds());
         long secondsDifferenceLong = Duration.between(expectArriveTime, arriveTime).getSeconds();
@@ -102,6 +103,22 @@ public class BusArriveServiceImpl implements BusArriveService {
     }
 
     @Override
+    public LocalDateTime getCalculateTimeAndCalculateDelay(String cityName,
+                                                           String routeName,
+                                                           LocationDTO startLocation,
+                                                           LocationDTO endLocation,
+                                                           String prepareMinutes,
+                                                           LocalDateTime arriveLocalTime) {
+        // 获取高德路线信息
+        routeServiceAMapImpl.getBusRouteByLocation(cityName,
+                startLocation.getLongitudeAndLatitude(),
+                endLocation.getLongitudeAndLatitude(),
+                null
+                );
+        return null;
+    }
+
+    @Override
     public void calculateTimeToGo(
             String cityName,
             String district,
@@ -115,7 +132,7 @@ public class BusArriveServiceImpl implements BusArriveService {
             BusDTO bestBus = getBestBusFromStartTime(cityName, routeName, directionStationName);
             AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation = routeServiceAMapImpl.getBusSecondsByLocation(cityName, routeName,
                     bestBus.getLocation(), startStationDto.getLongitudeAndLatitude(),
-                    TimeUtil.timeToString(doCalculateTime));
+                    doCalculateTime);
             if (null == secondsByBusAndLocation || null == secondsByBusAndLocation.getSeconds()) {
                 return;
             }

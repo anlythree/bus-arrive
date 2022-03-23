@@ -81,7 +81,7 @@ public class AnlyTest{
 
     @Test
     public void test6(){
-        String[] dateAndTimeByDateTimeStr = TimeUtil.getDateAndTimeByDateTimeStr("2022-03-17 11:19:01");
+        String[] dateAndTimeByDateTimeStr = TimeUtil.getDateAndTimeByTime(LocalDateTime.now());
         System.out.println(dateAndTimeByDateTimeStr[0]);
         System.out.println(dateAndTimeByDateTimeStr[1]);
     }

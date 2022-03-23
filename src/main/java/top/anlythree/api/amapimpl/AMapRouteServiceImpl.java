@@ -18,6 +18,7 @@ import top.anlythree.utils.TimeUtil;
 import top.anlythree.utils.UrlUtil;
 import top.anlythree.utils.exceptions.AException;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -62,11 +63,11 @@ public class AMapRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapBusRouteRes getBusRouteByLocation(String cityName, String startLocationLal, String endLocationLal, String dateTime) {
+    public AMapBusRouteRes getBusRouteByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
         String time = null;
         String date = null;
         if (null != dateTime) {
-            String[] dateAndTimeByDateTimeStr = TimeUtil.getDateAndTimeByDateTimeStr(dateTime);
+            String[] dateAndTimeByDateTimeStr = TimeUtil.getDateAndTimeByTime(dateTime);
             date = dateAndTimeByDateTimeStr[0];
             time = dateAndTimeByDateTimeStr[1];
         }
@@ -81,7 +82,7 @@ public class AMapRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String routeName, String startLocation, String endLocation, String dateTime) {
+    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String routeName, String startLocation, String endLocation, LocalDateTime dateTime) {
         AMapBusRouteRes busRouteTimeByLocation = getBusRouteByLocation(cityName, startLocation, endLocation, dateTime);
         if (null == busRouteTimeByLocation ||
                 null == busRouteTimeByLocation.getRoute() ||
@@ -101,11 +102,11 @@ public class AMapRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocation, String endLocation, String dateTime) {
+    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocation, String endLocation, LocalDateTime dateTime) {
         String date = null;
         String time = null;
         if (null != dateTime) {
-            String[] dateAndTimeByDateTimeStr = TimeUtil.getDateAndTimeByDateTimeStr(dateTime);
+            String[] dateAndTimeByDateTimeStr = TimeUtil.getDateAndTimeByTime(dateTime);
             date = dateAndTimeByDateTimeStr[0];
             time = dateAndTimeByDateTimeStr[1];
         }
@@ -124,7 +125,7 @@ public class AMapRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocationName(String cityName, String startLocationName, String endLocationName, String dateTime) {
+    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocationName(String cityName, String startLocationName, String endLocationName, LocalDateTime dateTime) {
         LocationDTO startLocationByName = stationService.getLocationByName(cityName, startLocationName);
         LocationDTO endLocationByName = stationService.getLocationByName(cityName, endLocationName);
         return this.getWalkSecondsByLocation(cityName,startLocationByName.getLongitudeAndLatitude(),endLocationByName.getLongitudeAndLatitude(),dateTime);

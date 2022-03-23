@@ -93,13 +93,9 @@ public class TimeUtil {
      * @param dateTime
      * @return
      */
-    public static String[] getDateAndTimeByDateTimeStr(String dateTime){
-        try {
-            stringToTime(dateTime);
-        }catch (Exception e){
-            throw new AException(dateTime+"时间格式错误,正确格式：yyyy-MM-dd HH:mm:ss");
-        }
-        String[] s = dateTime.split(" ");
+    public static String[] getDateAndTimeByTime(LocalDateTime dateTime){
+        String time = timeToString(dateTime);
+        String[] s = time.split(" ");
         s[1] = s[1].substring(0,s[1].lastIndexOf(":"));
         return s;
     }

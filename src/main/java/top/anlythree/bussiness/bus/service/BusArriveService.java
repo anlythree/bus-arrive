@@ -38,6 +38,24 @@ public interface BusArriveService {
      */
     BusDTO getBestBusFromStartTime(String cityName, String routeName, String directionStationName);
 
+   /**
+    *
+    * 计算什么时候可以获取计算结果 && 延时在取结果之前计算何时出发
+    * @param cityName
+    * @param routeName
+    * @param startLocation
+    * @param endLocation
+    * @param prepareMinutes
+    * @param arriveLocalTime
+    * @return
+    */
+   LocalDateTime getCalculateTimeAndCalculateDelay(String cityName,
+                                                   String routeName,
+                                                   LocationDTO startLocation,
+                                                   LocationDTO endLocation,
+                                                   String prepareMinutes,
+                                                   LocalDateTime arriveLocalTime);
+
 
     /**
      * 计算需要什么时候出发
@@ -63,5 +81,4 @@ public interface BusArriveService {
                                     LocalDateTime arriveTime,
                                     String key);
 
- LocalDateTime getCalculateTimeAndCalculateDelay(String cityName, String routeName, LocationDTO startLocationByName, LocationDTO endLocationByName, String prepareMinutes, LocalDateTime arriveLocalTime);
 }

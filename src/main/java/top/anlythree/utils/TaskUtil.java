@@ -1,6 +1,11 @@
 package top.anlythree.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Component;
 import top.anlythree.utils.exceptions.AException;
 
 import java.time.Duration;
@@ -9,19 +14,20 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
+@Component
 public class TaskUtil {
 
-    private static final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(15);
+    private static ThreadPoolTaskExecutor threadPool;
 
-    /**
-     * 用于创建延时任务的线程池
-     */
-    private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
-
+    @Autowired
+    public void setThreadPool(ThreadPoolTaskExecutor threadPool) {
+        TaskUtil.threadPool = threadPool;
+    }
 
     /**
      * 延时执行任务
@@ -29,17 +35,15 @@ public class TaskUtil {
      * @param runnable
      */
     public static void doSomeThingLater(Runnable runnable, LocalDateTime doTime) {
-        executorService.execute(() -> {
+        threadPool.execute(()->{
             try {
-                scheduledExecutorService.schedule(runnable,
-                        Duration.between(LocalDateTime.now(), doTime).getSeconds(), TimeUnit.SECONDS).get();
+                Thread.sleep(Duration.between(LocalDateTime.now(), doTime).getSeconds()*1000);
             } catch (InterruptedException e) {
-                throw new AException("执行定时任务失败,错误类型：InterruptedException：" + e.getMessage());
-            } catch (ExecutionException e) {
-                throw new AException("执行定时任务失败,错误类型：ExecutionException：" + e.getMessage());
+                e.printStackTrace();
             }
-            log.info("task success.");
+            runnable.run();
         });
+        log.info("task success.");
     }
 
 

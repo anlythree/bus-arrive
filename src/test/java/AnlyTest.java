@@ -119,7 +119,7 @@ public class AnlyTest{
         System.out.println("开始");
         new Thread(()->{
             TaskUtil.doSomeThingLater(()->{
-                System.out.println("延时测试");
+                System.out.println("延时测试"+LocalDateTime.now());
             },LocalDateTime.now().plusSeconds(60));
         }).start();
         System.out.println("结束");

@@ -19,11 +19,9 @@ public class DemoController {
         String demoStr = "demoStr:controller链接成功。当前时间：" + LocalDateTime.now();
         System.out.println(demoStr);
         System.out.println("开始");
-        new Thread(()->{
-            TaskUtil.doSomeThingLater(()->{
-                System.out.println("延时测试");
-            },LocalDateTime.now().plusSeconds(10));
-        }).start();
+        TaskUtil.doSomeThingLater(() -> {
+            System.out.println("延时测试"+LocalDateTime.now());
+        }, LocalDateTime.now().plusSeconds(10));
         System.out.println("结束");
         return demoStr;
     }

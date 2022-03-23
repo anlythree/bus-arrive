@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AMapBusRouteTimeRes extends AMapResult{
+public class AMapBusRouteRes extends AMapResult{
 
     /**
      * 返回的规划方案列表

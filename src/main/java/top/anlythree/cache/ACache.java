@@ -2,10 +2,12 @@ package top.anlythree.cache;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
+import top.anlythree.bussiness.dto.BusArriveResultDto;
 import top.anlythree.bussiness.dto.StationDTO;
 
 import java.util.*;
@@ -26,23 +28,23 @@ public class ACache {
 
     private static List<XiaoYuanRouteDTO> routeCacheList = new ArrayList<>();
 
-    private static List<StationDTO> stationCacheList = new ArrayList<>(8);
+    private static List<StationDTO> locationCacheList = new ArrayList<>(8);
 
     /**
-     * key: 城市-公交路线名-出发站点-查询时间
+     * key: 出发地点-目的地-到达时间 value: 出发时间
      */
-    private static Map<String,String> keyToResultMap = new HashMap<>();
+    private static Map<String, BusArriveResultDto> keyToResultMap = new HashMap<>();
 
     static {
         // 添加阿里巴巴A5门坐标位置
-        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴A5门","120.026525,30.281248"));
-        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴西溪园区(蔡家阁)公交站","120.024556,30.280789"));
-        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","五常大道联胜路口公交站","120.031884,30.243976"));
-        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","西湖体育馆公交站","120.13072,30.267691"));
-        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","爱橙街贺翠路口公交站","120.022539,30.274492"));
-        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","永兴村公交站","120.020833,30.278499"));
-        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","何母桥公交站","120.022676,30.273249"));
-        stationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","梦想小镇公交站","120.004066,30.294739"));
+        locationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴A5门","120.026525,30.281248"));
+        locationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴西溪园区(蔡家阁)公交站","120.024556,30.280789"));
+        locationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","五常大道联胜路口公交站","120.031884,30.243976"));
+        locationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","西湖体育馆公交站","120.13072,30.267691"));
+        locationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","爱橙街贺翠路口公交站","120.022539,30.274492"));
+        locationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","永兴村公交站","120.020833,30.278499"));
+        locationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","何母桥公交站","120.022676,30.273249"));
+        locationCacheList.add(new StationDTO("中国","浙江省","杭州市","余杭区","梦想小镇公交站","120.004066,30.294739"));
     }
 
     public static void addCity(XiaoYuanCityDTO city) {
@@ -76,18 +78,27 @@ public class ACache {
         routeCacheList.add(route);
     }
 
-    public static void addStation(StationDTO stationDTO){
-        for (StationDTO stationDtoItem : stationCacheList) {
+    public static void addLocation(StationDTO stationDTO){
+        for (StationDTO stationDtoItem : locationCacheList) {
             if(stationDtoItem.eqauls(stationDTO)){
                 // 更新站点信息
                 BeanUtils.copyProperties(stationDTO,stationDtoItem);
                 return;
             }
         }
-        stationCacheList.add(stationDTO);
+        locationCacheList.add(stationDTO);
+    }
+    public static StationDTO getLocationByKeyWord(String keyWord){
+        for (StationDTO stationDTO : getLocationCacheList()) {
+            if(StringUtils.isNotEmpty(stationDTO.getStationFullName()) &&
+                    stationDTO.getStationFullName().contains(keyWord)){
+                return stationDTO;
+            }
+        }
+        return null;
     }
 
-    public static void addResult(String key,String result){
+    public static void addResult(String key, BusArriveResultDto result){
         log.info("缓存计算结果:{key:"+key+",result:"+result+"}");
         keyToResultMap.put(key,result);
     }
@@ -97,7 +108,7 @@ public class ACache {
      * @param key
      * @return
      */
-    public static String getResult(String key){
+    public static BusArriveResultDto getResult(String key){
         return keyToResultMap.get(key);
     }
 
@@ -121,11 +132,11 @@ public class ACache {
         return xiaoyuanUrl;
     }
 
-    public static List<StationDTO> getStationCacheList() {
-        return stationCacheList;
+    public static List<StationDTO> getLocationCacheList() {
+        return locationCacheList;
     }
 
-    public static void setStationCacheList(List<StationDTO> stationCacheList) {
-        ACache.stationCacheList = stationCacheList;
+    public static void setLocationCacheList(List<StationDTO> locationCacheList) {
+        ACache.locationCacheList = locationCacheList;
     }
 }

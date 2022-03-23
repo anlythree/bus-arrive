@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
 import top.anlythree.bussiness.bus.service.BusArriveService;
+import top.anlythree.bussiness.dto.BusArriveResultDto;
+import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.bussiness.dto.StationDTO;
 import top.anlythree.cache.ACache;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
@@ -22,7 +24,7 @@ import java.util.List;
 public class BusController {
 
     @Autowired
-    @Qualifier(value = "xiaoYuanRouteServiceImpl")
+    @Qualifier(value = "AMapRouteServiceImpl")
     private RouteService routeService;
 
     @Autowired
@@ -48,34 +50,30 @@ public class BusController {
     }
 
     @GetMapping("/calculateTime")
-    public String getRouteList(String cityName,
-                               String district,
+    public String calculateTime(String cityName,
                                String routeName,
                                String startStationName,
                                String endStationName,
                                String prepareMinutes,
                                String arriveTime) {
         LocalDateTime arriveLocalTime = TimeUtil.onlyTimeStrToTime(arriveTime);
-
-        StationDTO startStationDto = stationService.getStation(cityName, district, startStationName);
-        StationDTO endStationDto = stationService.getStation(cityName, district, endStationName);
-        XiaoYuanRouteDTO routeByNameAndCityAndRideStartAndRideEnd = routeService.getRouteByNameAndCityAndRideStartAndRideEnd(cityName, routeName, startStationDto.getLongitudeAndLatitude(), endStationDto.getLongitudeAndLatitude());
-        // 公交起始站
-        StationDTO routeFirstStationDto = stationService.getStation(cityName, district, routeByNameAndCityAndRideStartAndRideEnd.getStartStation());
-        LocalDateTime startTimeByArriveTime = busArriveService.getStartTimeByArriveTime(cityName, routeName,
-                null, arriveLocalTime,
-                routeFirstStationDto.getLongitudeAndLatitude(), endStationDto.getLongitudeAndLatitude(),
-                null);
+        LocationDTO startLocationByName = stationService.getLocationByName(cityName, startStationName);
+        LocationDTO endLocationByName = stationService.getLocationByName(cityName, endStationName);
+        // 计算什么时候可以获取计算结果 && 延时在取结果之前计算何时出发
+        LocalDateTime startTimeByArriveTime = busArriveService.getCalculateTimeAndCalculateDelay(
+                cityName,
+                routeName,
+                startLocationByName,
+                endLocationByName,
+                prepareMinutes,
+                arriveLocalTime
+                );
         // 生成查询结果key
-        String key = MD5Util.getMd5(cityName + "-" + routeName + "-" + startStationName + "-" + TimeUtil.timeToString(arriveLocalTime));
-        busArriveService.calculateTimeToGo(cityName, district, routeName,
-                startStationName, routeByNameAndCityAndRideStartAndRideEnd.getEndStation(),
-                Long.parseLong(prepareMinutes) * 60, startTimeByArriveTime, arriveLocalTime, key);
-        return "获取结果时间:{"+TimeUtil.timeToString(startTimeByArriveTime)+"},key="+key;
+        return TimeUtil.timeToString(startTimeByArriveTime);
     }
 
     @GetMapping("/getResult")
-    public String getResult(@RequestParam(required = true) String key) {
-        return StringUtils.defaultIfEmpty(ACache.getResult(key),"");
+    public BusArriveResultDto getResult(@RequestParam(required = true) String key) {
+        return ACache.getResult(key);
     }
 }

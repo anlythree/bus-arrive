@@ -1,6 +1,7 @@
 package top.anlythree.api;
 
-import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
+import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
+import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 
 import java.util.List;
@@ -63,11 +64,11 @@ public interface RouteService {
     /**
      * 高德公交路线规划
      *
-     * @param startLocation
-     * @param endLocation
+     * @param startLocationLal
+     * @param endLocationLal
      * @return
      */
-    AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName, String startLocation, String endLocation, String time);
+    AMapBusRouteRes getBusRouteByLocation(String cityName, String startLocationLal, String endLocationLal, String time);
 
     /**
      * 根据城市名称，开始结束坐标点和公交车号和出发时间（默认当前）查询当前所需要的时间
@@ -78,8 +79,27 @@ public interface RouteService {
      * @param dateTime 出发时间
      * @return
      */
-    AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo getSecondsByBusAndLocation(String cityName, String routeName, String startLocation, String endLocation, String dateTime);
+    AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String routeName, String startLocation, String endLocation, String dateTime);
 
+    /**
+     * 根据开始结束坐标点查询步行所需要的时间
+     *
+     * @param startLocationName
+     * @param endLocationName
+     * @param dateTime 出发时间
+     * @return
+     */
+    AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocationName, String endLocationName, String dateTime);
+
+    /**
+     * 根据开始结束坐标点查询步行所需要的时间
+     *
+     * @param startLocation
+     * @param endLocation
+     * @param dateTime 出发时间
+     * @return
+     */
+    AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocationName(String cityName, String startLocation, String endLocation, String dateTime);
 
 
 }

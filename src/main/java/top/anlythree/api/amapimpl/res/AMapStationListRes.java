@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 import top.anlythree.api.amapimpl.res.AMapResult;
 import top.anlythree.bussiness.dto.StationDTO;
 
@@ -31,14 +32,15 @@ public class AMapStationListRes extends AMapResult {
     }
 
     public AMapStationRes getOneLocationRes(String keyWord){
+        if(CollectionUtils.isEmpty(this.getGeocodes())){
+            return null;
+        }
         for (AMapStationRes geocode : this.getGeocodes()) {
-            if(StringUtils.isNotEmpty(geocode.getFormattedAddress()) &&
-                    StringUtils.isNotEmpty(keyWord) &&
-                    geocode.getFormattedAddress().contains(keyWord)){
+            if(geocode.getFormattedAddress().contains(keyWord)){
                 return geocode;
             }
         }
-        return geocodes.get(0);
+        return null;
     }
 
     @Data

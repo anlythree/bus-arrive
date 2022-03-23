@@ -8,8 +8,9 @@ import top.anlythree.SpringApplicationMain;
 import top.anlythree.api.BusService;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
-import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
+import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.api.amapimpl.res.AMapStationListRes;
+import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusDTO;
@@ -18,10 +19,7 @@ import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @author anlythree
@@ -71,13 +69,13 @@ public class AnlyTest{
 
     @Test
     public void test4(){
-        AMapStationListRes aMapStationListRes = stationService.getLocationByName("杭州", "杭州市阿里巴巴A5门");
+        AMapStationListRes aMapStationListRes = stationService.getLocationByNameFromAMap("杭州", "杭州市阿里巴巴A5门");
         System.out.println(aMapStationListRes.getOneLocationRes("杭州市阿里巴巴A5门").getLocation());
     }
 
     @Test
     public void test5(){
-        AMapBusRouteTimeRes busRouteTimeByLocation = aMapRouteService.getBusRouteTimeByLocation("杭州","120.034084,30.242901", "120.026686,30.280905",null);
+        AMapBusRouteRes busRouteTimeByLocation = aMapRouteService.getBusRouteByLocation("杭州","120.034084,30.242901", "120.026686,30.280905",null);
         System.out.println(busRouteTimeByLocation);
     }
 
@@ -90,7 +88,7 @@ public class AnlyTest{
 
     @Test
     public void test7(){
-        AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo transitsInfo = aMapRouteService.getSecondsByBusAndLocation("杭州",
+        AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo transitsInfo = aMapRouteService.getBusSecondsByLocation("杭州",
                 "353", "120.026686,30.280905",
                 "120.034084,30.242901", null);
         System.out.println(transitsInfo.getSeconds()/60);
@@ -133,5 +131,11 @@ public class AnlyTest{
                 null, TimeUtil.stringToTime("2022-03-18 10:00:00"),
                 startStation.getLongitudeAndLatitude(), arriveStation.getLongitudeAndLatitude(),null);
         System.out.println(TimeUtil.timeToString(startTimeByArriveTime));
+    }
+
+    @Test
+    public void test12(){
+        AMapWalkRouteTimeRes.Route.Path walkSecondsByLocationName = aMapRouteService.getWalkSecondsByLocationName("杭州", "爱橙街", "阿里巴巴A5门", null);
+        System.out.println(walkSecondsByLocationName);
     }
 }

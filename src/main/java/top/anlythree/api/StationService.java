@@ -1,6 +1,7 @@
 package top.anlythree.api;
 
 import top.anlythree.api.amapimpl.res.AMapStationListRes;
+import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.bussiness.dto.StationDTO;
 
 /**
@@ -20,6 +21,14 @@ public interface StationService {
      */
     StationDTO getStation(String cityName, String district, String stationName);
 
+    /**
+     * 根据名称查找坐标
+     * @param cityName
+     * @param keyWord
+     * @return
+     */
+    LocationDTO getLocationByName(String cityName, String keyWord);
+
 
     /**
      * 根据名称查找坐标
@@ -27,6 +36,6 @@ public interface StationService {
      * @param keyWord
      * @return
      */
-    AMapStationListRes getLocationByName(String cityName,String keyWord);
+    AMapStationListRes getLocationByNameFromAMap(String cityName, String keyWord);
 
 }

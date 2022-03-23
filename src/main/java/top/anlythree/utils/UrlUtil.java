@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import top.anlythree.api.amapimpl.enums.UrlTypeEnum;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -24,28 +25,7 @@ public class UrlUtil {
 
     private static StringBuffer urlStrBu = new StringBuffer();
 
-    private static String xiaoyuanUrl = null;
-
-    private static String amapGetStationUrl = null;
-
-    private static String amapGetBusRouteTime = null;
-
     private static String sig = null;
-
-    @Value("${xiaoyuan.url}")
-    public void setXiaoyuanUrl(String xiaoyuanUrl) {
-        UrlUtil.xiaoyuanUrl = xiaoyuanUrl;
-    }
-
-    @Value("${amap.stationUrl}")
-    public void setAmapGetStationUrl(String amapUrl) {
-        UrlUtil.amapGetStationUrl = amapUrl;
-    }
-
-    @Value("${amap.busRouteTimeUrl}")
-    public void setAmapGetBusRouteTime(String amapUrl) {
-        UrlUtil.amapGetBusRouteTime = amapUrl;
-    }
 
     @Value("${amap.sign}")
     public void setSig(String sig) {
@@ -58,7 +38,7 @@ public class UrlUtil {
         if (params == null || params.length == 0) {
             return StringUtils.EMPTY;
         }
-        urlStrBu.append(xiaoyuanUrl).append(wenhao);
+        urlStrBu.append(UrlTypeEnum.BUS_LOCATION).append(wenhao);
         for (int i = 0; i < params.length; i++) {
             urlStrBu.append(params[i].getKey()).append(dengyu).append(params[i].getValue()).append("&");
         }
@@ -66,18 +46,14 @@ public class UrlUtil {
     }
 
     /**
-     * todo-anlythree 抽取枚举类
+     *
      * @param type
      * @param params
      * @return
      */
-    public static String createAmapUrl(String type, UrlParam... params) {
+    public static String createAmapUrl(UrlTypeEnum type, UrlParam... params) {
         urlStrBu = new StringBuffer();
-        if(StringUtils.equals("getStation",type)){
-            urlStrBu.append(amapGetStationUrl);
-        }else if(StringUtils.equals("getBusRouteTime",type)){
-            urlStrBu.append(amapGetBusRouteTime);
-        }
+        urlStrBu.append(type.getUrl());
         if (params == null || params.length == 0) {
             return urlStrBu.toString();
         }

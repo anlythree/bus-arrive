@@ -6,18 +6,16 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import sun.applet.AppletIOException;
 import top.anlythree.api.BusService;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
-import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
+import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.StationDTO;
 import top.anlythree.cache.ACache;
 import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
-import top.anlythree.utils.exceptions.AException;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -62,8 +60,8 @@ public class BusArriveServiceImpl implements BusArriveService {
             startTime = arriveTime.minusHours(1);
         }
         // 路径规划
-        AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation =
-                routeServiceAMapImpl.getSecondsByBusAndLocation(cityName, routeName, startLocationLal, endLocationLal, TimeUtil.timeToString(startTime));
+        AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation =
+                routeServiceAMapImpl.getBusSecondsByLocation(cityName, routeName, startLocationLal, endLocationLal, TimeUtil.timeToString(startTime));
         //预计到达时间
         LocalDateTime expectArriveTime = startTime.plusSeconds(secondsByBusAndLocation.getSeconds());
         long secondsDifferenceLong = Duration.between(expectArriveTime, arriveTime).getSeconds();
@@ -115,7 +113,7 @@ public class BusArriveServiceImpl implements BusArriveService {
         TaskUtil.doSomeThingLater(() -> {
             StationDTO startStationDto = stationService.getStation(cityName, district, startStationName);
             BusDTO bestBus = getBestBusFromStartTime(cityName, routeName, directionStationName);
-            AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation = routeServiceAMapImpl.getSecondsByBusAndLocation(cityName, routeName,
+            AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation = routeServiceAMapImpl.getBusSecondsByLocation(cityName, routeName,
                     bestBus.getLocation(), startStationDto.getLongitudeAndLatitude(),
                     TimeUtil.timeToString(doCalculateTime));
             if (null == secondsByBusAndLocation || null == secondsByBusAndLocation.getSeconds()) {
@@ -123,8 +121,8 @@ public class BusArriveServiceImpl implements BusArriveService {
             }
             // 计算当前时间向后推时间 = 车到达起始站点所需时间-准备时间
             LocalDateTime localDateTime = doCalculateTime.plusSeconds(secondsByBusAndLocation.getSeconds() - prepareSeconds);
-            //城市-公交路线名-出发站点-到达时间
-            ACache.addResult(key, TimeUtil.timeToString(localDateTime));
+            //城市-公交路线名-出发站点-到达时间 todo-anlythree
+//            ACache.addResult(key, TimeUtil.timeToString(localDateTime));
         }, doCalculateTime);
     }
 }

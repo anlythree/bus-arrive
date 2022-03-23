@@ -1,6 +1,5 @@
 package top.anlythree.api;
 
-import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanBusRes;
 import top.anlythree.bussiness.dto.BusDTO;
 

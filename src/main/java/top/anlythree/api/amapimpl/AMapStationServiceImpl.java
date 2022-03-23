@@ -1,9 +1,11 @@
 package top.anlythree.api.amapimpl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import top.anlythree.api.StationService;
+import top.anlythree.api.amapimpl.enums.UrlTypeEnum;
+import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.bussiness.dto.StationDTO;
 import top.anlythree.api.amapimpl.res.AMapStationListRes;
 import top.anlythree.cache.ACache;
@@ -20,28 +22,35 @@ public class AMapStationServiceImpl implements StationService {
 
     @Override
     public StationDTO getStation(String cityName, String district, String stationName) {
-        for (StationDTO stationDTO : ACache.getStationCacheList()) {
-            if(StringUtils.isNotEmpty(stationDTO.getStationFullName()) &&
-                    stationDTO.getStationFullName().contains(stationName) &&
-                    stationDTO.getStationFullName().contains(district) &&
-                    stationDTO.getStationFullName().contains(cityName)){
-                return stationDTO;
-            }
+        StationDTO locationByKeyWord = ACache.getLocationByKeyWord(cityName + "市" + district + "区" + stationName + "公交站");
+        if(null != locationByKeyWord){
+            return locationByKeyWord;
         }
-        AMapStationListRes locationByName = getLocationByName(cityName, district + "区" + stationName + "公交站");
+        AMapStationListRes locationByName = getLocationByNameFromAMap(cityName, district + "区" + stationName + "公交站");
         AMapStationListRes.AMapStationRes oneStationRes = locationByName.getOneStationRes(stationName);
         if (null == oneStationRes) {
             throw new AException("获取不到" + stationName + "站的具体坐标，请尝试自定义关键字来获取站点名称");
         }
         // 添加缓存
-        ACache.addStation(oneStationRes.castStationDto(stationName));
+        ACache.addLocation(oneStationRes.castStationDto(stationName));
         return oneStationRes.castStationDto(stationName);
     }
 
     @Override
-    public AMapStationListRes getLocationByName(String cityName, String keyWord) {
+    public LocationDTO getLocationByName(String cityName, String keyWord) {
+        StationDTO locationByKeyWord = ACache.getLocationByKeyWord(keyWord);
+        if(null != locationByKeyWord){
+            return new LocationDTO(locationByKeyWord);
+        }
+        AMapStationListRes.AMapStationRes oneLocationRes = getLocationByNameFromAMap(cityName, keyWord).getOneLocationRes(keyWord);
+        Assert.notNull(oneLocationRes,"未找到该位置,keyWord:"+keyWord);
+        return new LocationDTO(oneLocationRes.castStationDto(keyWord));
+    }
+
+    @Override
+    public AMapStationListRes getLocationByNameFromAMap(String cityName, String keyWord) {
         String amapUrl = UrlUtil.createAmapUrl(
-                "getStation",
+                UrlTypeEnum.LOCATION,
                 new UrlUtil.UrlParam("key", key),
                 new UrlUtil.UrlParam("city", cityName),
                 new UrlUtil.UrlParam("batch", "2"),

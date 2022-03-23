@@ -2,6 +2,7 @@ package top.anlythree.bussiness.bus.service;
 
 import org.springframework.stereotype.Service;
 import top.anlythree.bussiness.dto.BusDTO;
+import top.anlythree.bussiness.dto.LocationDTO;
 
 import java.time.LocalDateTime;
 
@@ -62,4 +63,5 @@ public interface BusArriveService {
                                     LocalDateTime arriveTime,
                                     String key);
 
+ LocalDateTime getCalculateTimeAndCalculateDelay(String cityName, String routeName, LocationDTO startLocationByName, LocationDTO endLocationByName, String prepareMinutes, LocalDateTime arriveLocalTime);
 }

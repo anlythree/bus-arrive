@@ -25,10 +25,13 @@ public class TaskUtil {
      */
     public static void doSomeThingLater(Runnable runnable, LocalDateTime doTime) {
         threadPool.execute(()->{
-            try {
-                Thread.sleep(Duration.between(LocalDateTime.now(), doTime).getSeconds()*1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            long seconds = Duration.between(LocalDateTime.now(), doTime).getSeconds();
+            if(seconds > 0){
+                try {
+                    Thread.sleep(seconds*1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             runnable.run();
         });

@@ -82,7 +82,7 @@ public class AMapRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String routeName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
+    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusTransitsByLocation(String cityName, String routeName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
         AMapBusRouteRes busRouteTimeByLocation = getBusRouteByLocation(cityName, startLocationLal, endLocationLal, dateTime);
         if (null == busRouteTimeByLocation ||
                 null == busRouteTimeByLocation.getRoute() ||

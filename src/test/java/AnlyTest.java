@@ -14,7 +14,6 @@ import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.bus.controller.BusController;
 import top.anlythree.bussiness.bus.service.BusArriveService;
-import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.StationDTO;
 import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
@@ -86,7 +85,7 @@ public class AnlyTest{
 
     @Test
     public void test7(){
-        AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo transitsInfo = aMapRouteService.getBusSecondsByLocation("杭州",
+        AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo transitsInfo = aMapRouteService.getBusTransitsByLocation("杭州",
                 "353", "120.026686,30.280905",
                 "120.034084,30.242901", null);
         System.out.println(transitsInfo.getSeconds()/60);

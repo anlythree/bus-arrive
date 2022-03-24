@@ -18,7 +18,9 @@ public class BusArriveResultDto {
 
     private String endLocationName;
 
+    private String routeName;
+
     private String arriveTime;
 
-    private String routeName;
+    private String leaveStartLocationTime;
 }

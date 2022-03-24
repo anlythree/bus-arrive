@@ -80,7 +80,7 @@ public interface RouteService {
      * @param dateTime 出发时间
      * @return
      */
-    AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String routeName, String startLocationLal, String endLocationLal, LocalDateTime dateTime);
+    AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusTransitsByLocation(String cityName, String routeName, String startLocationLal, String endLocationLal, LocalDateTime dateTime);
 
     /**
      * 根据开始结束坐标点查询步行所需要的时间

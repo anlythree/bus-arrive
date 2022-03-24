@@ -112,7 +112,7 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     @Override
     public XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String cityName, String routeName, String startStation, String endStation) {
         List<XiaoYuanRouteDTO> allRouteList = getRouteListByNameAndCityName(routeName, cityName);
-        AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation = routeService.getBusSecondsByLocation(cityName, routeName, startStation, endStation, null);
+        AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation = routeService.getBusTransitsByLocation(cityName, routeName, startStation, endStation, null);
         String[] startStationAndEndStation = secondsByBusAndLocation.getStartStationAndEndStation();
         for (XiaoYuanRouteDTO xiaoYuanRouteDTO : allRouteList) {
             if(xiaoYuanRouteDTO.getStartStation().contains(startStationAndEndStation[0]) ||
@@ -129,7 +129,7 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String startLocation, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
+    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusTransitsByLocation(String cityName, String startLocation, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 

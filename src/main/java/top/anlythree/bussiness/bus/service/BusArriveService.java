@@ -17,6 +17,8 @@ public interface BusArriveService {
 
    /**
     * 根据公交路线，到达目的地时间来推算  合适的公交什么时候从起始站出发
+    * (高德api只提供了根据出发时间查询到达时间的接口，这个接口是根据到达时间倒推出发时间的，
+    * 其中就是循环递归不断去试出发时间，直到到达时间在规定的时间误差之内)
     * @param cityName
     * @param routeName
     * @param startTime 非必填，默认当前时间，该参数为预估出发时间
@@ -55,7 +57,8 @@ public interface BusArriveService {
                                                    LocationDTO startLocationDto,
                                                    LocationDTO endLocationDto,
                                                    String prepareMinutes,
-                                                   LocalDateTime arriveLocalTime);
+                                                   LocalDateTime arriveLocalTime,
+                                                   String key);
 
 
     /**
@@ -69,10 +72,9 @@ public interface BusArriveService {
      * @param arriveTime 到达时间
      * @return
      */
-    void calculateTimeToGo(
+    LocalDateTime calculateTimeToGo(
             String cityName, XiaoYuanRouteDTO routeDTO,
             LocationDTO startLocationDto, String startBusStationLal,
-            Long prepareSeconds,
-            LocalDateTime doCalculateTime, LocalDateTime arriveTime)
+            Long prepareSeconds, LocalDateTime doCalculateTime, LocalDateTime arriveTime);
 
 }

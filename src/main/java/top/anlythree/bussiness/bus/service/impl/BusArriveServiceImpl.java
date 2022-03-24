@@ -12,6 +12,7 @@ import top.anlythree.api.StationService;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
+import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanBusRes;
 import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusArriveResultDto;
 import top.anlythree.bussiness.dto.BusDTO;
@@ -79,8 +80,7 @@ public class BusArriveServiceImpl implements BusArriveService {
     }
 
     @Override
-    public BusDTO getBestBusOnStartTime(String cityName, XiaoYuanRouteDTO xiaoYuanRouteDTO) {
-        List<BusDTO> busLocationList = busService.getBusLocationList(cityName, xiaoYuanRouteDTO);
+    public BusDTO getBestBusOnStartTime(List<BusDTO> busLocationList) {
         if (CollectionUtils.isEmpty(busLocationList)) {
             return null;
         }
@@ -151,6 +151,8 @@ public class BusArriveServiceImpl implements BusArriveService {
             String cityName, XiaoYuanRouteDTO routeDTO,
             LocationDTO startLocationDto, String startBusStationLal,
             Long prepareSeconds, LocalDateTime doCalculateTime, LocalDateTime arriveTime) {
+        // 当前在线公交车列表
+        XiaoYuanBusRes xiaoYuanBusRes = busService.getXiaoYuanBusRes(cityName, routeDTO);
         // 获取目标公交车
         BusDTO bestBus = null;
         if (LocalDateTime.now().isAfter(doCalculateTime)) {
@@ -158,7 +160,7 @@ public class BusArriveServiceImpl implements BusArriveService {
 
         }else {
             // 当前时间为最晚公交车出发时间
-            bestBus = getBestBusOnStartTime(cityName, routeDTO);
+            bestBus = getBestBusOnStartTime(xiaoYuanBusRes.getBusList());
         }
         AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo transitsInfo = routeServiceAMapImpl.getBusTransitsByLocation(cityName, routeDTO.getRouteName(),
                 bestBus.getLocation(), startBusStationLal,

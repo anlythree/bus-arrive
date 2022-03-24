@@ -7,6 +7,7 @@ import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.bussiness.dto.RouteDTO;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author anlythree
@@ -35,12 +36,10 @@ public interface BusArriveService {
     /**
      * 根据出发时间选择最适合的一辆公交车作为要乘坐的公交车
      *
-     * @param cityName
-     * @param xiaoYuanRouteDTO
-     * @param doCalculateTime
+     * @param busLocationList
      * @return
      */
-    BusDTO getBestBusOnStartTime(String cityName, XiaoYuanRouteDTO xiaoYuanRouteDTO);
+    BusDTO getBestBusOnStartTime(List<BusDTO> busLocationList);
 
    /**
     *

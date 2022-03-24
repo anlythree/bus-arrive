@@ -50,11 +50,7 @@ public class XiaoYuanBusServiceImpl implements BusService {
         if (xiaoYuanModel == null) {
             return null;
         }
-        // 返回公交列表
-        if(CollectionUtils.isEmpty(xiaoYuanModel.getReturlList().getBuses())){
-            return null;
-        }
-        return xiaoYuanModel.getReturlList().getBuses().stream().map(XiaoYuanBusRes.BusInfoRes::castBusDTO).collect(Collectors.toList());
+        return xiaoYuanModel.getBusList();
     }
 
     @Override

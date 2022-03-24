@@ -107,7 +107,26 @@ public class AMapBusRouteRes extends AMapResult{
                      */
                     private String duration;
 
-                    private Object steps;
+                    private List<StepInfo> steps;
+
+                    @Data
+                    @NoArgsConstructor
+                    @AllArgsConstructor
+                    public static class StepInfo{
+                        private Object instruction;
+
+                        private Object road;
+
+                        private Object distance;
+
+                        private Object duration;
+
+                        private Object polyline;
+
+                        private Object action;
+
+                        private Object assistant_action;
+                    }
                 }
 
                 @Data
@@ -179,6 +198,24 @@ public class AMapBusRouteRes extends AMapResult{
                 for (SegmentsInfo segment : this.getSegments()) {
                     if(null != segment.getBus().getBuslines() && segment.getBus().getBuslines().size() == 1){
                         return segment.getWalking().getDestination();
+                    }
+                }
+                return null;
+            }
+
+            /**
+             * 获取该路线起点公交站的名字（步行的终点）
+             */
+            public String getStartBusStationName(){
+                for (SegmentsInfo segment : this.getSegments()) {
+                    if(null != segment.getBus().getBuslines() && segment.getBus().getBuslines().size() == 1){
+                        List<SegmentsInfo.Walking.StepInfo> steps = segment.getWalking().getSteps();
+                        if(!CollectionUtils.isEmpty(steps)){
+                            String assistantAction = steps.get(steps.size() - 1).getAssistant_action().toString();
+                            if(assistantAction.contains("到达")){
+                                return StringUtils.substringAfter(assistantAction,"到达");
+                            }
+                        }
                     }
                 }
                 return null;

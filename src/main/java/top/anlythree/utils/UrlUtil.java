@@ -38,7 +38,7 @@ public class UrlUtil {
         if (params == null || params.length == 0) {
             return StringUtils.EMPTY;
         }
-        urlStrBu.append(UrlTypeEnum.BUS_LOCATION).append(wenhao);
+        urlStrBu.append(UrlTypeEnum.BUS_LOCATION.getUrl()).append(wenhao);
         for (int i = 0; i < params.length; i++) {
             urlStrBu.append(params[i].getKey()).append(dengyu).append(params[i].getValue()).append("&");
         }

@@ -74,7 +74,7 @@ public interface BusArriveService {
      */
     LocalDateTime calculateTimeToGo(
             String cityName, XiaoYuanRouteDTO routeDTO,
-            LocationDTO startLocationDto, String startBusStationLal,
+            LocationDTO startLocationDto, LocationDTO endLocationDto,String startBusStationLal,String startBusStationName,
             Long prepareSeconds, LocalDateTime doCalculateTime, LocalDateTime arriveTime);
 
 }

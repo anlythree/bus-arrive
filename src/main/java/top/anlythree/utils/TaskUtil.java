@@ -26,7 +26,8 @@ public class TaskUtil {
     public static void doSomeThingLater(Runnable runnable, LocalDateTime doTime) {
         threadPool.execute(()->{
             long seconds = Duration.between(LocalDateTime.now(), doTime).getSeconds();
-            if(seconds > 0){
+            if(Math.abs(seconds) > 2){
+                // 如果比较当前时间差大于2秒则延时，2秒之内不延时
                 try {
                     Thread.sleep(seconds*1000);
                 } catch (InterruptedException e) {

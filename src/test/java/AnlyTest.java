@@ -147,4 +147,12 @@ public class AnlyTest{
                 "20:40"
                 );
     }
+
+    @Test
+    public void test15(){
+        String disStat = "距离第2个站还有distance米";
+        int i = Integer.parseInt(disStat.substring(disStat.indexOf("距离第") + 3, disStat.indexOf("个站还有")));
+        System.out.println(i);
+
+    }
 }

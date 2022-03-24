@@ -37,9 +37,10 @@ public interface BusArriveService {
      *
      * @param cityName
      * @param xiaoYuanRouteDTO
+     * @param doCalculateTime
      * @return
      */
-    BusDTO getBestBusFromStartTime(String cityName, XiaoYuanRouteDTO xiaoYuanRouteDTO);
+    BusDTO getBestBusOnStartTime(String cityName, XiaoYuanRouteDTO xiaoYuanRouteDTO);
 
    /**
     *

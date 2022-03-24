@@ -79,7 +79,7 @@ public class BusArriveServiceImpl implements BusArriveService {
     }
 
     @Override
-    public BusDTO getBestBusFromStartTime(String cityName, XiaoYuanRouteDTO xiaoYuanRouteDTO) {
+    public BusDTO getBestBusOnStartTime(String cityName, XiaoYuanRouteDTO xiaoYuanRouteDTO) {
         List<BusDTO> busLocationList = busService.getBusLocationList(cityName, xiaoYuanRouteDTO);
         if (CollectionUtils.isEmpty(busLocationList)) {
             return null;
@@ -137,7 +137,7 @@ public class BusArriveServiceImpl implements BusArriveService {
                     new BusArriveResultDto(startLocationDto.getStationName(), endLocationDto.getStationName(), routeName,
                             TimeUtil.timeToString(arriveLocalTime), TimeUtil.timeToString(leaveStartLocationTime)));
         }, doCalculateTime);
-        // todo-anlythree 已经过了最晚出发时间，需要完善获取目标公交方法
+
         if (LocalDateTime.now().isAfter(doCalculateTime)) {
             // 已经过了最佳计算时间,则把需要计算的时间置为当前,及不需要延时
             return LocalDateTime.now().plusSeconds(10);
@@ -152,7 +152,14 @@ public class BusArriveServiceImpl implements BusArriveService {
             LocationDTO startLocationDto, String startBusStationLal,
             Long prepareSeconds, LocalDateTime doCalculateTime, LocalDateTime arriveTime) {
         // 获取目标公交车
-        BusDTO bestBus = getBestBusFromStartTime(cityName, routeDTO);
+        BusDTO bestBus = null;
+        if (LocalDateTime.now().isAfter(doCalculateTime)) {
+            // 当前时间已不是最晚公交车发车时间，只能从起始站到出发站找倒数第二辆还能准时到达目的地的公交车,如果只剩一辆那么就选最后一辆
+
+        }else {
+            // 当前时间为最晚公交车出发时间
+            bestBus = getBestBusOnStartTime(cityName, routeDTO);
+        }
         AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo transitsInfo = routeServiceAMapImpl.getBusTransitsByLocation(cityName, routeDTO.getRouteName(),
                 bestBus.getLocation(), startBusStationLal,
                 doCalculateTime);

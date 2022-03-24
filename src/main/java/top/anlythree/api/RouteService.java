@@ -28,20 +28,20 @@ public interface RouteService {
      *
      * @param routeName
      * @param cityName
-     * @param startStation
+     * @param endStationName
      * @return
      */
-    XiaoYuanRouteDTO getRouteByNameAndCityIdAndStartStation(String routeName, String cityName, String startStation);
+    XiaoYuanRouteDTO getRouteByNameAndCityAndEndStation(String cityName, String routeName, String endStationName);
 
     /**
      * 在缓存中查找路线
      *
      * @param cityId
      * @param routeName
-     * @param startStation
+     * @param endStationName
      * @return
      */
-    XiaoYuanRouteDTO getRouteFromCache(String cityId, String routeName, String startStation);
+    XiaoYuanRouteDTO getRouteFromCache(String cityId, String routeName, String endStationName);
 
     /**
      * 根据城市名称和线路名称缓存公交线路
@@ -75,12 +75,22 @@ public interface RouteService {
      * 根据城市名称，开始结束坐标点和公交车号和出发时间（默认当前）查询当前所需要的时间
      *
      * @param cityName
-     * @param startLocation
-     * @param endLocation
+     * @param startLocationLal
+     * @param endLocationLal
      * @param dateTime 出发时间
      * @return
      */
-    AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String routeName, String startLocation, String endLocation, LocalDateTime dateTime);
+    AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String routeName, String startLocationLal, String endLocationLal, LocalDateTime dateTime);
+
+    /**
+     * 根据开始结束坐标点查询步行所需要的时间
+     *
+     * @param startLocationLal
+     * @param endLocationLal
+     * @param dateTime 出发时间
+     * @return
+     */
+    AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime dateTime);
 
     /**
      * 根据开始结束坐标点查询步行所需要的时间
@@ -90,17 +100,7 @@ public interface RouteService {
      * @param dateTime 出发时间
      * @return
      */
-    AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocationName, String endLocationName, LocalDateTime dateTime);
-
-    /**
-     * 根据开始结束坐标点查询步行所需要的时间
-     *
-     * @param startLocation
-     * @param endLocation
-     * @param dateTime 出发时间
-     * @return
-     */
-    AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocationName(String cityName, String startLocation, String endLocation, LocalDateTime dateTime);
+    AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocationName(String cityName, String startLocationName, String endLocationName, LocalDateTime dateTime);
 
 
 }

@@ -43,12 +43,12 @@ public class AMapRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public XiaoYuanRouteDTO getRouteByNameAndCityIdAndStartStation(String routeName, String cityName, String startStation) {
+    public XiaoYuanRouteDTO getRouteByNameAndCityAndEndStation(String cityName, String routeName, String endStationName) {
         throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
     }
 
     @Override
-    public XiaoYuanRouteDTO getRouteFromCache(String cityId, String routeName, String startStation) {
+    public XiaoYuanRouteDTO getRouteFromCache(String cityId, String routeName, String endStationName) {
         throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
     }
 
@@ -82,27 +82,18 @@ public class AMapRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String routeName, String startLocation, String endLocation, LocalDateTime dateTime) {
-        AMapBusRouteRes busRouteTimeByLocation = getBusRouteByLocation(cityName, startLocation, endLocation, dateTime);
+    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String routeName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
+        AMapBusRouteRes busRouteTimeByLocation = getBusRouteByLocation(cityName, startLocationLal, endLocationLal, dateTime);
         if (null == busRouteTimeByLocation ||
                 null == busRouteTimeByLocation.getRoute() ||
                 CollectionUtils.isEmpty(busRouteTimeByLocation.getRoute().getTransits())) {
             throw new AException("查询不到直达的" + routeName + "公交方案，来自高德api的信息：" + busRouteTimeByLocation);
         }
-        for (AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo transit : busRouteTimeByLocation.getRoute().getTransits()) {
-            for (AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo.SegmentsInfo segment : transit.getSegments()) {
-                for (AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo.SegmentsInfo.BusInfo.BusLinesInfo busline : segment.getBus().getBuslines()) {
-                    if (busline.getName().contains(routeName)) {
-                        return transit;
-                    }
-                }
-            }
-        }
-        throw new AException("查询不到直达的" + routeName + "公交方案，所有的方案：" + busRouteTimeByLocation.getRoute().getTransits());
+        return busRouteTimeByLocation.getTransitsByRouteName(routeName);
     }
 
     @Override
-    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocation, String endLocation, LocalDateTime dateTime) {
+    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
         String date = null;
         String time = null;
         if (null != dateTime) {
@@ -113,13 +104,13 @@ public class AMapRouteServiceImpl implements RouteService {
         String amapUrl = UrlUtil.createAmapUrl(UrlTypeEnum.WALK_ROUTE,
                 new UrlUtil.UrlParam("key", key),
                 new UrlUtil.UrlParam("city", cityName),
-                new UrlUtil.UrlParam("origin", startLocation),
-                new UrlUtil.UrlParam("destination", endLocation),
+                new UrlUtil.UrlParam("origin", startLocationLal),
+                new UrlUtil.UrlParam("destination", endLocationLal),
                 new UrlUtil.UrlParam("date", date),
                 new UrlUtil.UrlParam("time", time));
         AMapWalkRouteTimeRes aMapModel = ResultUtil.getAMapModel(RestTemplateUtil.get(amapUrl, AMapWalkRouteTimeRes.class));
         if(null == aMapModel.getRoute() || CollectionUtils.isEmpty(aMapModel.getRoute().getPaths())) {
-            throw new AException("起点：" + startLocation + "终点：" + endLocation + "查询不到步行方案");
+            throw new AException("起点：" + startLocationLal + "终点：" + endLocationLal + "查询不到步行方案");
         }
         return aMapModel.getRoute().getPaths().stream().min(Comparator.comparing(AMapWalkRouteTimeRes.Route.Path::getDuration)).get();
     }

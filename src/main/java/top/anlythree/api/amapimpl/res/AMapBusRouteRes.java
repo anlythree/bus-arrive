@@ -186,4 +186,20 @@ public class AMapBusRouteRes extends AMapResult{
 
         }
     }
+
+    /**
+     * 根据公交路线名从高德返回的路径规划中找到合适的行程方案
+     * @return
+     */
+    public AMapBusRouteInfo.TransitsInfo getTransitsByRouteName(String routeName){
+        for (AMapBusRouteInfo.TransitsInfo transit : this.getRoute().getTransits()) {
+            for (AMapBusRouteInfo.TransitsInfo.SegmentsInfo segment : transit.getSegments()) {
+                if(null != segment.getBus().getBuslines() && segment.getBus().getBuslines().size() == 1 &&
+                        segment.getBus().getBuslines().get(0).getName().contains(routeName)){
+                    return transit;
+                }
+            }
+        }
+        return null;
+    }
 }

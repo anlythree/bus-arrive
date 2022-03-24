@@ -70,7 +70,7 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public XiaoYuanRouteDTO getRouteByNameAndCityIdAndStartStation(String routeName, String cityName, String endStation) {
+    public XiaoYuanRouteDTO getRouteByNameAndCityAndEndStation(String cityName, String routeName, String endStation) {
         XiaoYuanCityDTO cityByName = cityService.getCityByName(cityName);
         XiaoYuanRouteDTO routeFromCache = getRouteFromCache(cityByName.getId(), routeName, endStation);
         if(null != routeFromCache){
@@ -129,17 +129,17 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String startLocation, String endLocation, String busName, LocalDateTime dateTime) {
+    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusSecondsByLocation(String cityName, String startLocation, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 
     @Override
-    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocationName(String cityName, String startLocation, String endLocation, LocalDateTime dateTime) {
+    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocationName(String cityName, String startLocationName, String endLocationName, LocalDateTime dateTime) {
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 
     @Override
-    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocation, String endLocation, LocalDateTime dateTime) {
+    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 }

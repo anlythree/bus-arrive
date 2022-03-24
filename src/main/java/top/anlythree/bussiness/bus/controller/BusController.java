@@ -69,7 +69,7 @@ public class BusController {
                 arriveLocalTime
                 );
         // 生成查询结果key
-        return TimeUtil.timeToString(startTimeByArriveTime);
+        return "getTime:"+TimeUtil.timeToString(startTimeByArriveTime)+"key:"+key;
     }
 
     @GetMapping("/getResult")

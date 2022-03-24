@@ -60,12 +60,6 @@ public class AnlyTest{
     }
 
     @Test
-    public void test2(){
-        List<BusDTO> busLocation = busService.getBusLocationList("杭州", "353", "梦想小镇");
-        System.out.println(busLocation);
-    }
-
-    @Test
     public void test3(){
         List<XiaoYuanRouteDTO> routeListByNameAndCityName = routeService.getRouteListByNameAndCityName("353", "杭州");
         System.out.println(routeListByNameAndCityName);
@@ -108,12 +102,6 @@ public class AnlyTest{
                 null, TimeUtil.stringToTime("2022-03-18 10:00:00"),
                 startStation.getLongitudeAndLatitude(), arriveStation.getLongitudeAndLatitude(),null);
         System.out.println(TimeUtil.timeToString(startTimeByArriveTime));
-    }
-
-    @Test
-    public void test9(){
-        BusDTO bestBusFromStartTime = busArriveService.getBestBusFromStartTime("杭州", "415", "西溪花城");
-        System.out.println(bestBusFromStartTime);
     }
 
     @Test

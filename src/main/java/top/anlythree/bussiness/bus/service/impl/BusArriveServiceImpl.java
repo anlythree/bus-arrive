@@ -137,6 +137,7 @@ public class BusArriveServiceImpl implements BusArriveService {
                     new BusArriveResultDto(startLocationDto.getStationName(), endLocationDto.getStationName(), routeName,
                             TimeUtil.timeToString(arriveLocalTime), TimeUtil.timeToString(leaveStartLocationTime)));
         }, doCalculateTime);
+        // todo-anlythree 已经过了最晚出发时间，需要完善获取目标公交方法
         if (LocalDateTime.now().isAfter(doCalculateTime)) {
             // 已经过了最佳计算时间,则把需要计算的时间置为当前,及不需要延时
             return LocalDateTime.now().plusSeconds(10);

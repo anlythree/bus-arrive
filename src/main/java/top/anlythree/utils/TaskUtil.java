@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * 创建任务线程来执行任务（即时或延时）
+ */
 @Slf4j
 @Component
 public class TaskUtil {
@@ -20,18 +23,21 @@ public class TaskUtil {
 
     /**
      * 延时执行任务
+     * 如果执行时间晚于当前时间2秒以上则延时，2秒之内不延时；
+     * 如果执行时间早于当前时间直接执行
      *
      * @param runnable
      */
     public static void doSomeThingLater(Runnable runnable, LocalDateTime doTime) {
         threadPool.execute(()->{
-            long seconds = Duration.between(LocalDateTime.now(), doTime).getSeconds();
-            if(Math.abs(seconds) > 2){
-                // 如果比较当前时间差大于2秒则延时，2秒之内不延时
-                try {
-                    Thread.sleep(seconds*1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            if(doTime != null){
+                long seconds = Duration.between(LocalDateTime.now(), doTime).getSeconds();
+                if(seconds > 2){
+                    try {
+                        Thread.sleep(seconds * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             runnable.run();

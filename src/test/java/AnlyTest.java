@@ -142,7 +142,7 @@ public class AnlyTest{
         busController.calculateTime("杭州",
                 "353",
                 "阿里巴巴访客中心",
-                "五常大道风铃路追梦家公寓",
+                "五常大道丰铃路追梦家公寓",
                 "5",
                 "20:40"
                 );

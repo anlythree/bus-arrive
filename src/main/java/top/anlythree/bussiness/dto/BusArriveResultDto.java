@@ -30,11 +30,6 @@ public class BusArriveResultDto {
     private String routeName;
 
     /**
-     * 最晚公交车发车计算时间（理想计算时间）
-     */
-    private String calculateTime;
-
-    /**
      * 要求到达时间
      */
     private String arriveTime;

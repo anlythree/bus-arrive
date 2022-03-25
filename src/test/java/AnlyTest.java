@@ -1,3 +1,5 @@
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.bus.controller.BusController;
 import top.anlythree.bussiness.bus.service.BusArriveService;
+import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.bussiness.dto.StationDTO;
 import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
@@ -51,6 +54,9 @@ public class AnlyTest{
 
     @Autowired
     private BusController busController;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     public void test1(){
@@ -153,6 +159,12 @@ public class AnlyTest{
         String disStat = "距离第2个站还有distance米";
         int i = Integer.parseInt(disStat.substring(disStat.indexOf("距离第") + 3, disStat.indexOf("个站还有")));
         System.out.println(i);
+    }
 
+    @Test
+    public void test16() throws JsonProcessingException {
+        LocationDTO locationDTO = new LocationDTO();
+        String s = objectMapper.writeValueAsString(locationDTO);
+        System.out.println(s);
     }
 }

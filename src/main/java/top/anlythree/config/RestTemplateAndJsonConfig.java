@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import top.anlythree.utils.ApplicationContextUtil;
 
 import java.util.Arrays;
 import java.util.TimeZone;
@@ -25,7 +26,8 @@ import static org.springframework.http.MediaType.APPLICATION_XML;
  * @time 2022/3/111:12 上午
  */
 @Configuration
-public class RestTemplateConfig {
+public class RestTemplateAndJsonConfig {
+
 
     @Bean
     public RestTemplate restTemplate() {
@@ -40,8 +42,11 @@ public class RestTemplateConfig {
         objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE); //命名策略
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); //未知属性不报错
         objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8")); //时区设置
+        ApplicationContextUtil.addBean(objectMapper);
         return new RestTemplateBuilder()
                 .messageConverters(httpMessageConverter)
                 .build();
     }
+
+
 }

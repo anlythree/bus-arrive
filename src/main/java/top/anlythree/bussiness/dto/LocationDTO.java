@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Bean;
 
 import java.util.Objects;
 
@@ -87,5 +88,11 @@ public class LocationDTO {
 
     public LocationDTO(StationDTO stationDTO) {
         BeanUtils.copyProperties(stationDTO,this);
+    }
+
+    public StationDTO castStation(){
+        StationDTO stationDTO = new StationDTO();
+        BeanUtils.copyProperties(this,stationDTO);
+        return stationDTO;
     }
 }

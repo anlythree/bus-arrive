@@ -1,12 +1,11 @@
 package top.anlythree.api.amapimpl.res;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
-import top.anlythree.api.amapimpl.res.AMapResult;
+import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.bussiness.dto.StationDTO;
 
 import java.util.List;
@@ -105,6 +104,10 @@ public class AMapStationListRes extends AMapResult {
 
         public StationDTO castStationDto(String stationName){
             return new StationDTO(stationName,formattedAddress,location,country,province,city,district);
+        }
+
+        public LocationDTO castLocationDto(String stationName){
+            return new LocationDTO(stationName,formattedAddress,location,country,province,city,district);
         }
     }
 }

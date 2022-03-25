@@ -135,17 +135,11 @@ public class BusArriveServiceImpl implements BusArriveService {
                 null, arriveLocalTime,
                 firstStationByRouteDto.getLongitudeAndLatitude(), endLocationDto.getLongitudeAndLatitude(),
                 null);
-        if (LocalDateTime.now().isAfter(doCalculateTime)) {
-            // 已经过了最佳计算时间,则把需要计算的时间置为当前,及不需要延时
-            doCalculateTime =  LocalDateTime.now();
-        }
-        // 保持final
-        LocalDateTime finalDoCalculateTime = doCalculateTime;
         // 延时计算出发时间并持久化至缓存（ACache）
         TaskUtil.doSomeThingLater(() -> {
             LocalDateTime leaveStartLocationTime = calculateTimeToGo(cityName, routeDto,
                     startLocationDto, endLocationDto,startBusStationLal,startBusStationName,
-                    Long.parseLong(prepareMinutes) * 60, finalDoCalculateTime, arriveLocalTime);
+                    Long.parseLong(prepareMinutes) * 60, doCalculateTime, arriveLocalTime);
             // 持久化
             ACache.addResult(key,
                     new BusArriveResultDto(startLocationDto.getStationName(), endLocationDto.getStationName(), routeName,
@@ -153,6 +147,15 @@ public class BusArriveServiceImpl implements BusArriveService {
         }, doCalculateTime);
         // 给后台留10秒计算时间，防止请求结果时后台还未计算出结果
         return doCalculateTime.plusSeconds(10);
+    }
+
+    /**
+     * 判断当前时间是否还可以沿用计算时间进行计算
+     * @param doCalculateTime
+     * @return
+     */
+    private Boolean isLate(LocalDateTime doCalculateTime){
+        return LocalDateTime.now().isAfter(doCalculateTime);
     }
 
     @Override

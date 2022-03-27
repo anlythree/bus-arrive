@@ -1,11 +1,14 @@
 package top.anlythree.api.xiaoyuanimpl.res;
 
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.util.CollectionUtils;
 import top.anlythree.bussiness.dto.BusDTO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author anlythree
@@ -104,7 +107,27 @@ public class XiaoYuanBusRes extends XiaoYuanResult{
         }
     }
 
+    /**
+     * 获取公交车列表
+     * @return
+     */
+    public List<BusDTO> getBusList(){
+        if(CollectionUtils.isEmpty(this.getReturlList().getBuses())){
+            return Lists.newArrayList();
+        }
+        return this.getReturlList().getBuses().stream().map(XiaoYuanBusRes.BusInfoRes::castBusDTO).collect(Collectors.toList());
+    }
 
+    /**
+     * 获取站点名称列表
+     * @return
+     */
+    public List<String> getStationNameList(){
+        if(CollectionUtils.isEmpty(this.getReturlList().getBuses())){
+            return Lists.newArrayList();
+        }
+        return this.getReturlList().getStations().stream().map(StationInfoRes::getBusStaname).collect(Collectors.toList());
+    }
 }
 
 

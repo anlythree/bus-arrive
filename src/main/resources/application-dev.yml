@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   application:
     name: bus-arrive
@@ -6,6 +8,15 @@ logging:
     root: info
     com.bestvike: debug
     org.springframework.security: warn
+<<<<<<< HEAD
+=======
+swagger:
+  enable: true
+  application-name: ${spring.application.name}
+  application-version: 1.0
+  application-description: 公交到达预提醒
+  try-host: http://localhost:${server.port}
+>>>>>>> 8e14adde9d2e209628c67c73de67b3462c2b54a9
 xiaoyuan:
   key: 632e6732f9e1a6bd4b3b4966a9009bcd
   username: 15610462126
@@ -16,6 +27,8 @@ amap:
   key: ca749b4a5f0fe299e8cd826f69c1c6bc
   sign: 0dcee3a9115b5782fecfa7f90f876981
 bus-arrive:
-  default-difference-seconds: 300
+  default-difference-seconds: 180
+
+# 相关api的url地址配置在UrlTypeEnum中
 
 

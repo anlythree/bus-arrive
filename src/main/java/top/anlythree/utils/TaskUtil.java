@@ -1,34 +1,47 @@
 package top.anlythree.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import top.anlythree.utils.exceptions.AException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.concurrent.*;
 
+/**
+ * 创建任务线程来执行任务（即时或延时）
+ */
 @Slf4j
+@Component
 public class TaskUtil {
+    private static ThreadPoolTaskExecutor threadPool;
 
-    private static final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
+    @Autowired
+    public void setThreadPool(ThreadPoolTaskExecutor threadPool) {
+        TaskUtil.threadPool = threadPool;
+    }
 
     /**
      * 延时执行任务
-     * @param callable
+     * 如果执行时间晚于当前时间2秒以上则延时，2秒之内不延时；
+     * 如果执行时间早于当前时间直接执行
+     *
+     * @param runnable
      */
-    public static <T> T doSomeThingLater(Callable<T> callable, LocalDateTime doTime){
-        T returnValue;
-        try {
-            returnValue = scheduledExecutorService.schedule(callable,
-                    Duration.between(LocalDateTime.now(), doTime).getSeconds(), TimeUnit.SECONDS).get();
-            log.info("task success.return:"+ returnValue.toString() +";");
-        } catch (InterruptedException e) {
-            throw new AException("执行定时任务失败,错误类型：InterruptedException："+e.getMessage());
-        } catch (ExecutionException e) {
-            throw new AException("执行定时任务失败,错误类型：ExecutionException："+e.getMessage());
-        }
-        return returnValue;
+    public static void doSomeThingLater(Runnable runnable, LocalDateTime doTime) {
+        threadPool.execute(()->{
+            if(doTime != null){
+                long seconds = Duration.between(LocalDateTime.now(), doTime).getSeconds();
+                if(seconds > 2){
+                    try {
+                        Thread.sleep(seconds * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            runnable.run();
+        });
+        log.info("task success.");
     }
-
-
 }

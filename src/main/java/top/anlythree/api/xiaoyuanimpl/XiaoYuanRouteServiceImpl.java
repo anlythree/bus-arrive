@@ -8,19 +8,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
-import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
-import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanBusRes;
-import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanRouteListRes;
-import top.anlythree.bussiness.dto.BusDTO;
-import top.anlythree.cache.ACache;
+import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
+import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
+import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanRouteListRes;
+import top.anlythree.cache.ACache;
 import top.anlythree.utils.MD5Util;
 import top.anlythree.utils.RestTemplateUtil;
 import top.anlythree.utils.ResultUtil;
 import top.anlythree.utils.UrlUtil;
 import top.anlythree.utils.exceptions.AException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -40,8 +40,8 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     private CityService cityService;
 
     @Autowired
-    @Qualifier(value = "xiaoYuanBusServiceImpl")
-    private XiaoYuanBusServiceImpl xiaoYuanBusService;
+    @Qualifier(value = "AMapRouteServiceImpl")
+    private RouteService routeService;
 
 
     @Override
@@ -70,7 +70,7 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public XiaoYuanRouteDTO getRouteByNameAndCityIdAndStartStation(String routeName, String cityName, String endStation) {
+    public XiaoYuanRouteDTO getRouteByNameAndCityAndEndStation(String cityName, String routeName, String endStation) {
         XiaoYuanCityDTO cityByName = cityService.getCityByName(cityName);
         XiaoYuanRouteDTO routeFromCache = getRouteFromCache(cityByName.getId(), routeName, endStation);
         if(null != routeFromCache){
@@ -110,23 +110,36 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String routeName, String cityName, String rideStart, String rideEnd) {
-        //
-        Integer rideStartIndex = 0;
-        Integer rideEndIndex = 0;
+    public XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String cityName, String routeName, String startStation, String endStation) {
         List<XiaoYuanRouteDTO> allRouteList = getRouteListByNameAndCityName(routeName, cityName);
-        for (XiaoYuanRouteDTO route : allRouteList) {
+        AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo secondsByBusAndLocation = routeService.getBusTransitsByLocation(cityName, routeName, startStation, endStation, null);
+        String[] startStationAndEndStation = secondsByBusAndLocation.getStartStationAndEndStation();
+        for (XiaoYuanRouteDTO xiaoYuanRouteDTO : allRouteList) {
+            if(xiaoYuanRouteDTO.getStartStation().contains(startStationAndEndStation[0]) ||
+            xiaoYuanRouteDTO.getEndStation().contains(startStationAndEndStation[1])){
+                return xiaoYuanRouteDTO;
+            }
         }
         return null;
     }
 
     @Override
-    public AMapBusRouteTimeRes getBusRouteTimeByLocation(String cityName, String startLocation, String endLocation, String time) {
+    public AMapBusRouteRes getBusRouteByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime time) {
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 
     @Override
-    public AMapBusRouteTimeRes.AMapBusRouteInfo.TransitsInfo getSecondsByBusAndLocation(String cityName, String startLocation, String endLocation, String busName, String dateTime) {
+    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusTransitsByLocation(String cityName, String startLocation, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
+        throw new AException("no suport impl, use begin with AMap……class to impl");
+    }
+
+    @Override
+    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocationName(String cityName, String startLocationName, String endLocationName, LocalDateTime dateTime) {
+        throw new AException("no suport impl, use begin with AMap……class to impl");
+    }
+
+    @Override
+    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 }

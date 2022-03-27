@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   application:
     name: bus-arrive
@@ -6,7 +8,10 @@ logging:
     root: info
     com.bestvike: debug
     org.springframework.security: warn
+<<<<<<< HEAD
    config: ./logback.xml
+=======
+>>>>>>> 8e14adde9d2e209628c67c73de67b3462c2b54a9
 xiaoyuan:
   key: 632e6732f9e1a6bd4b3b4966a9009bcd
   username: 15610462126

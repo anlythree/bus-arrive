@@ -45,27 +45,24 @@ public class XiaoYuanBusServiceImpl implements BusService {
     private RouteService routeService;
 
     @Override
-    public List<BusDTO> getBusLocationList(String cityName, String routeName, String endStation) {
-        XiaoYuanBusRes xiaoYuanModel = getXiaoYuanBusRes(cityName, routeName, endStation);
-        if (xiaoYuanModel == null) return null;
-        // 返回公交列表
-        if(CollectionUtils.isEmpty(xiaoYuanModel.getReturlList().getBuses())){
+    public List<BusDTO> getBusLocationList(String cityName, XiaoYuanRouteDTO routeDTO) {
+        XiaoYuanBusRes xiaoYuanModel = getXiaoYuanBusRes(cityName, routeDTO);
+        if (xiaoYuanModel == null) {
             return null;
         }
-        return xiaoYuanModel.getReturlList().getBuses().stream().map(XiaoYuanBusRes.BusInfoRes::castBusDTO).collect(Collectors.toList());
+        return xiaoYuanModel.getBusList();
     }
 
     @Override
-    public XiaoYuanBusRes getXiaoYuanBusRes(String cityName, String routeName, String endStation) {
+    public XiaoYuanBusRes getXiaoYuanBusRes(String cityName, XiaoYuanRouteDTO routeDTO) {
         XiaoYuanCityDTO cityByName = cityService.getCityByName(cityName);
-        XiaoYuanRouteDTO route = routeService.getRouteByNameAndCityIdAndStartStation(routeName, cityName, endStation);
         String getBusLocationUrl = UrlUtil.createXiaoYuanUrl(
                 new UrlUtil.UrlParam("optype", "rtbus"),
                 new UrlUtil.UrlParam("uname", uname),
                 new UrlUtil.UrlParam("cityid", cityByName.getId()),
-                new UrlUtil.UrlParam("bus_linestrid", route.getRouteId()),
-                new UrlUtil.UrlParam("bus_linenum", route.getRouteCode()),
-                new UrlUtil.UrlParam("bus_staname", route.getRouteName()),
+                new UrlUtil.UrlParam("bus_linestrid", routeDTO.getRouteId()),
+                new UrlUtil.UrlParam("bus_linenum", routeDTO.getRouteCode()),
+                new UrlUtil.UrlParam("bus_staname", routeDTO.getRouteName()),
                 new UrlUtil.UrlParam("keySecret", MD5Util.getMd5(uname + key + "rtbus"))
         );
         XiaoYuanBusRes xiaoYuanModel = ResultUtil.getXiaoYuanModel(RestTemplateUtil.get(getBusLocationUrl, XiaoYuanBusRes.class));
@@ -73,14 +70,13 @@ public class XiaoYuanBusServiceImpl implements BusService {
             return null;
         }
         // 把新的路线信息填充到缓存中
-        XiaoYuanRouteDTO routeByNameAndCityIdAndStartStation = routeService.getRouteByNameAndCityIdAndStartStation(routeName, cityName, endStation);
         XiaoYuanBusRes.LineInfoRes lineinfo = xiaoYuanModel.getReturlList().getLineinfo();
-        routeByNameAndCityIdAndStartStation.setFirstTime(lineinfo.getFirTime());
-        routeByNameAndCityIdAndStartStation.setEndTime(lineinfo.getEndTime());
-        routeByNameAndCityIdAndStartStation.setMoneyQty(new BigDecimal(lineinfo.getBusMoney()));
-        routeByNameAndCityIdAndStartStation.setStationList(xiaoYuanModel.getReturlList().getStations().stream()
+        routeDTO.setFirstTime(lineinfo.getFirTime());
+        routeDTO.setEndTime(lineinfo.getEndTime());
+        routeDTO.setMoneyQty(new BigDecimal(lineinfo.getBusMoney()));
+        routeDTO.setStationList(xiaoYuanModel.getReturlList().getStations().stream()
                 .map(XiaoYuanBusRes.StationInfoRes::getBusStaname).collect(Collectors.toList()));
-        ACache.addRoute(routeByNameAndCityIdAndStartStation);
+        ACache.addRoute(routeDTO);
         return xiaoYuanModel;
     }
 }

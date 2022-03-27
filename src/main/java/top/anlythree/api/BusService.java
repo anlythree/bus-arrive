@@ -1,6 +1,6 @@
 package top.anlythree.api;
 
-import top.anlythree.api.amapimpl.res.AMapBusRouteTimeRes;
+import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanBusRes;
 import top.anlythree.bussiness.dto.BusDTO;
 
@@ -16,18 +16,17 @@ public interface BusService {
     /**
      * 根据城市名和路线名和方向获取当前公交列表（其中还包含路线的所有站点名称，路线费用，首班车末班车）
      * @param cityName
-     * @param routeName
+     * @param routeDTO
      * @return
      */
-    List<BusDTO> getBusLocationList(String cityName, String routeName, String endStation);
+    List<BusDTO> getBusLocationList(String cityName, XiaoYuanRouteDTO routeDTO);
 
     /**
      * 根据城市名和路线名和方向获取所有笑园api接口信息
      * @param cityName
-     * @param routeName
-     * @param endStation
+     * @param route
      * @return
      */
-    XiaoYuanBusRes getXiaoYuanBusRes(String cityName, String routeName, String endStation);
+    XiaoYuanBusRes getXiaoYuanBusRes(String cityName, XiaoYuanRouteDTO route);
 
 }

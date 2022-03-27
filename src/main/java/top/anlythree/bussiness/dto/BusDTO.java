@@ -41,4 +41,12 @@ public class BusDTO {
         return longing+","+lating;
     }
 
+    /**
+     * 获取当前公交即将到达站点
+     * @return
+     */
+    public Integer getStationNum(){
+        return Integer.parseInt(disStat.substring(disStat.indexOf("距离第")+3, disStat.indexOf("个站还有")));
+    }
+
 }

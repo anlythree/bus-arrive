@@ -8,10 +8,12 @@ logging:
     root: info
     com.bestvike: debug
     org.springframework.security: warn
-<<<<<<< HEAD
-   config: ./logback.xml
-=======
->>>>>>> 8e14adde9d2e209628c67c73de67b3462c2b54a9
+swagger:
+  enable: true
+  application-name: ${spring.application.name}
+  application-version: 1.0
+  application-description: 公交到达预提醒
+  try-host: http://localhost:${server.port}
 xiaoyuan:
   key: 632e6732f9e1a6bd4b3b4966a9009bcd
   username: 15610462126

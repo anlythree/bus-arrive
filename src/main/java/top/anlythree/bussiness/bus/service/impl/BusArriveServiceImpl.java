@@ -141,23 +141,17 @@ public class BusArriveServiceImpl implements BusArriveService {
             LocalDateTime leaveStartLocationTime = calculateTimeToGo(cityName, routeDto,
                     startLocationDto, endLocationDto, startBusStationLal, startBusStationName,
                     Long.parseLong(prepareMinutes) * 60, doCalculateTime, arriveLocalTime);
+            String isTooLate = null;
+            Duration duration = TimeUtil.timeInterval(leaveStartLocationTime);
+            if(duration.isNegative()){
+                isTooLate = "已经赶不上最后一辆车，相差"+duration.getSeconds()+"秒";
+            }
             // 持久化
             ACache.addResult(key,
                     new BusArriveResultDto(startLocationDto.getStationName(), endLocationDto.getStationName(), routeName,
-                            TimeUtil.timeToString(arriveLocalTime), TimeUtil.timeToString(leaveStartLocationTime)));
+                            TimeUtil.timeToString(arriveLocalTime), TimeUtil.timeToString(leaveStartLocationTime),isTooLate));
         }, doCalculateTime);
-        // 给后台留10秒计算时间，防止请求结果时后台还未计算出结果
-        return doCalculateTime.plusSeconds(10);
-    }
-
-    /**
-     * 判断当前时间是否还可以沿用计算时间进行计算
-     *
-     * @param doCalculateTime
-     * @return
-     */
-    private Boolean isLate(LocalDateTime doCalculateTime) {
-        return LocalDateTime.now().isAfter(doCalculateTime);
+        return doCalculateTime;
     }
 
     @Override
@@ -201,7 +195,8 @@ public class BusArriveServiceImpl implements BusArriveService {
         Integer startBusStationItemNum = null;
         for (int i = 0; i < xiaoYuanBusRes.getStationNameList().size(); i++) {
             if (xiaoYuanBusRes.getStationNameList().get(i).contains(startBusStationName)) {
-                startBusStationItemNum = i;// todo-anlythree break
+                startBusStationItemNum = i;
+                break;
             }
         }
         if (startBusStationItemNum == null) {
@@ -232,13 +227,13 @@ public class BusArriveServiceImpl implements BusArriveService {
             throw new AException("当前所有公交车均会晚点");
         }
         if (bestBusItem < xiaoYuanBusRes.getBusList().size() - 1) {
-            // 如果前边还有合适的车就选前边的，防止最后一辆车坐不上 todo-anly 还要判断步行能不能赶上前边的车
+            // 如果前边还有合适的车就选前边的，防止最后一辆车坐不上
             bestBusItem++;
             String busLocationLal = xiaoYuanBusRes.getBusList().get(bestBusItem).getLocation();
             Long busToStartStationSeconds = routeServiceAMapImpl.getBusTransitsByLocation(cityName, routeDTO.getRouteName(),
                     busLocationLal, startBusStationLal, null).getSeconds();
             if (busToStartStationSeconds.compareTo(walkSecondsByLocation) < 0) {
-                // 如果这辆车已经赶不上了就还是坐最后一辆车
+                // 如果这辆车走过去已经赶不上上车点了就还是坐最后一辆车
                 bestBusItem--;
             }
         }

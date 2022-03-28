@@ -38,4 +38,9 @@ public class BusArriveResultDto {
      * 计算出来的出发时间
      */
     private String leaveStartLocationTime;
+
+    /**
+     *  是不是赶不上最后一班公交了，差多少
+     */
+    private String isTooLate;
 }

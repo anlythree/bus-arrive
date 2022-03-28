@@ -77,7 +77,8 @@ public class AMapRouteServiceImpl implements RouteService {
                 new UrlUtil.UrlParam("origin", startLocationLal),
                 new UrlUtil.UrlParam("date", date),
                 new UrlUtil.UrlParam("time", time),
-                new UrlUtil.UrlParam("destination", endLocationLal));
+                new UrlUtil.UrlParam("destination", endLocationLal),
+                new UrlUtil.UrlParam("strategy","2"));
         return ResultUtil.getAMapModel(RestTemplateUtil.get(amapUrl, AMapBusRouteRes.class));
     }
 

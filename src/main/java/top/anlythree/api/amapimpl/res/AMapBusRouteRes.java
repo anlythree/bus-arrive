@@ -1,9 +1,14 @@
 package top.anlythree.api.amapimpl.res;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -15,6 +20,7 @@ import java.util.List;
  * @time 2022/3/156:45 下午
  */
 @Data
+@Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
 public class AMapBusRouteRes extends AMapResult{
@@ -236,7 +242,7 @@ public class AMapBusRouteRes extends AMapResult{
     }
 
     /**
-     * 根据公交路线名从高德返回的路径规划中找到合适的行程方案
+     * 根据公交路线名从高德返回的路径规划中找到合适的行程方案  todo-anlythree
      * @return
      */
     public AMapBusRouteInfo.TransitsInfo getTransitsByRouteName(String routeName){
@@ -247,6 +253,11 @@ public class AMapBusRouteRes extends AMapResult{
                     return transit;
                 }
             }
+        }
+        try {
+            log.error("找不到直达公交，routeName:"+routeName+",this:"+new ObjectMapper().writeValueAsString(this));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
         return null;
     }

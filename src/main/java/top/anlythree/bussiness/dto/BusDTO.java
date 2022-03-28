@@ -46,7 +46,10 @@ public class BusDTO {
      * @return
      */
     public Integer getStationNum(){
-        return Integer.parseInt(disStat.substring(disStat.indexOf("距离第")+3, disStat.indexOf("个站还有")));
+        if(disStat.contains("距离第") && disStat.contains("个站还有")){
+            return Integer.parseInt(disStat.substring(disStat.indexOf("距离第")+3, disStat.indexOf("个站还有")));
+        }
+        return 0;
     }
 
 }

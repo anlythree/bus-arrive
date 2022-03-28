@@ -201,7 +201,7 @@ public class BusArriveServiceImpl implements BusArriveService {
         Integer startBusStationItemNum = null;
         for (int i = 0; i < xiaoYuanBusRes.getStationNameList().size(); i++) {
             if (xiaoYuanBusRes.getStationNameList().get(i).contains(startBusStationName)) {
-                startBusStationItemNum = i;
+                startBusStationItemNum = i;// todo-anlythree break
             }
         }
         if (startBusStationItemNum == null) {

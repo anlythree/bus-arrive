@@ -13,6 +13,7 @@ import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.utils.MD5Util;
 import top.anlythree.utils.TimeUtil;
+import top.anlythree.utils.exceptions.AException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -76,6 +77,9 @@ public class BusController {
     @GetMapping("/getResult")
     public String getResult(@RequestParam(required = true) String key) {
         BusArriveResultDto result = ACache.getResult(key);
+        if(null == result){
+            throw new AException("未查询到结果");
+        }
         return result.getLeaveStartLocationTime();
     }
 }

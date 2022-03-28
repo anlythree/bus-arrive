@@ -1,6 +1,7 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -167,5 +168,11 @@ public class AnlyTest{
         LocationDTO locationDTO = new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "海创园5号楼", "120.018439,30.283251");
         String s = objectMapper.writeValueAsString(locationDTO);
         System.out.println(s);
+    }
+
+    @Test
+    public void test17(){
+        int levenshteinDistance = StringUtils.getLevenshteinDistance("丰岭路追梦家公寓", "追梦家公寓");
+        System.out.println(levenshteinDistance);
     }
 }

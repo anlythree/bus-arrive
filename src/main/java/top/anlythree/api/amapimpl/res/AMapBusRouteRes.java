@@ -40,6 +40,16 @@ public class AMapBusRouteRes extends AMapResult{
         private String destination;
 
         /**
+         * 总距离
+         */
+        private String distance;
+
+        /**
+         * 打车费用参考
+         */
+        private String taxiCost;
+
+        /**
          * 公交方案列表
          */
         private List<TransitsInfo> transits;
@@ -49,7 +59,7 @@ public class AMapBusRouteRes extends AMapResult{
         @AllArgsConstructor
         public static class TransitsInfo{
             /**
-             * 此换乘方案价格 单位：元
+             * 此换乘方案价格 单位：元，有的时候是空列表
              */
             private String cost;
 
@@ -93,6 +103,7 @@ public class AMapBusRouteRes extends AMapResult{
                 @NoArgsConstructor
                 @AllArgsConstructor
                 public static class Walking{
+
                     private String origin;
 
                     private String destination;
@@ -113,19 +124,19 @@ public class AMapBusRouteRes extends AMapResult{
                     @NoArgsConstructor
                     @AllArgsConstructor
                     public static class StepInfo{
-                        private Object instruction;
+                        private String instruction;
 
-                        private Object road;
+                        private String road;
 
-                        private Object distance;
+                        private String distance;
 
-                        private Object duration;
+                        private String duration;
 
-                        private Object polyline;
+                        private String polyline;
 
-                        private Object action;
+                        private String action;
 
-                        private Object assistant_action;
+                        private String assistantAction;
                     }
                 }
 
@@ -211,7 +222,7 @@ public class AMapBusRouteRes extends AMapResult{
                     if(null != segment.getBus().getBuslines() && segment.getBus().getBuslines().size() == 1){
                         List<SegmentsInfo.Walking.StepInfo> steps = segment.getWalking().getSteps();
                         if(!CollectionUtils.isEmpty(steps)){
-                            String assistantAction = steps.get(steps.size() - 1).getAssistant_action().toString();
+                            String assistantAction = steps.get(steps.size() - 1).getAssistantAction().toString();
                             if(assistantAction.contains("到达")){
                                 return StringUtils.substringAfter(assistantAction,"到达");
                             }

@@ -119,6 +119,10 @@ public class BusArriveServiceImpl implements BusArriveService {
                 arriveLocalTime
         );
         AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo startBusLal = busRouteByLocation.getTransitsByRouteName(routeName);
+        if(null == startBusLal){
+            log.error("没有找到相关公交方案，高德api返回信息："+busRouteByLocation);
+            throw new AException("没有找到相关公交方案，高德api返回信息："+busRouteByLocation);
+        }
         // 获取出发公交站点坐标和名称
         String startBusStationLal = startBusLal.getStartBusStationLal();
         String startBusStationName = startBusLal.getStartBusStationName();

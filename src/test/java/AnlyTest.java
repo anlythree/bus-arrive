@@ -1,4 +1,5 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -163,7 +164,7 @@ public class AnlyTest{
 
     @Test
     public void test16() throws JsonProcessingException {
-        LocationDTO locationDTO = new LocationDTO();
+        LocationDTO locationDTO = new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "海创园5号楼", "120.018439,30.283251");
         String s = objectMapper.writeValueAsString(locationDTO);
         System.out.println(s);
     }

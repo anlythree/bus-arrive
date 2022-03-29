@@ -189,7 +189,8 @@ public class AnlyTest{
                 new UrlUtil.UrlParam("city1", "0571"),
                 new UrlUtil.UrlParam("city2", "0571"),
                 new UrlUtil.UrlParam("key", "ca749b4a5f0fe299e8cd826f69c1c6bc"),
-                new UrlUtil.UrlParam("max_trans", "0")
+                new UrlUtil.UrlParam("max_trans", "0"),
+                new UrlUtil.UrlParam("show_fields","cost")
         );
         System.out.println(amapUrl);
     }

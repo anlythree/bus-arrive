@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
+import top.anlythree.api.amapimpl.res.AMapBusRoute2Res;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
@@ -145,6 +146,11 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
 
     @Override
     public String getCityCodeByName(String cityName) {
+        throw new AException("no suport impl, use begin with AMap……class to impl");
+    }
+
+    @Override
+    public AMapBusRoute2Res getBusRoute2ByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime time) {
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 

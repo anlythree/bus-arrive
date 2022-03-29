@@ -9,6 +9,7 @@ import org.springframework.util.CollectionUtils;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
 import top.anlythree.api.amapimpl.enums.UrlTypeEnum;
+import top.anlythree.api.amapimpl.res.AMapBusRoute2Res;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.api.amapimpl.res.AMapCityRes;
 import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
@@ -135,6 +136,21 @@ public class AMapRouteServiceImpl implements RouteService {
         String cityCodeNo = getCityCodeNoCacheByName(cityName);
         ACache.aMapCityList.put(cityName,cityCodeNo);
         return cityCodeNo;
+    }
+
+    @Override
+    public AMapBusRoute2Res getBusRoute2ByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime time) {
+        return ResultUtil.getAMapModel(RestTemplateUtil.get(
+                UrlUtil.createAmapUrl(UrlTypeEnum.BUS_ROUTE_2,
+                        new UrlUtil.UrlParam("origin", startLocationLal),
+                        new UrlUtil.UrlParam("destination", endLocationLal),
+                        new UrlUtil.UrlParam("city1", "0571"),
+                        new UrlUtil.UrlParam("city2", "0571"),
+                        new UrlUtil.UrlParam("key", "ca749b4a5f0fe299e8cd826f69c1c6bc"),
+                        new UrlUtil.UrlParam("max_trans", "0"),
+                        new UrlUtil.UrlParam("show_fields","cost")
+                )
+                ,AMapBusRoute2Res.class));
     }
 
     @Override

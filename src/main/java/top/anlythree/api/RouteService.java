@@ -1,5 +1,6 @@
 package top.anlythree.api;
 
+import top.anlythree.api.amapimpl.res.AMapBusRoute2Res;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
@@ -116,6 +117,15 @@ public interface RouteService {
      */
     String getCityCodeByName(String cityName);
 
+    /**
+     * 高德路径规划2
+     * @param cityName
+     * @param startLocationLal
+     * @param endLocationLal
+     * @param time
+     * @return
+     */
+    AMapBusRoute2Res getBusRoute2ByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime time);
 
 
 }

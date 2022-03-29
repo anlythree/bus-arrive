@@ -93,7 +93,7 @@ public interface RouteService {
     AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime dateTime);
 
     /**
-     * 根据开始结束坐标点查询步行所需要的时间
+     * 根据开始结束位置名查询步行所需要的时间
      *
      * @param startLocationName
      * @param endLocationName
@@ -101,6 +101,21 @@ public interface RouteService {
      * @return
      */
     AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocationName(String cityName, String startLocationName, String endLocationName, LocalDateTime dateTime);
+
+    /**
+     * 根据城市名称获取城市代码(不查询缓存)
+     * @param cityName
+     * @return
+     */
+    String getCityCodeNoCacheByName(String cityName);
+
+    /**
+     * 根据城市名称获取城市代码
+     * @param cityName
+     * @return
+     */
+    String getCityCodeByName(String cityName);
+
 
 
 }

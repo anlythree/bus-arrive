@@ -139,6 +139,16 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     }
 
     @Override
+    public String getCityCodeNoCacheByName(String cityName) {
+        throw new AException("no suport impl, use begin with AMap……class to impl");
+    }
+
+    @Override
+    public String getCityCodeByName(String cityName) {
+        throw new AException("no suport impl, use begin with AMap……class to impl");
+    }
+
+    @Override
     public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }

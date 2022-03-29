@@ -27,6 +27,11 @@ public class ACache {
 
     private static List<XiaoYuanCityDTO> cityCacheList = new ArrayList<>();
 
+    /**
+     * 开放变量
+     */
+    public static Map<String,String> aMapCityList = new HashMap<>();
+
     private static List<XiaoYuanRouteDTO> routeCacheList = new ArrayList<>();
 
     private static List<LocationDTO> locationCacheList = new ArrayList<>(8);

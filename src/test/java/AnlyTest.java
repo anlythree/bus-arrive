@@ -12,6 +12,7 @@ import top.anlythree.SpringApplicationMain;
 import top.anlythree.api.BusService;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
+import top.anlythree.api.amapimpl.enums.UrlTypeEnum;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.api.amapimpl.res.AMapStationListRes;
 import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
@@ -20,8 +21,10 @@ import top.anlythree.bussiness.bus.controller.BusController;
 import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.bussiness.dto.StationDTO;
+import top.anlythree.cache.ACache;
 import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
+import top.anlythree.utils.UrlUtil;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -174,5 +177,20 @@ public class AnlyTest{
     public void test17(){
         int levenshteinDistance = StringUtils.getLevenshteinDistance("丰岭路追梦家公寓", "追梦家公寓");
         System.out.println(levenshteinDistance);
+    }
+
+    @Test
+    public void test18(){
+        LocationDTO startLocationByName = stationService.getLocationByName("杭州", "追梦家公寓");
+        LocationDTO endLocationByName = stationService.getLocationByName("杭州", "海创园5号楼");
+        String amapUrl = UrlUtil.createAmapUrl(UrlTypeEnum.BUS_ROUTE_2,
+                new UrlUtil.UrlParam("origin", startLocationByName.getLongitudeAndLatitude()),
+                new UrlUtil.UrlParam("destination", endLocationByName.getLongitudeAndLatitude()),
+                new UrlUtil.UrlParam("city1", "0571"),
+                new UrlUtil.UrlParam("city2", "0571"),
+                new UrlUtil.UrlParam("key", "ca749b4a5f0fe299e8cd826f69c1c6bc"),
+                new UrlUtil.UrlParam("max_trans", "0")
+        );
+        System.out.println(amapUrl);
     }
 }

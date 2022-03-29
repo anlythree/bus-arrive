@@ -27,10 +27,18 @@ public class UrlUtil {
 
     private static String sig = null;
 
+    private static String key = null;
+
     @Value("${amap.sign}")
     public void setSig(String sig) {
         UrlUtil.sig = sig;
     }
+
+    @Value("${amap.key}")
+    public static void setKey(String key) {
+        UrlUtil.key = key;
+    }
+
 
 
     public static String createXiaoYuanUrl(UrlParam... params) {

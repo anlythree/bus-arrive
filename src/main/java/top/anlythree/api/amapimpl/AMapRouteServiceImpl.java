@@ -1,5 +1,6 @@
 package top.anlythree.api.amapimpl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,9 +10,11 @@ import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
 import top.anlythree.api.amapimpl.enums.UrlTypeEnum;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
+import top.anlythree.api.amapimpl.res.AMapCityRes;
 import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.dto.LocationDTO;
+import top.anlythree.cache.ACache;
 import top.anlythree.utils.RestTemplateUtil;
 import top.anlythree.utils.ResultUtil;
 import top.anlythree.utils.TimeUtil;
@@ -121,5 +124,26 @@ public class AMapRouteServiceImpl implements RouteService {
         LocationDTO startLocationByName = stationService.getLocationByName(cityName, startLocationName);
         LocationDTO endLocationByName = stationService.getLocationByName(cityName, endLocationName);
         return this.getWalkSecondsByLocation(cityName,startLocationByName.getLongitudeAndLatitude(),endLocationByName.getLongitudeAndLatitude(),dateTime);
+    }
+
+    @Override
+    public String getCityCodeByName(String cityName) {
+        String cityCodeFromCache = ACache.aMapCityList.get(cityName);
+        if(StringUtils.isNotEmpty(cityCodeFromCache)){
+            return cityCodeFromCache;
+        }
+        String cityCodeNo = getCityCodeNoCacheByName(cityName);
+        ACache.aMapCityList.put(cityName,cityCodeNo);
+        return cityCodeNo;
+    }
+
+    @Override
+    public String getCityCodeNoCacheByName(String cityName) {
+        AMapCityRes aMapModel = ResultUtil.getAMapModel(RestTemplateUtil.get(
+                UrlUtil.createAmapUrl(UrlTypeEnum.DISTRICT,
+                        new UrlUtil.UrlParam("key", key),
+                        new UrlUtil.UrlParam("keywords", cityName))
+                , AMapCityRes.class));
+        return aMapModel.getCityCode();
     }
 }

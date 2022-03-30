@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
+import top.anlythree.utils.AStrUtil;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AMapBusRoute2Res extends AMapResult{
 
-    private RouteRes routeRes;
+    private RouteRes route;
 
     @Data
     @NoArgsConstructor
@@ -35,7 +36,7 @@ public class AMapBusRoute2Res extends AMapResult{
             private String distance;
             private String nightflag;
 
-            private CostInfo costInfo;
+            private CostInfo cost;
 
             @Data
             @NoArgsConstructor
@@ -139,7 +140,7 @@ public class AMapBusRoute2Res extends AMapResult{
      * @return
      */
     public ImportInfo getImportInfo(String routeName){
-        for (RouteRes.TransitsRes transit : this.getRouteRes().getTransits()) {
+        for (RouteRes.TransitsRes transit : this.getRoute().getTransits()) {
             if(!CollectionUtils.isEmpty(transit.getSegments())){
                 for (RouteRes.TransitsRes.SegmentsRes segment : transit.getSegments()) {
                     if(!CollectionUtils.isEmpty(segment.getBus().getBuslines())){
@@ -151,8 +152,8 @@ public class AMapBusRoute2Res extends AMapResult{
                                     stationName = busName.substring(busName.indexOf("(")+1, busName.lastIndexOf(")")).split("--");
                                 }
                                 return new ImportInfo(routeName,
-                                        Long.parseLong(transit.getCostInfo().getDuration()),
-                                        Long.parseLong(transit.getCostInfo().getTransitFee()),
+                                        AStrUtil.castLong(transit.getCost().getDuration()),
+                                        AStrUtil.castLong(transit.getCost().getTransitFee()),
                                         busline.getDepartureStop().getName(),
                                         busline.getDepartureStop().getLocation(),
                                         busline.getArrivalStop().getName(),

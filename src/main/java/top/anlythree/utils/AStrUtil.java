@@ -19,4 +19,13 @@ public class AStrUtil {
         //  比较下原字符串是否一半以上的字符是不同的，只要少于一半不同的字符就认为这两个字符串相似
         return sourceStr.length() >> 1 > StringUtils.getLevenshteinDistance(sourceStr, targetStr);
     }
+
+    /**
+     * 带小数点字符串转成Long
+     * @param number
+     * @return
+     */
+    public static Long castLong(String number){
+        return new Double(Double.parseDouble(number)).longValue();
+    }
 }

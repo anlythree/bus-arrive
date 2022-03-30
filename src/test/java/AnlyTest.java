@@ -199,6 +199,7 @@ public class AnlyTest{
     @Test
     public void test19(){
         AMapBusRoute2Res route = aMapRouteService.getBusRoute2ByLocation("杭州", "120.034084,30.242901", "120.026686,30.280905", null);
-        System.out.println(route);
+        AMapBusRoute2Res.ImportInfo importInfo = route.getImportInfo("353");
+        System.out.println(importInfo);
     }
 }

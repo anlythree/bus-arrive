@@ -13,6 +13,7 @@ import top.anlythree.api.BusService;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
 import top.anlythree.api.amapimpl.enums.UrlTypeEnum;
+import top.anlythree.api.amapimpl.res.AMapBusRoute2Res;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.api.amapimpl.res.AMapStationListRes;
 import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
@@ -193,5 +194,11 @@ public class AnlyTest{
                 new UrlUtil.UrlParam("show_fields","cost")
         );
         System.out.println(amapUrl);
+    }
+
+    @Test
+    public void test19(){
+        AMapBusRoute2Res route = aMapRouteService.getBusRoute2ByLocation("杭州", "120.034084,30.242901", "120.026686,30.280905", null);
+        System.out.println(route);
     }
 }

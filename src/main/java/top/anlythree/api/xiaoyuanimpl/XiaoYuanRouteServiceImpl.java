@@ -123,39 +123,4 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
         }
         return null;
     }
-
-    @Override
-    public AMapBusRouteRes getBusRouteByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime time) {
-        throw new AException("no suport impl, use begin with AMap……class to impl");
-    }
-
-    @Override
-    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusTransitsByLocation(String cityName, String startLocation, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
-        throw new AException("no suport impl, use begin with AMap……class to impl");
-    }
-
-    @Override
-    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocationName(String cityName, String startLocationName, String endLocationName, LocalDateTime dateTime) {
-        throw new AException("no suport impl, use begin with AMap……class to impl");
-    }
-
-    @Override
-    public String getCityCodeNoCacheByName(String cityName) {
-        throw new AException("no suport impl, use begin with AMap……class to impl");
-    }
-
-    @Override
-    public String getCityCodeByName(String cityName) {
-        throw new AException("no suport impl, use begin with AMap……class to impl");
-    }
-
-    @Override
-    public AMapBusRoute2Res getBusRoute2ByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime time) {
-        throw new AException("no suport impl, use begin with AMap……class to impl");
-    }
-
-    @Override
-    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
-        throw new AException("no suport impl, use begin with AMap……class to impl");
-    }
 }

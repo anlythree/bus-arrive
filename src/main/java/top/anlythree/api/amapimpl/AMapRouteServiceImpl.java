@@ -41,30 +41,6 @@ public class AMapRouteServiceImpl implements RouteService {
     @Qualifier(value = "AMapStationServiceImpl")
     private StationService stationService;
 
-    @Override
-    public List<XiaoYuanRouteDTO> getRouteListByNameAndCityName(String routeName, String cityName) {
-        throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
-    }
-
-    @Override
-    public XiaoYuanRouteDTO getRouteByNameAndCityAndEndStation(String cityName, String routeName, String endStationName) {
-        throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
-    }
-
-    @Override
-    public XiaoYuanRouteDTO getRouteFromCache(String cityId, String routeName, String endStationName) {
-        throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
-    }
-
-    @Override
-    public void cacheRouteByNameAndCityName(String cityName, String routeName) {
-        throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
-    }
-
-    @Override
-    public XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String cityName, String routeName, String rideStart, String rideEnd) {
-        throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
-    }
 
     @Override
     public AMapBusRouteRes getBusRouteByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {

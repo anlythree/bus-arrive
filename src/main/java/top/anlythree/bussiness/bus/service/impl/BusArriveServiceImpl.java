@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import top.anlythree.api.BusService;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
 import top.anlythree.api.amapimpl.res.AMapBusRoute2Res;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
+import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanBusRes;
 import top.anlythree.bussiness.bus.service.BusArriveService;
@@ -124,6 +126,8 @@ public class BusArriveServiceImpl implements BusArriveService {
             log.error("没有找到相关公交方案，高德api返回信息："+busRoute2ByLocation);
             throw new AException("没有找到相关公交方案，高德api返回信息："+busRoute2ByLocation);
         }
+        // 赋值公交发车站坐标
+        importInfo.setFirstBusStationLal(stationService.getLocationByName(cityName,importInfo.getFirstBusStationName()).getLongitudeAndLatitude());
         // 获取路线信息
         XiaoYuanRouteDTO routeDto = routeServiceXiaoYuanImpl.getRouteByNameAndCityAndEndStation(cityName, routeName, importInfo.getLastBusStationName());
         // 获取目标公交车最晚发车时间（及返回值）
@@ -163,7 +167,7 @@ public class BusArriveServiceImpl implements BusArriveService {
         Long walkSecondsByLocation = routeServiceAMapImpl.getWalkSecondsByLocation(
                 cityName, importInfo.getStartLocationLal(), importInfo.getStartBusStationLal(), null).getSeconds();
         // 获取可用的公交车列表
-        List<BusDTO> availableBusList = getAvailableBusList(cityName,xiaoYuanBusRes,importInfo,prepareSeconds,arriveTime);
+        List<BusDTO> availableBusList = getAvailableBusList(cityName,xiaoYuanBusRes,importInfo,walkSecondsByLocation,prepareSeconds,arriveTime);
         if(CollectionUtils.isEmpty(availableBusList)){
             log.error("没有合适的"+arriveTime+"到达"+importInfo.getEndLocationLal()+"的公交可乘坐");
             throw new AException("没有合适的"+arriveTime+"到达"+importInfo.getEndLocationLal()+"的公交可乘坐");
@@ -173,18 +177,73 @@ public class BusArriveServiceImpl implements BusArriveService {
     }
 
     /**
-     * todo-anlythree 获取可用的公交列表
+     * 根据两种范围查重可用的公交列表
+     * 范围1：计算最小的busItem：能在规定时间感到目的地
+     * 范围2：计算最大的budItem：能从当前时间赶上公交
      * @param cityName
      * @param xiaoYuanBusRes
      * @param importInfo
      * @param prepareSeconds
+     * @param walkSecondsByLocation
      * @param arriveTime
      * @return
      */
     private List<BusDTO> getAvailableBusList(String cityName, XiaoYuanBusRes xiaoYuanBusRes,
-                                             AMapBusRoute2Res.ImportInfo importInfo,
+                                             AMapBusRoute2Res.ImportInfo importInfo,Long walkSecondsByLocation,
                                              Long prepareSeconds, LocalDateTime arriveTime) {
-        return null;
+        List<BusDTO> busList = xiaoYuanBusRes.getBusList();
+        busList.sort(Comparator.comparing(BusDTO::getDisStat));
+        // 起始站在第几站
+        Integer startBusStationItemNum = null;
+        for (int i = 0; i < xiaoYuanBusRes.getStationNameList().size(); i++) {
+            if (xiaoYuanBusRes.getStationNameList().get(i).contains(importInfo.getStartBusStationName())) {
+                startBusStationItemNum = i;
+                break;
+            }
+        }
+        Assert.isTrue(startBusStationItemNum != null,
+                "根据站点名称未找到站点是第几个，站点名：" + importInfo.getStartBusStationName() + "所有站点：" + xiaoYuanBusRes.getStationNameList());
+        Integer busItemMin = null;
+        Integer busItemMax = null;
+        // 正序查找最小的busItem
+        busList.sort(Comparator.comparing(BusDTO::getDisStat));
+        for (int i = 0; i < busList.size(); i++) {
+            if(busList.get(i).getStationNum() > startBusStationItemNum){
+                // 站点在上车站点之后
+                break;
+            }
+            AMapBusRoute2Res.ImportInfo importInfo1 =
+                    routeServiceAMapImpl.getBusRoute2ByLocation(cityName, busList.get(i).getLocation(), importInfo.getEndLocationLal(), null)
+                    .getImportInfo(importInfo.getRouteFullName());
+            if(importInfo1 == null){
+                continue;
+            }
+            Long busToEndLocationSeconds = importInfo1.getNoWaitTime();
+            if(LocalDateTime.now().plusSeconds(busToEndLocationSeconds).isBefore(arriveTime)){
+                busItemMin = i;
+                break;
+            }
+        }
+        // 倒序查找最大的busItem
+        busList.sort(Comparator.comparing(BusDTO::getDisStat));
+        for (int i = busList.size()-1; i >=0; i--) {
+            if(busList.get(i).getStationNum() > startBusStationItemNum){
+                // 站点在上车站点之后
+                continue;
+            }
+            Long busToStartStationSeconds =
+                    routeServiceAMapImpl.getBusRoute2ByLocation(cityName, busList.get(i).getLocation(), importInfo.getStartLocationLal(), null)
+                    .getImportInfo(importInfo.getRouteFullName()).getNoWaitTime();
+            if(busToStartStationSeconds > walkSecondsByLocation + prepareSeconds){
+                busItemMax = i;
+                break;
+            }
+        }
+        if(busItemMin == null || busItemMax == null){
+            return null;
+        }
+        // 截取busList
+        return busList.subList(busItemMin, busItemMax+1);
     }
 
     /**
@@ -203,74 +262,12 @@ public class BusArriveServiceImpl implements BusArriveService {
         // 计算所有合适的公交车对应的出发时间
         for (BusDTO busDTO : availableBusList) {
             AMapBusRoute2Res.ImportInfo importInfo1 = routeServiceAMapImpl.getBusRoute2ByLocation(cityName,
-                    busDTO.getLocation(), importInfo.getStartLocationLal(), null).getImportInfo(importInfo.getRouteName());
+                    busDTO.getLocation(), importInfo.getStartBusStationLal(), null).getImportInfo(importInfo.getRouteName());
             // 计算计算时间向后推秒数 = 车到达起始站点所需时间（秒）-准备时间（秒）-步行时间（秒）
-            long plusSeconds = importInfo1.getSeconds() - prepareSeconds - walkSecondsByLocation;
+            long plusSeconds = importInfo1.getNoWaitTime() - prepareSeconds - walkSecondsByLocation;
+            Assert.isTrue(plusSeconds>0,"赶不上这班车了！！");
             availableTimeList.add(TimeUtil.timeToString(LocalDateTime.now().plusSeconds(plusSeconds)));
         }
         return availableTimeList;
-    }
-
-
-    private BusDTO getBestBusAfterStartTime(String cityName, XiaoYuanRouteDTO routeDTO, XiaoYuanBusRes xiaoYuanBusRes, String startBusStationName, LocalDateTime arriveTime,
-                                            LocationDTO endLocationDto, String startBusStationLal, Long walkSecondsByLocation) {
-        // 起始站在第几站(从始发站开始计数)
-        Integer startBusStationItemNum = getStartBusStationItemNum(xiaoYuanBusRes, startBusStationName);
-        // 当前时间到到达时间还剩多久
-        Long secondsHave = Duration.between(arriveTime, LocalDateTime.now()).getSeconds();
-        Integer bestBusItem = null;
-        for (int i = 0; i < xiaoYuanBusRes.getBusList().size(); i++) {
-            String busLal = xiaoYuanBusRes.getBusList().get(i).getLocation();
-            // 该公交到目的地时间
-            Long busToEndStationSeconds = routeServiceAMapImpl.getBusRoute2ByLocation(cityName,
-                    busLal, endLocationDto.getLongitudeAndLatitude(), null).getImportInfo(routeDTO.getRouteName()).getSeconds();
-            // 该公交到站点时间
-            Long busToStartStationSeconds = routeServiceAMapImpl.getBusRoute2ByLocation(cityName,
-                    busLal, startBusStationLal, null).getImportInfo(routeDTO.getRouteName()).getSeconds();
-            if (secondsHave.compareTo(busToEndStationSeconds) > 0 &&
-                    busToStartStationSeconds.compareTo(walkSecondsByLocation) > 0) {
-                bestBusItem = i;
-            }
-            if (xiaoYuanBusRes.getBusList().get(i).getStationNum() > startBusStationItemNum) {
-                // 起始站之后的车是已经赶不上的了，跳出循环
-                break;
-            }
-        }
-        if (bestBusItem == null) {
-            throw new AException("当前所有公交车均会晚点");
-        }
-        if (bestBusItem < xiaoYuanBusRes.getBusList().size() - 1) {
-            // 如果前边还有合适的车就选前边的，防止最后一辆车坐不上
-            bestBusItem++;
-            String busLocationLal = xiaoYuanBusRes.getBusList().get(bestBusItem).getLocation();
-            Long busToStartStationSeconds = routeServiceAMapImpl.getBusTransitsByLocation(cityName, routeDTO.getRouteName(),
-                    busLocationLal, startBusStationLal, null).getSeconds();
-            if (busToStartStationSeconds.compareTo(walkSecondsByLocation) < 0) {
-                // 如果这辆车走过去已经赶不上上车点了就还是坐最后一辆车
-                bestBusItem--;
-            }
-        }
-        return xiaoYuanBusRes.getBusList().get(bestBusItem);
-    }
-
-    /**
-     * 根据当前公交信息获取起始站在第几站
-     * @param xiaoYuanBusRes
-     * @param startBusStationName
-     * @return
-     */
-    private Integer getStartBusStationItemNum(XiaoYuanBusRes xiaoYuanBusRes, String startBusStationName) {
-        Integer startBusStationItemNum = null;
-        for (int i = 0; i < xiaoYuanBusRes.getStationNameList().size(); i++) {
-            if (xiaoYuanBusRes.getStationNameList().get(i).contains(startBusStationName)) {
-                startBusStationItemNum = i;
-                break;
-            }
-        }
-        if (startBusStationItemNum == null) {
-            log.error("根据站点名称未找到站点是第几个，站点名：" + startBusStationName + "所有站点：" + xiaoYuanBusRes.getStationNameList());
-            throw new AException("计算出发时间失败");
-        }
-        return startBusStationItemNum;
     }
 }

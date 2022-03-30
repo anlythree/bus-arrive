@@ -16,6 +16,8 @@ public class AExceptionHandler{
 
     @ExceptionHandler(value = AException.class)
     public String exceptionHandler(Exception e){
+        // todo-anlythree 上线后删除
+        e.printStackTrace();
         return "AException>>>"+e.getMessage();
     }
 }

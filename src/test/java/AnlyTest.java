@@ -20,6 +20,7 @@ import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.bus.controller.BusController;
 import top.anlythree.bussiness.bus.service.BusArriveService;
+import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.bussiness.dto.StationDTO;
 import top.anlythree.cache.ACache;
@@ -28,6 +29,7 @@ import top.anlythree.utils.TimeUtil;
 import top.anlythree.utils.UrlUtil;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -198,7 +200,11 @@ public class AnlyTest{
 
     @Test
     public void test19(){
-        AMapBusRoute2Res route = aMapRouteService.getBusRoute2ByLocation("杭州", "120.034084,30.242901", "120.026686,30.280905", null);
+        XiaoYuanRouteDTO routeDTO = routeService.getRouteListByNameAndCityName("353", "杭州").get(1);
+        List<BusDTO> busDTOList = busService.getBusLocationList("杭州", routeDTO);
+        busDTOList.sort(Comparator.comparing(BusDTO::getDisStat));
+        BusDTO busDTO = busDTOList.get(1);
+        AMapBusRoute2Res route = aMapRouteService.getBusRoute2ByLocation("杭州", busDTO.getLocation(), "120.020833,30.278499", null);
         AMapBusRoute2Res.ImportInfo importInfo = route.getImportInfo("353");
         System.out.println(importInfo);
     }

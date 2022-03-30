@@ -17,14 +17,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AMapBusRoute2Res extends AMapResult{
+public class AMapBusRoute2Res extends AMapResult {
 
     private RouteRes route;
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class RouteRes{
+    public static class RouteRes {
         private String origin;
         private String destination;
         private List<TransitsRes> transits;
@@ -41,7 +41,7 @@ public class AMapBusRoute2Res extends AMapResult{
             @Data
             @NoArgsConstructor
             @AllArgsConstructor
-            public static class CostInfo{
+            public static class CostInfo {
                 /**
                  * 用时
                  */
@@ -52,6 +52,7 @@ public class AMapBusRoute2Res extends AMapResult{
                  */
                 private String transitFee;
             }
+
             private List<SegmentsRes> segments;
 
             @Data
@@ -137,37 +138,37 @@ public class AMapBusRoute2Res extends AMapResult{
 
     /**
      * 根据公交路线名从高德返回的路径规划中找到需要的信息
+     *
      * @return
      */
-    public ImportInfo getImportInfo(String routeName){
+    public ImportInfo getImportInfo(String routeName) {
         for (RouteRes.TransitsRes transit : this.getRoute().getTransits()) {
-            if(!CollectionUtils.isEmpty(transit.getSegments())){
-                for (RouteRes.TransitsRes.SegmentsRes segment : transit.getSegments()) {
-                    if(!CollectionUtils.isEmpty(segment.getBus().getBuslines())){
-                        for (RouteRes.TransitsRes.SegmentsRes.BusRes.BusLinesRes busline : segment.getBus().getBuslines()) {
-                            if(busline.getName().contains(routeName)){
-                                String busName;
-                                String[] stationName = {null,null};
-                                if(StringUtils.isNotEmpty(busName = busline.getName())){
-                                    stationName = busName.substring(busName.indexOf("(")+1, busName.lastIndexOf(")")).split("--");
-                                }
-                                return new ImportInfo(routeName,
-                                        AStrUtil.castLong(transit.getCost().getDuration()),
-                                        AStrUtil.castLong(transit.getCost().getTransitFee()),
-                                        getRoute().getOrigin(),
-                                        getRoute().getDestination(),
-                                        busline.getDepartureStop().getName(),
-                                        busline.getDepartureStop().getLocation(),
-                                        busline.getArrivalStop().getName(),
-                                        busline.getArrivalStop().getLocation(),
-                                        stationName[0],
-                                        stationName[1]
-                                        );
+            for (RouteRes.TransitsRes.SegmentsRes segment : transit.getSegments()) {
+                if (null != segment.getBus() && !CollectionUtils.isEmpty(segment.getBus().getBuslines())) {
+                    for (RouteRes.TransitsRes.SegmentsRes.BusRes.BusLinesRes busline : segment.getBus().getBuslines()) {
+                        if (busline.getName().contains(routeName)) {
+                            String busName;
+                            String[] stationName = {null, null};
+                            if (StringUtils.isNotEmpty(busName = busline.getName())) {
+                                stationName = busName.substring(busName.indexOf("(") + 1, busName.lastIndexOf(")")).split("--");
                             }
+                            return new ImportInfo(routeName,busName,
+                                    AStrUtil.castLong(transit.getCost().getDuration()),
+                                    AStrUtil.castLong(transit.getCost().getTransitFee()),
+                                    getRoute().getOrigin(),
+                                    getRoute().getDestination(),
+                                    busline.getDepartureStop().getName(),
+                                    busline.getDepartureStop().getLocation(),
+                                    busline.getArrivalStop().getName(),
+                                    busline.getArrivalStop().getLocation(),
+                                    stationName[0],
+                                    stationName[1]
+                            );
                         }
                     }
                 }
             }
+
         }
         return null;
     }
@@ -175,11 +176,16 @@ public class AMapBusRoute2Res extends AMapResult{
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ImportInfo{
+    public static class ImportInfo {
         /**
          * 路线名称
          */
         private String routeName;
+
+        /**
+         * 带方向的路线名称
+         */
+        private String routeFullName;
 
         /**
          * 用时（秒）
@@ -241,8 +247,20 @@ public class AMapBusRoute2Res extends AMapResult{
          */
         private String lastBusStationName;
 
-        public ImportInfo(String routeName, Long seconds, Long cost,String startBusStationName, String startBusStationLal, String endBusStationName, String endBusStationLal, String firstBusStationName,String lastBusStationName, String startLocationLal, String endLocationLal) {
+        public ImportInfo(String routeName,
+                          String routeFullName,
+                          Long seconds,
+                          Long cost,
+                          String startLocationLal,
+                          String endLocationLal,
+                          String startBusStationName,
+                          String startBusStationLal,
+                          String endBusStationName,
+                          String endBusStationLal,
+                          String firstBusStationName,
+                          String lastBusStationName) {
             this.routeName = routeName;
+            this.routeFullName = routeFullName;
             this.seconds = seconds;
             this.cost = cost;
             this.startLocationLal = startLocationLal;
@@ -253,6 +271,15 @@ public class AMapBusRoute2Res extends AMapResult{
             this.endBusStationLal = endBusStationLal;
             this.firstBusStationName = firstBusStationName;
             this.lastBusStationName = lastBusStationName;
+        }
+
+        /**
+         * 获取没有等待的用时
+         * @return
+         */
+        public Long getNoWaitTime(){
+            // 减去15分钟
+            return getSeconds()-15*60;
         }
     }
 }

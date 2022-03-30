@@ -86,6 +86,6 @@ public class BusController {
         if(null == result){
             throw new AException("未查询到结果");
         }
-        return result.getLeaveStartLocationTime();
+        return result.getLeaveStartLocationTime().toString();
     }
 }

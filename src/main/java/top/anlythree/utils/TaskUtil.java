@@ -32,7 +32,9 @@ public class TaskUtil {
         threadPool.execute(()->{
             if(doTime != null){
                 long seconds = Duration.between(LocalDateTime.now(), doTime).getSeconds();
-                if(seconds > 2){
+                if(doTime.isAfter(LocalDateTime.now()) && seconds > 2){
+                    // 需要运行时间在当前时间之后且时间差大于2秒就延时执行，否则就直接执行
+                    log.info("定时任务将于"+doTime+"执行");
                     try {
                         Thread.sleep(seconds * 1000);
                     } catch (InterruptedException e) {

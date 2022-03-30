@@ -66,7 +66,6 @@ public interface BusArriveService {
      * @param cityName 城市名称
      * @param routeDTO 公交路线
      * @param prepareSeconds 准备时间，从准备出发到出发站点的时间（单位：秒）
-     * @param doCalculateTime 开始计算的时间（获取在线公交位置的时间）
      * @param arriveTime 到达时间
      * @return
      */

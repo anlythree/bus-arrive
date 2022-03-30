@@ -115,13 +115,25 @@ public class AMapRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public AMapBusRoute2Res getBusRoute2ByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime time) {
+    public AMapBusRoute2Res getBusRoute2ByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
+        // 生成时间参数
+        String time = null;
+        String date = null;
+        if (null != dateTime) {
+            String[] dateAndTimeByDateTimeStr = TimeUtil.getDateAndTimeByTime(dateTime);
+            date = dateAndTimeByDateTimeStr[0];
+            time = dateAndTimeByDateTimeStr[1];
+        }
+        // 获取城市code
+        String cityCode = getCityCodeByName(cityName);
         return ResultUtil.getAMapModel(RestTemplateUtil.get(
                 UrlUtil.createAmapUrl(UrlTypeEnum.BUS_ROUTE_2,
                         new UrlUtil.UrlParam("origin", startLocationLal),
                         new UrlUtil.UrlParam("destination", endLocationLal),
-                        new UrlUtil.UrlParam("city1", "0571"),
-                        new UrlUtil.UrlParam("city2", "0571"),
+                        new UrlUtil.UrlParam("city1", cityCode),
+                        new UrlUtil.UrlParam("city2", cityCode),
+                        new UrlUtil.UrlParam("date", date),
+                        new UrlUtil.UrlParam("time", time),
                         new UrlUtil.UrlParam("key", "ca749b4a5f0fe299e8cd826f69c1c6bc"),
                         new UrlUtil.UrlParam("max_trans", "0"),
                         new UrlUtil.UrlParam("show_fields","cost")

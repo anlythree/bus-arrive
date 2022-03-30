@@ -81,6 +81,7 @@ public interface RouteService {
      * @param endLocationLal
      * @return
      */
+    @Deprecated
     default AMapBusRouteRes getBusRouteByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime time){
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }
@@ -94,6 +95,7 @@ public interface RouteService {
      * @param dateTime 出发时间
      * @return
      */
+    @Deprecated
     default AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusTransitsByLocation(String cityName, String routeName, String startLocationLal, String endLocationLal, LocalDateTime dateTime){
         throw new AException("no suport impl, use begin with AMap……class to impl");
     }

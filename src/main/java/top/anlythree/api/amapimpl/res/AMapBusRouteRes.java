@@ -19,6 +19,7 @@ import java.util.List;
  * @description:
  * @time 2022/3/156:45 下午
  */
+@Deprecated
 @Data
 @Slf4j
 @NoArgsConstructor

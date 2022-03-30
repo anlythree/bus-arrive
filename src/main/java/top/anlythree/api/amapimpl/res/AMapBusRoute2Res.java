@@ -154,6 +154,8 @@ public class AMapBusRoute2Res extends AMapResult{
                                 return new ImportInfo(routeName,
                                         AStrUtil.castLong(transit.getCost().getDuration()),
                                         AStrUtil.castLong(transit.getCost().getTransitFee()),
+                                        getRoute().getOrigin(),
+                                        getRoute().getDestination(),
                                         busline.getDepartureStop().getName(),
                                         busline.getDepartureStop().getLocation(),
                                         busline.getArrivalStop().getName(),
@@ -190,6 +192,21 @@ public class AMapBusRoute2Res extends AMapResult{
         private Long cost;
 
         /**
+         * 起始位置名称(无法直接推算，需要后期赋值)
+         */
+        private String startLocationName;
+
+        /**
+         * 起始位置坐标
+         */
+        private String startLocationLal;
+
+        /**
+         * 结束位置坐标
+         */
+        private String endLocationLal;
+
+        /**
          * 上车公交站名称
          */
         private String startBusStationName;
@@ -224,10 +241,12 @@ public class AMapBusRoute2Res extends AMapResult{
          */
         private String lastBusStationName;
 
-        public ImportInfo(String routeName, Long seconds, Long cost,String startBusStationName, String startBusStationLal, String endBusStationName, String endBusStationLal, String firstBusStationName,String lastBusStationName) {
+        public ImportInfo(String routeName, Long seconds, Long cost,String startBusStationName, String startBusStationLal, String endBusStationName, String endBusStationLal, String firstBusStationName,String lastBusStationName, String startLocationLal, String endLocationLal) {
             this.routeName = routeName;
             this.seconds = seconds;
             this.cost = cost;
+            this.startLocationLal = startLocationLal;
+            this.endLocationLal = endLocationLal;
             this.startBusStationName = startBusStationName;
             this.startBusStationLal = startBusStationLal;
             this.endBusStationName = endBusStationName;

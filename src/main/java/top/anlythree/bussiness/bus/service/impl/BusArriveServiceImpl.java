@@ -260,9 +260,13 @@ public class BusArriveServiceImpl implements BusArriveService {
                 // 站点在上车站点之后
                 continue;
             }
-            Long busToStartStationSeconds =
+            AMapBusRoute2Res.ImportInfo importInfo1 =
                     routeServiceAMapImpl.getBusRoute2ByLocation(cityName, busList.get(i).getLocation(), importInfo.getStartLocationLal(), null)
-                    .getImportInfo(importInfo.getRouteFullName()).getNoWaitSeconds();
+                    .getImportInfo(importInfo.getRouteFullName());
+            if(null == importInfo1){
+                continue;
+            }
+            Long busToStartStationSeconds = importInfo1.getNoWaitSeconds();
             if(busToStartStationSeconds > walkSecondsByLocation + prepareSeconds){
                 busItemMax = i;
                 break;
@@ -300,6 +304,7 @@ public class BusArriveServiceImpl implements BusArriveService {
             }
             availableTimeList.add(TimeUtil.timeToString(LocalDateTime.now().plusSeconds(plusSeconds)));
         }
+        availableTimeList.sort(Comparator.naturalOrder());
         return availableTimeList;
     }
 }

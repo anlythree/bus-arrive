@@ -76,8 +76,8 @@ public class BusController {
             // 那么这时后台的任务线程已经开始计算时间。所以可以直接按当前时间后的10秒后请求结果。
             startTimeByArriveTime = LocalDateTime.now();
         }
-        // 给后台留10秒计算时间，防止请求结果时后台还未计算出结果
-        return "getTime:"+TimeUtil.timeToString(startTimeByArriveTime.plusSeconds(10))+"key:"+key;
+        // 给后台留5秒计算时间，防止请求结果时后台还未计算出结果
+        return "getTime:"+TimeUtil.timeToString(startTimeByArriveTime.plusSeconds(5))+"key:"+key;
     }
 
     /**

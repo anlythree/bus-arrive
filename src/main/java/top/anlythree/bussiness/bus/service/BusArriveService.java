@@ -62,7 +62,6 @@ public interface BusArriveService {
 
     /**
      * 计算需要什么时候出发
-     *
      * @param cityName 城市名称
      * @param routeDTO 公交路线
      * @param prepareSeconds 准备时间，从准备出发到出发站点的时间（单位：秒）
@@ -73,5 +72,18 @@ public interface BusArriveService {
             String cityName, XiaoYuanRouteDTO routeDTO,
             AMapBusRoute2Res.ImportInfo importInfo,
             Long prepareSeconds, LocalDateTime arriveTime);
+
+    /**
+     * 当前时间出发
+     * @param cityName
+     * @param routeName
+     * @param startLocationByName
+     * @param endLocationByName
+     * @return
+     */
+    List<String> calculateNow(String cityName,
+                                     String routeName,
+                                     LocationDTO startLocationByName,
+                                     LocationDTO endLocationByName);
 
 }

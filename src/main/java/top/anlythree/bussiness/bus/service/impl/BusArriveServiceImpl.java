@@ -169,11 +169,32 @@ public class BusArriveServiceImpl implements BusArriveService {
         // 获取可用的公交车列表
         List<BusDTO> availableBusList = getAvailableBusList(cityName,xiaoYuanBusRes,importInfo,walkSecondsByLocation,prepareSeconds,arriveTime);
         if(CollectionUtils.isEmpty(availableBusList)){
-            log.error("没有合适的"+arriveTime+"到达"+importInfo.getEndLocationLal()+"的公交可乘坐");
-            throw new AException("没有合适的"+arriveTime+"到达"+importInfo.getEndLocationLal()+"的公交可乘坐");
+            log.error("没有合适的到达"+importInfo.getEndLocationLal()+"的公交可乘坐");
+            throw new AException("没有合适的到达"+importInfo.getEndLocationLal()+"的公交可乘坐");
         }
         // 计算所有可用公交车对应的出发时间
         return getAvailableTimeList(cityName, importInfo, prepareSeconds, walkSecondsByLocation, availableBusList);
+    }
+
+    @Override
+    public List<String> calculateNow(String cityName,
+                                            String routeName,
+                                            LocationDTO startLocationDto,
+                                            LocationDTO endLocationDto) {
+        // 获取高德路线信息
+        AMapBusRoute2Res busRoute2ByLocation = routeServiceAMapImpl.getBusRoute2ByLocation(cityName,
+                startLocationDto.getLongitudeAndLatitude(),
+                endLocationDto.getLongitudeAndLatitude(),
+                null);
+        AMapBusRoute2Res.ImportInfo importInfo = busRoute2ByLocation.getImportInfo(routeName);
+        if(null == importInfo){
+            log.error("没有找到相关公交方案，高德api返回信息："+busRoute2ByLocation);
+            throw new AException("没有找到相关公交方案，高德api返回信息："+busRoute2ByLocation);
+        }
+        // 获取路线信息
+        XiaoYuanRouteDTO routeDto = routeServiceXiaoYuanImpl.getRouteByNameAndCityAndEndStation(cityName, routeName, importInfo.getLastBusStationName());
+        // 计算出发时间
+        return calculateTimeToGo(cityName, routeDto,importInfo,0L,null);
     }
 
     /**
@@ -211,15 +232,21 @@ public class BusArriveServiceImpl implements BusArriveService {
             if(busList.get(i).getStationNum() > startBusStationItemNum){
                 // 站点在上车站点之后
                 break;
+            }else if(arriveTime == null){
+                // 如果没有规定到达时间且当前公交车没有在上车站点之后
+                busItemMin = i;
+                break;
             }
             AMapBusRoute2Res.ImportInfo importInfo1 =
                     routeServiceAMapImpl.getBusRoute2ByLocation(cityName, busList.get(i).getLocation(), importInfo.getEndLocationLal(), null)
                     .getImportInfo(importInfo.getRouteFullName());
             if(importInfo1 == null){
+                // 没有可用公交方案就略过，通常是离站点太近了，没法赶到
                 continue;
             }
-            Long busToEndLocationSeconds = importInfo1.getNoWaitTime();
+            Long busToEndLocationSeconds = importInfo1.getNoWaitSeconds();
             if(LocalDateTime.now().plusSeconds(busToEndLocationSeconds).isBefore(arriveTime)){
+                // 能按时到达上车公交站点
                 busItemMin = i;
                 break;
             }
@@ -233,7 +260,7 @@ public class BusArriveServiceImpl implements BusArriveService {
             }
             Long busToStartStationSeconds =
                     routeServiceAMapImpl.getBusRoute2ByLocation(cityName, busList.get(i).getLocation(), importInfo.getStartLocationLal(), null)
-                    .getImportInfo(importInfo.getRouteFullName()).getNoWaitTime();
+                    .getImportInfo(importInfo.getRouteFullName()).getNoWaitSeconds();
             if(busToStartStationSeconds > walkSecondsByLocation + prepareSeconds){
                 busItemMax = i;
                 break;
@@ -264,8 +291,8 @@ public class BusArriveServiceImpl implements BusArriveService {
             AMapBusRoute2Res.ImportInfo importInfo1 = routeServiceAMapImpl.getBusRoute2ByLocation(cityName,
                     busDTO.getLocation(), importInfo.getStartBusStationLal(), null).getImportInfo(importInfo.getRouteName());
             // 计算计算时间向后推秒数 = 车到达起始站点所需时间（秒）-准备时间（秒）-步行时间（秒）
-            long plusSeconds = importInfo1.getNoWaitTime() - prepareSeconds - walkSecondsByLocation;
-            Assert.isTrue(plusSeconds>0,"赶不上这班车了！！");
+            long plusSeconds = importInfo1.getNoWaitSeconds() - prepareSeconds - walkSecondsByLocation;
+            Assert.isTrue(plusSeconds > 0,"赶不上这班车了！！");
             availableTimeList.add(TimeUtil.timeToString(LocalDateTime.now().plusSeconds(plusSeconds)));
         }
         return availableTimeList;

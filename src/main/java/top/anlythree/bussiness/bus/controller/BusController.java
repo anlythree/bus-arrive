@@ -17,6 +17,7 @@ import top.anlythree.utils.exceptions.AException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/bus")
@@ -79,6 +80,30 @@ public class BusController {
         return "getTime:"+TimeUtil.timeToString(startTimeByArriveTime.plusSeconds(10))+"key:"+key;
     }
 
+    /**
+     * 获取当前时间开始出发时间列表
+     * @param cityName
+     * @param routeName
+     * @param startLocationName
+     * @param endLocationName
+     * @return
+     */
+    @GetMapping("/calculateTimeNow")
+    public String calculateTimeNow(String cityName,
+                                String routeName,
+                                String startLocationName,
+                                String endLocationName) {
+        LocationDTO startLocationByName = stationService.getLocationByName(cityName, startLocationName);
+        LocationDTO endLocationByName = stationService.getLocationByName(cityName, endLocationName);
+        // 计算什么时候可以获取计算结果 && 延时在取结果之前计算何时出发
+        return busArriveService.calculateNow(
+                cityName,
+                routeName,
+                startLocationByName,
+                endLocationByName
+        ).toString();
+    }
+
 
     @GetMapping("/getResult")
     public String getResult(@RequestParam(required = true) String key) {
@@ -88,4 +113,6 @@ public class BusController {
         }
         return result.getLeaveStartLocationTime().toString();
     }
+
+
 }

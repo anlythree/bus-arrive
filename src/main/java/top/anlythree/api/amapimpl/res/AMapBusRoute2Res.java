@@ -154,6 +154,7 @@ public class AMapBusRoute2Res extends AMapResult {
                             }
                             return new ImportInfo(routeName,busName,
                                     AStrUtil.castLong(transit.getCost().getDuration()),
+                                    getNoWaitSeconds(AStrUtil.castLong(transit.getCost().getDuration()),busline.getViaStops().size()),
                                     AStrUtil.castLong(transit.getCost().getTransitFee()),
                                     getRoute().getOrigin(),
                                     getRoute().getDestination(),
@@ -171,6 +172,26 @@ public class AMapBusRoute2Res extends AMapResult {
 
         }
         return null;
+    }
+
+    /**
+     * 减掉高德api中预估的等待时间
+     * @param seconds
+     * @param stopsNum
+     * @return
+     */
+    public Long getNoWaitSeconds(Long seconds,int stopsNum){
+        long reduce = 0;
+        if(stopsNum >10){
+            reduce = 5;
+        }else if(stopsNum >5){
+            reduce = 10;
+        }else if(stopsNum >3){
+            reduce = 12;
+        }else {
+            reduce = 14;
+        }
+        return seconds - 60*reduce;
     }
 
     @Data
@@ -191,6 +212,11 @@ public class AMapBusRoute2Res extends AMapResult {
          * 用时（秒）
          */
         private Long seconds;
+
+        /**
+         * 去掉等待的用时（秒）
+         */
+        private Long noWaitSeconds;
 
         /**
          * 费用
@@ -250,6 +276,7 @@ public class AMapBusRoute2Res extends AMapResult {
         public ImportInfo(String routeName,
                           String routeFullName,
                           Long seconds,
+                          Long noWaitSeconds,
                           Long cost,
                           String startLocationLal,
                           String endLocationLal,
@@ -262,6 +289,7 @@ public class AMapBusRoute2Res extends AMapResult {
             this.routeName = routeName;
             this.routeFullName = routeFullName;
             this.seconds = seconds;
+            this.noWaitSeconds = noWaitSeconds;
             this.cost = cost;
             this.startLocationLal = startLocationLal;
             this.endLocationLal = endLocationLal;
@@ -271,15 +299,6 @@ public class AMapBusRoute2Res extends AMapResult {
             this.endBusStationLal = endBusStationLal;
             this.firstBusStationName = firstBusStationName;
             this.lastBusStationName = lastBusStationName;
-        }
-
-        /**
-         * 获取没有等待的用时
-         * @return
-         */
-        public Long getNoWaitTime(){
-            // 减去15分钟
-            return getSeconds()-15*60;
         }
     }
 }

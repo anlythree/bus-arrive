@@ -292,7 +292,10 @@ public class BusArriveServiceImpl implements BusArriveService {
                     busDTO.getLocation(), importInfo.getStartBusStationLal(), null).getImportInfo(importInfo.getRouteName());
             // 计算计算时间向后推秒数 = 车到达起始站点所需时间（秒）-准备时间（秒）-步行时间（秒）
             long plusSeconds = importInfo1.getNoWaitSeconds() - prepareSeconds - walkSecondsByLocation;
-            Assert.isTrue(plusSeconds > 0,"赶不上这班车了！！");
+            if(plusSeconds < 0){
+                // 赶不上这班车，略过
+                continue;
+            }
             availableTimeList.add(TimeUtil.timeToString(LocalDateTime.now().plusSeconds(plusSeconds)));
         }
         return availableTimeList;

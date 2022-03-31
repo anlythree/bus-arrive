@@ -185,11 +185,11 @@ public class AMapBusRoute2Res extends AMapResult {
         if(stopsNum >10){
             reduce = 5;
         }else if(stopsNum >5){
-            reduce = 10;
+            reduce = 8;
         }else if(stopsNum >3){
-            reduce = 12;
+            reduce = 10;
         }else {
-            reduce = 14;
+            reduce = 12;
         }
         return seconds - 60*reduce;
     }

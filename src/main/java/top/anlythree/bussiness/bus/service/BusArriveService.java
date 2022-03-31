@@ -82,8 +82,9 @@ public interface BusArriveService {
      * @return
      */
     List<String> calculateNow(String cityName,
-                                     String routeName,
-                                     LocationDTO startLocationByName,
-                                     LocationDTO endLocationByName);
+                              String routeName,
+                              LocationDTO startLocationByName,
+                              LocationDTO endLocationByName,
+                              String prepareMinutes);
 
 }

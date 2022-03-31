@@ -21,6 +21,7 @@ import top.anlythree.bussiness.dto.BusArriveResultDto;
 import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.cache.ACache;
+import top.anlythree.utils.AStrUtil;
 import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
 import top.anlythree.utils.exceptions.AException;
@@ -178,9 +179,10 @@ public class BusArriveServiceImpl implements BusArriveService {
 
     @Override
     public List<String> calculateNow(String cityName,
-                                            String routeName,
-                                            LocationDTO startLocationDto,
-                                            LocationDTO endLocationDto) {
+                                     String routeName,
+                                     LocationDTO startLocationDto,
+                                     LocationDTO endLocationDto,
+                                     String prepareMinutes) {
         // 获取高德路线信息
         AMapBusRoute2Res busRoute2ByLocation = routeServiceAMapImpl.getBusRoute2ByLocation(cityName,
                 startLocationDto.getLongitudeAndLatitude(),
@@ -194,7 +196,7 @@ public class BusArriveServiceImpl implements BusArriveService {
         // 获取路线信息
         XiaoYuanRouteDTO routeDto = routeServiceXiaoYuanImpl.getRouteByNameAndCityAndEndStation(cityName, routeName, importInfo.getLastBusStationName());
         // 计算出发时间
-        return calculateTimeToGo(cityName, routeDto,importInfo,0L,null);
+        return calculateTimeToGo(cityName, routeDto,importInfo, AStrUtil.castLong(prepareMinutes)*60,null);
     }
 
     /**

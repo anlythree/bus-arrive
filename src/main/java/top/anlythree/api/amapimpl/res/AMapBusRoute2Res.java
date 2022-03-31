@@ -175,7 +175,7 @@ public class AMapBusRoute2Res extends AMapResult {
     }
 
     /**
-     * 减掉高德api中预估的等待时间
+     * 减掉高德api中预估的等待时间（越远的公交减的越少，不确定性越大，留有的时间要更多）
      * @param seconds
      * @param stopsNum
      * @return
@@ -185,11 +185,11 @@ public class AMapBusRoute2Res extends AMapResult {
         if(stopsNum >10){
             reduce = 5;
         }else if(stopsNum >5){
-            reduce = 8;
+            reduce = 6;
         }else if(stopsNum >3){
-            reduce = 10;
+            reduce = 8;
         }else {
-            reduce = 12;
+            reduce = 10;
         }
         return seconds - 60*reduce;
     }

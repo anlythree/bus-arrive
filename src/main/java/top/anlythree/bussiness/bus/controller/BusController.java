@@ -92,7 +92,8 @@ public class BusController {
     public String calculateTimeNow(String cityName,
                                 String routeName,
                                 String startLocationName,
-                                String endLocationName) {
+                                String endLocationName,
+                                String prepareMinutes) {
         LocationDTO startLocationByName = stationService.getLocationByName(cityName, startLocationName);
         LocationDTO endLocationByName = stationService.getLocationByName(cityName, endLocationName);
         // 计算什么时候可以获取计算结果 && 延时在取结果之前计算何时出发
@@ -100,7 +101,8 @@ public class BusController {
                 cityName,
                 routeName,
                 startLocationByName,
-                endLocationByName
+                endLocationByName,
+                prepareMinutes
         ).toString();
     }
 

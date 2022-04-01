@@ -43,6 +43,9 @@ public class RememberCityAndRouteInfoTask implements ApplicationRunner {
     @Value("#{'${remembor.cityandroute}'.split(',')}")
     private String[] cityAndRouteList;
 
+    @Value("#{spring.profiles.active}")
+    private String active;
+
     @Override
     public void run(ApplicationArguments args) {
         List<String> cityNameList = Arrays.stream(cityAndRouteList).map(f -> f.substring(0, f.indexOf(" "))).collect(Collectors.toList());
@@ -53,6 +56,10 @@ public class RememberCityAndRouteInfoTask implements ApplicationRunner {
             ACache.aMapCityList.put(cityName,aMapRouteService.getCityCodeNoCacheByName(cityName));
         });
         // 缓存笑园公交路线信息
+        if("dev".equals(active)){
+            return;
+        }
+        // 只有线上才进行缓存
         for (String cityAndRoute : cityAndRouteList) {
             String[] cityAndRouteCollection = cityAndRoute.split(" ");
             String cityName = cityAndRouteCollection[0];

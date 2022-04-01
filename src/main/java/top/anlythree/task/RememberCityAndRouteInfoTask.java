@@ -53,15 +53,15 @@ public class RememberCityAndRouteInfoTask implements ApplicationRunner {
             ACache.aMapCityList.put(cityName,aMapRouteService.getCityCodeNoCacheByName(cityName));
         });
         // 缓存笑园公交路线信息
-//        for (String cityAndRoute : cityAndRouteList) {
-//            String[] cityAndRouteCollection = cityAndRoute.split(" ");
-//            String cityName = cityAndRouteCollection[0];
-//            String routeName = cityAndRouteCollection[1];
-//            if (cityAndRouteCollection.length != 2) {
-//                throw new AException("配置文件中的路线格式有误，关键字位置：\'" + cityAndRoute + "\'");
-//            }
-//            xiaoYuanRouteService.cacheRouteByNameAndCityName(cityName, routeName);
-//        }
+        for (String cityAndRoute : cityAndRouteList) {
+            String[] cityAndRouteCollection = cityAndRoute.split(" ");
+            String cityName = cityAndRouteCollection[0];
+            String routeName = cityAndRouteCollection[1];
+            if (cityAndRouteCollection.length != 2) {
+                throw new AException("配置文件中的路线格式有误，关键字位置：\'" + cityAndRoute + "\'");
+            }
+            xiaoYuanRouteService.cacheRouteByNameAndCityName(cityName, routeName);
+        }
     }
 
 

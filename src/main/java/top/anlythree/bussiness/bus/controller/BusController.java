@@ -22,10 +22,6 @@ import java.util.List;
 public class BusController {
 
     @Autowired
-    @Qualifier(value = "AMapRouteServiceImpl")
-    private RouteService routeService;
-
-    @Autowired
     @Qualifier(value = "AMapStationServiceImpl")
     private StationService stationService;
 

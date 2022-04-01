@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.util.Strings;
 
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 /**
@@ -83,5 +85,22 @@ public class StationDTO {
         this.district = district;
         this.stationFullName = this.country+this.province+this.city+this.district+this.stationName;
         this.longitudeAndLatitude = longitudeAndLatitude;
+    }
+
+
+    public void checkEmptyToNull() {
+        try {
+            for (Field field : this.getClass().getDeclaredFields()) {
+                if (field.getType() == String.class && Objects.nonNull(field.get(this))) {
+                    field.setAccessible(true);
+                    if ("EMPTY".equalsIgnoreCase(field.get(this).toString()) ||
+                            Strings.EMPTY.equals(field.get(this))) {
+                        field.set(this, null);
+                    }
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

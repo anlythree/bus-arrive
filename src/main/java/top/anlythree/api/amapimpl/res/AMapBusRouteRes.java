@@ -40,6 +40,11 @@ public class AMapBusRouteRes extends AMapResult{
         private String destination;
 
         /**
+         * 出租车价格
+         */
+        private String taxiCost;
+
+        /**
          * 公交方案列表
          */
         private List<TransitsInfo> transits;

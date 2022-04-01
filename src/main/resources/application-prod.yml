@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 24507
 spring:
   application:
     name: bus-arrive
@@ -24,6 +24,8 @@ amap:
   key: ca749b4a5f0fe299e8cd826f69c1c6bc
   sign: 0dcee3a9115b5782fecfa7f90f876981
 bus-arrive:
-  default-difference-seconds: 300
+  default-difference-seconds: 180
+
+# 相关api的url地址配置在UrlTypeEnum中
 
 

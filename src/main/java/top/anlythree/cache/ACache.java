@@ -27,6 +27,11 @@ public class ACache {
 
     private static List<XiaoYuanCityDTO> cityCacheList = new ArrayList<>();
 
+    /**
+     * 开放变量
+     */
+    public static Map<String,String> aMapCityList = new HashMap<>();
+
     private static List<XiaoYuanRouteDTO> routeCacheList = new ArrayList<>();
 
     private static List<LocationDTO> locationCacheList = new ArrayList<>(8);
@@ -45,6 +50,8 @@ public class ACache {
         locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","永兴村公交站","120.020833,30.278499"));
         locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","何母桥公交站","120.022676,30.273249"));
         locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","梦想小镇公交站","120.004066,30.294739"));
+        locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","海创园5号楼","120.018439,30.283251"));
+        locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","丰岭路追梦家公寓","120.033852,30.242918"));
     }
 
     public static void addCity(XiaoYuanCityDTO city) {

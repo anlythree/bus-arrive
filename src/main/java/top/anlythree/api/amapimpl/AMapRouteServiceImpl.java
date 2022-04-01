@@ -1,5 +1,6 @@
 package top.anlythree.api.amapimpl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,10 +9,13 @@ import org.springframework.util.CollectionUtils;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
 import top.anlythree.api.amapimpl.enums.UrlTypeEnum;
+import top.anlythree.api.amapimpl.res.AMapBusRoute2Res;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
+import top.anlythree.api.amapimpl.res.AMapCityRes;
 import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.dto.LocationDTO;
+import top.anlythree.cache.ACache;
 import top.anlythree.utils.RestTemplateUtil;
 import top.anlythree.utils.ResultUtil;
 import top.anlythree.utils.TimeUtil;
@@ -37,30 +41,6 @@ public class AMapRouteServiceImpl implements RouteService {
     @Qualifier(value = "AMapStationServiceImpl")
     private StationService stationService;
 
-    @Override
-    public List<XiaoYuanRouteDTO> getRouteListByNameAndCityName(String routeName, String cityName) {
-        throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
-    }
-
-    @Override
-    public XiaoYuanRouteDTO getRouteByNameAndCityAndEndStation(String cityName, String routeName, String endStationName) {
-        throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
-    }
-
-    @Override
-    public XiaoYuanRouteDTO getRouteFromCache(String cityId, String routeName, String endStationName) {
-        throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
-    }
-
-    @Override
-    public void cacheRouteByNameAndCityName(String cityName, String routeName) {
-        throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
-    }
-
-    @Override
-    public XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String cityName, String routeName, String rideStart, String rideEnd) {
-        throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
-    }
 
     @Override
     public AMapBusRouteRes getBusRouteByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
@@ -77,7 +57,8 @@ public class AMapRouteServiceImpl implements RouteService {
                 new UrlUtil.UrlParam("origin", startLocationLal),
                 new UrlUtil.UrlParam("date", date),
                 new UrlUtil.UrlParam("time", time),
-                new UrlUtil.UrlParam("destination", endLocationLal));
+                new UrlUtil.UrlParam("destination", endLocationLal),
+                new UrlUtil.UrlParam("strategy","2"));
         return ResultUtil.getAMapModel(RestTemplateUtil.get(amapUrl, AMapBusRouteRes.class));
     }
 
@@ -120,5 +101,53 @@ public class AMapRouteServiceImpl implements RouteService {
         LocationDTO startLocationByName = stationService.getLocationByName(cityName, startLocationName);
         LocationDTO endLocationByName = stationService.getLocationByName(cityName, endLocationName);
         return this.getWalkSecondsByLocation(cityName,startLocationByName.getLongitudeAndLatitude(),endLocationByName.getLongitudeAndLatitude(),dateTime);
+    }
+
+    @Override
+    public String getCityCodeByName(String cityName) {
+        String cityCodeFromCache = ACache.aMapCityList.get(cityName);
+        if(StringUtils.isNotEmpty(cityCodeFromCache)){
+            return cityCodeFromCache;
+        }
+        String cityCodeNo = getCityCodeNoCacheByName(cityName);
+        ACache.aMapCityList.put(cityName,cityCodeNo);
+        return cityCodeNo;
+    }
+
+    @Override
+    public AMapBusRoute2Res getBusRoute2ByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
+        // 生成时间参数
+        String time = null;
+        String date = null;
+        if (null != dateTime) {
+            String[] dateAndTimeByDateTimeStr = TimeUtil.getDateAndTimeByTime(dateTime);
+            date = dateAndTimeByDateTimeStr[0];
+            time = dateAndTimeByDateTimeStr[1];
+        }
+        // 获取城市code
+        String cityCode = getCityCodeByName(cityName);
+        return ResultUtil.getAMapModel(RestTemplateUtil.get(
+                UrlUtil.createAmapUrl(UrlTypeEnum.BUS_ROUTE_2,
+                        new UrlUtil.UrlParam("origin", startLocationLal),
+                        new UrlUtil.UrlParam("destination", endLocationLal),
+                        new UrlUtil.UrlParam("city1", cityCode),
+                        new UrlUtil.UrlParam("city2", cityCode),
+                        new UrlUtil.UrlParam("date", date),
+                        new UrlUtil.UrlParam("time", time),
+                        new UrlUtil.UrlParam("key", "ca749b4a5f0fe299e8cd826f69c1c6bc"),
+                        new UrlUtil.UrlParam("max_trans", "0"),
+                        new UrlUtil.UrlParam("show_fields","cost")
+                )
+                ,AMapBusRoute2Res.class));
+    }
+
+    @Override
+    public String getCityCodeNoCacheByName(String cityName) {
+        AMapCityRes aMapModel = ResultUtil.getAMapModel(RestTemplateUtil.get(
+                UrlUtil.createAmapUrl(UrlTypeEnum.DISTRICT,
+                        new UrlUtil.UrlParam("key", key),
+                        new UrlUtil.UrlParam("keywords", cityName))
+                , AMapCityRes.class));
+        return aMapModel.getCityCode();
     }
 }

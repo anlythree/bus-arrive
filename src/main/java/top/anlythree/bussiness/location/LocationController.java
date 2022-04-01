@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import io.swagger.annotations.ApiOperation;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,7 @@ public class LocationController {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @ApiOperation(value = "{\"stationName\":\"地点名称\",\"stationFullName\":\"中国浙江省杭州市余杭区地点名称\",\"longitudeAndLatitude\":\"经纬度\",\"country\":\"中国\",\"province\":\"浙江省\",\"city\":\"杭州市\",\"district\":\"余杭区\"}")
     @GetMapping("/addLocation")
     public String addLocation(String locationJson){
         try {

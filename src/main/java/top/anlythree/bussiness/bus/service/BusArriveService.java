@@ -1,10 +1,9 @@
 package top.anlythree.bussiness.bus.service;
 
-import org.springframework.stereotype.Service;
+import top.anlythree.api.amapimpl.res.AMapBusRoute2Res;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.LocationDTO;
-import top.anlythree.bussiness.dto.RouteDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -63,18 +62,29 @@ public interface BusArriveService {
 
     /**
      * 计算需要什么时候出发
-     *
      * @param cityName 城市名称
-     * @param startBusStationLal 出发站点经纬度
      * @param routeDTO 公交路线
      * @param prepareSeconds 准备时间，从准备出发到出发站点的时间（单位：秒）
-     * @param doCalculateTime 开始计算的时间（获取在线公交位置的时间）
      * @param arriveTime 到达时间
      * @return
      */
-    LocalDateTime calculateTimeToGo(
+    List<String> calculateTimeToGo(
             String cityName, XiaoYuanRouteDTO routeDTO,
-            LocationDTO startLocationDto, LocationDTO endLocationDto,String startBusStationLal,String startBusStationName,
-            Long prepareSeconds, LocalDateTime doCalculateTime, LocalDateTime arriveTime);
+            AMapBusRoute2Res.ImportInfo importInfo,
+            Long prepareSeconds, LocalDateTime arriveTime);
+
+    /**
+     * 当前时间出发
+     * @param cityName
+     * @param routeName
+     * @param startLocationByName
+     * @param endLocationByName
+     * @return
+     */
+    List<String> calculateNow(String cityName,
+                              String routeName,
+                              LocationDTO startLocationByName,
+                              LocationDTO endLocationByName,
+                              String prepareMinutes);
 
 }

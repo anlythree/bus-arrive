@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
+import top.anlythree.api.amapimpl.res.AMapBusRoute2Res;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
@@ -121,25 +122,5 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
             }
         }
         return null;
-    }
-
-    @Override
-    public AMapBusRouteRes getBusRouteByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime time) {
-        throw new AException("no suport impl, use begin with AMap……class to impl");
-    }
-
-    @Override
-    public AMapBusRouteRes.AMapBusRouteInfo.TransitsInfo getBusTransitsByLocation(String cityName, String startLocation, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
-        throw new AException("no suport impl, use begin with AMap……class to impl");
-    }
-
-    @Override
-    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocationName(String cityName, String startLocationName, String endLocationName, LocalDateTime dateTime) {
-        throw new AException("no suport impl, use begin with AMap……class to impl");
-    }
-
-    @Override
-    public AMapWalkRouteTimeRes.Route.Path getWalkSecondsByLocation(String cityName, String startLocationLal, String endLocationLal, LocalDateTime dateTime) {
-        throw new AException("no suport impl, use begin with AMap……class to impl");
     }
 }

@@ -102,7 +102,7 @@ public class XiaoYuanBusRes extends XiaoYuanResult{
             busDTO.setLating(lating);
             busDTO.setLonging(longing);
             busDTO.setDistance(distance);
-            busDTO.setDisStat(disStat);
+            busDTO.setDisStat(Integer.valueOf(disStat));
             return busDTO;
         }
     }

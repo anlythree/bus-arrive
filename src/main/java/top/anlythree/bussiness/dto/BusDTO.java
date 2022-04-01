@@ -1,5 +1,6 @@
 package top.anlythree.bussiness.dto;
 
+import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,7 @@ public class BusDTO {
     /**
      * 距第几个站点（如：2，距离第2个站还有distance米，distance是0为已到站！）
      */
-    private String disStat;
+    private Integer disStat;
 
     /**
      * 返回经,纬
@@ -46,7 +47,7 @@ public class BusDTO {
      * @return
      */
     public Integer getStationNum(){
-        return Integer.parseInt(disStat.substring(disStat.indexOf("距离第")+3, disStat.indexOf("个站还有")));
+        return Integer.valueOf(disStat);
     }
 
 }

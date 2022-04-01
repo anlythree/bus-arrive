@@ -1,9 +1,7 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.util.Strings;
-import org.assertj.core.data.MapEntry;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-import org.junit.platform.commons.util.StringUtils;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,23 +11,24 @@ import top.anlythree.SpringApplicationMain;
 import top.anlythree.api.BusService;
 import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
+import top.anlythree.api.amapimpl.enums.UrlTypeEnum;
+import top.anlythree.api.amapimpl.res.AMapBusRoute2Res;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.api.amapimpl.res.AMapStationListRes;
 import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.bus.controller.BusController;
 import top.anlythree.bussiness.bus.service.BusArriveService;
+import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.bussiness.dto.StationDTO;
 import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
+import top.anlythree.utils.UrlUtil;
 
-import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author anlythree
@@ -170,36 +169,42 @@ public class AnlyTest {
 
     @Test
     public void test16() throws JsonProcessingException {
-        LocationDTO locationDTO = new LocationDTO();
+        LocationDTO locationDTO = new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "海创园5号楼", "120.018439,30.283251");
         String s = objectMapper.writeValueAsString(locationDTO);
         System.out.println(s);
     }
 
-    @Test
-    public void test17() throws JsonProcessingException {
-        List<MapEntry<String, String>> map = new ArrayList<>();
-        map.add(MapEntry.entry("0", "数据0"));
-        map.add(MapEntry.entry("1", "数据0"));
-        map.add(MapEntry.entry("2", "数据0"));
-        String s = objectMapper.writeValueAsString(map);
-        System.out.println(s);
-        map.get(0).getValue();
 
-        HashMap<Object, Object> objectObjectHashMap = new HashMap<>();
-        objectObjectHashMap.put("0", "sdhfiu");
-        objectObjectHashMap.put("1", "sdhfiu");
-        objectObjectHashMap.put("2", "sdhfiu");
-        String s1 = objectMapper.writeValueAsString(objectObjectHashMap);
-        System.out.println(s1);
+    public void test17() {
+        int levenshteinDistance = StringUtils.getLevenshteinDistance("丰岭路追梦家公寓", "追梦家公寓");
+        System.out.println(levenshteinDistance);
     }
 
     @Test
     public void test18() {
-        StationDTO startStation = new StationDTO();
-        startStation.setCity("EMPTY");
-        startStation.checkEmptyToNull();
-        System.out.println(startStation);
+        LocationDTO startLocationByName = stationService.getLocationByName("杭州", "追梦家公寓");
+        LocationDTO endLocationByName = stationService.getLocationByName("杭州", "海创园5号楼");
+        String amapUrl = UrlUtil.createAmapUrl(UrlTypeEnum.BUS_ROUTE_2,
+                new UrlUtil.UrlParam("origin", startLocationByName.getLongitudeAndLatitude()),
+                new UrlUtil.UrlParam("destination", endLocationByName.getLongitudeAndLatitude()),
+                new UrlUtil.UrlParam("city1", "0571"),
+                new UrlUtil.UrlParam("city2", "0571"),
+                new UrlUtil.UrlParam("key", "ca749b4a5f0fe299e8cd826f69c1c6bc"),
+                new UrlUtil.UrlParam("max_trans", "0"),
+                new UrlUtil.UrlParam("show_fields", "cost")
+        );
+        System.out.println(amapUrl);
     }
 
+    @Test
+    public void test19() {
+        XiaoYuanRouteDTO routeDTO = routeService.getRouteListByNameAndCityName("353", "杭州").get(1);
+        List<BusDTO> busDTOList = busService.getBusLocationList("杭州", routeDTO);
+        busDTOList.sort(Comparator.comparing(BusDTO::getDisStat));
+        BusDTO busDTO = busDTOList.get(1);
+        AMapBusRoute2Res route = aMapRouteService.getBusRoute2ByLocation("杭州", busDTO.getLocation(), "120.020833,30.278499", null);
+        AMapBusRoute2Res.ImportInfo importInfo = route.getImportInfo("353");
+        System.out.println(importInfo);
+    }
 
 }

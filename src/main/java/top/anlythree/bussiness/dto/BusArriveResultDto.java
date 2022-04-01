@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @author anlythree
  * @description:
@@ -37,5 +39,10 @@ public class BusArriveResultDto {
     /**
      * 计算出来的出发时间
      */
-    private String leaveStartLocationTime;
+    private List<String> leaveStartLocationTime;
+
+    /**
+     *  是不是赶不上最后一班公交了，差多少分钟
+     */
+    private String isTooLate;
 }

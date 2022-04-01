@@ -2,6 +2,7 @@ package top.anlythree.utils;
 
 import top.anlythree.utils.exceptions.AException;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -98,5 +99,27 @@ public class TimeUtil {
         String[] s = time.split(" ");
         s[1] = s[1].substring(0,s[1].lastIndexOf(":"));
         return s;
+    }
+
+    /**
+     * 返回当前时间到传入时间之间的时间间隔
+     * isNegative() 返回是否是否早于当前时间
+     *
+     * @param endTime
+     * @return
+     */
+    public static Duration timeInterval(LocalDateTime endTime) {
+        return timeInterval(LocalDateTime.now(),endTime);
+    }
+
+    /**
+     * 返回当前时间到传入时间之间的时间间隔
+     * isNegative() 返回是否是否早于当前时间
+     *
+     * @param startTime
+     * @return
+     */
+    public static Duration timeInterval(LocalDateTime startTime,LocalDateTime endTime) {
+        return Duration.between(startTime,endTime);
     }
 }

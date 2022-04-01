@@ -13,9 +13,11 @@ import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.utils.MD5Util;
 import top.anlythree.utils.TimeUtil;
+import top.anlythree.utils.exceptions.AException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/bus")
@@ -65,13 +67,50 @@ public class BusController {
                 arriveLocalTime,
                 key
                 );
-        // 生成查询结果key
-        return "getTime:"+TimeUtil.timeToString(startTimeByArriveTime)+"key:"+key;
+        if(TimeUtil.timeInterval(startTimeByArriveTime).isNegative()){
+            // 可能计算出来的时间比当前的时间还要早，那说明已经错过目标公交车的发车时间。
+            // 那么这时后台的任务线程已经开始计算时间。所以可以直接按当前时间后的10秒后请求结果。
+            startTimeByArriveTime = LocalDateTime.now();
+        }
+        // 给后台留5秒计算时间，防止请求结果时后台还未计算出结果
+        return "getTime:"+TimeUtil.timeToString(startTimeByArriveTime.plusSeconds(5))+"key:"+key;
     }
+
+    /**
+     * 获取当前时间开始出发时间列表
+     * @param cityName
+     * @param routeName
+     * @param startLocationName
+     * @param endLocationName
+     * @return
+     */
+    @GetMapping("/calculateTimeNow")
+    public String calculateTimeNow(String cityName,
+                                String routeName,
+                                String startLocationName,
+                                String endLocationName,
+                                String prepareMinutes) {
+        LocationDTO startLocationByName = stationService.getLocationByName(cityName, startLocationName);
+        LocationDTO endLocationByName = stationService.getLocationByName(cityName, endLocationName);
+        // 计算什么时候可以获取计算结果 && 延时在取结果之前计算何时出发
+        return busArriveService.calculateNow(
+                cityName,
+                routeName,
+                startLocationByName,
+                endLocationByName,
+                prepareMinutes
+        ).toString();
+    }
+
 
     @GetMapping("/getResult")
     public String getResult(@RequestParam(required = true) String key) {
         BusArriveResultDto result = ACache.getResult(key);
-        return result.getLeaveStartLocationTime();
+        if(null == result){
+            throw new AException("未查询到结果");
+        }
+        return result.getLeaveStartLocationTime().toString();
     }
+
+
 }

@@ -1,9 +1,14 @@
 package top.anlythree.api.amapimpl.res;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -14,7 +19,9 @@ import java.util.List;
  * @description:
  * @time 2022/3/156:45 下午
  */
+@Deprecated
 @Data
+@Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
 public class AMapBusRouteRes extends AMapResult{
@@ -40,7 +47,16 @@ public class AMapBusRouteRes extends AMapResult{
         private String destination;
 
         /**
+<<<<<<< HEAD
          * 出租车价格
+=======
+         * 总距离
+         */
+        private String distance;
+
+        /**
+         * 打车费用参考
+>>>>>>> cd8631ba7ae849dd8453f1d215c9cce17389ab93
          */
         private String taxiCost;
 
@@ -54,7 +70,7 @@ public class AMapBusRouteRes extends AMapResult{
         @AllArgsConstructor
         public static class TransitsInfo{
             /**
-             * 此换乘方案价格 单位：元
+             * 此换乘方案价格 单位：元，有的时候是空列表
              */
             private String cost;
 
@@ -98,6 +114,7 @@ public class AMapBusRouteRes extends AMapResult{
                 @NoArgsConstructor
                 @AllArgsConstructor
                 public static class Walking{
+
                     private String origin;
 
                     private String destination;
@@ -118,19 +135,19 @@ public class AMapBusRouteRes extends AMapResult{
                     @NoArgsConstructor
                     @AllArgsConstructor
                     public static class StepInfo{
-                        private Object instruction;
+                        private String instruction;
 
-                        private Object road;
+                        private String road;
 
-                        private Object distance;
+                        private String distance;
 
-                        private Object duration;
+                        private String duration;
 
-                        private Object polyline;
+                        private String polyline;
 
-                        private Object action;
+                        private String action;
 
-                        private Object assistant_action;
+                        private String assistantAction;
                     }
                 }
 
@@ -216,7 +233,7 @@ public class AMapBusRouteRes extends AMapResult{
                     if(null != segment.getBus().getBuslines() && segment.getBus().getBuslines().size() == 1){
                         List<SegmentsInfo.Walking.StepInfo> steps = segment.getWalking().getSteps();
                         if(!CollectionUtils.isEmpty(steps)){
-                            String assistantAction = steps.get(steps.size() - 1).getAssistant_action().toString();
+                            String assistantAction = steps.get(steps.size() - 1).getAssistantAction().toString();
                             if(assistantAction.contains("到达")){
                                 return StringUtils.substringAfter(assistantAction,"到达");
                             }
@@ -230,7 +247,7 @@ public class AMapBusRouteRes extends AMapResult{
     }
 
     /**
-     * 根据公交路线名从高德返回的路径规划中找到合适的行程方案
+     * 根据公交路线名从高德返回的路径规划中找到合适的行程方案  todo-anlythree
      * @return
      */
     public AMapBusRouteInfo.TransitsInfo getTransitsByRouteName(String routeName){
@@ -241,6 +258,11 @@ public class AMapBusRouteRes extends AMapResult{
                     return transit;
                 }
             }
+        }
+        try {
+            log.error("找不到直达公交，routeName:"+routeName+",this:"+new ObjectMapper().writeValueAsString(this));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
         return null;
     }

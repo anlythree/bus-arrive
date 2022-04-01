@@ -43,7 +43,7 @@ public class RememberCityAndRouteInfoTask implements ApplicationRunner {
     @Value("#{'${remembor.cityandroute}'.split(',')}")
     private String[] cityAndRouteList;
 
-    @Value("#{spring.profiles.active}")
+    @Value("${spring.profiles.active}")
     private String active;
 
     @Override

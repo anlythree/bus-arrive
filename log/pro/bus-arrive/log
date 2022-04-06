@@ -1,0 +1,15 @@
+2022-04-06 19:51:49.498 |-INFO  [main] top.anlythree.SpringApplicationMain [55] -| Starting SpringApplicationMain v1.0-SNAPSHOT on anlythrees-WorkMacBook-Pro.local with PID 17264 (/Users/anlythree/my/bus-arrive/target/bus-arrive-1.0-SNAPSHOT.jar started by anlythree in /Users/anlythree/my/bus-arrive)
+2022-04-06 19:51:49.500 |-INFO  [main] top.anlythree.SpringApplicationMain [655] -| The following profiles are active: prod
+2022-04-06 19:51:51.240 |-INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [108] -| Tomcat initialized with port(s): 24504 (http)
+2022-04-06 19:51:51.258 |-INFO  [main] org.apache.coyote.http11.Http11NioProtocol [173] -| Initializing ProtocolHandler ["http-nio-24504"]
+2022-04-06 19:51:51.259 |-INFO  [main] org.apache.catalina.core.StandardService [173] -| Starting service [Tomcat]
+2022-04-06 19:51:51.260 |-INFO  [main] org.apache.catalina.core.StandardEngine [173] -| Starting Servlet engine: [Apache Tomcat/9.0.36]
+2022-04-06 19:51:51.371 |-INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [173] -| Initializing Spring embedded WebApplicationContext
+2022-04-06 19:51:51.371 |-INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [285] -| Root WebApplicationContext: initialization completed in 1818 ms
+2022-04-06 19:51:51.502 |-INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [181] -| Initializing ExecutorService 'threadPool'
+2022-04-06 19:51:51.510 |-INFO  [main] org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor [496] -| Autowired annotation is not supported on static methods: public static void top.anlythree.utils.UrlUtil.setKey(java.lang.String)
+2022-04-06 19:51:52.248 |-WARN  [main] org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration [106] -| Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2022-04-06 19:51:52.326 |-INFO  [main] org.apache.coyote.http11.Http11NioProtocol [173] -| Starting ProtocolHandler ["http-nio-24504"]
+2022-04-06 19:51:52.357 |-INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [220] -| Tomcat started on port(s): 24504 (http) with context path ''
+2022-04-06 19:51:52.673 |-INFO  [main] top.anlythree.SpringApplicationMain [61] -| Started SpringApplicationMain in 3.867 seconds (JVM running for 4.595)
+2022-04-06 19:52:02.783 |-INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [218] -| Shutting down ExecutorService 'threadPool'

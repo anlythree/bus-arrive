@@ -1,5 +1,5 @@
 server:
-  port: 24507
+  port: 24504
 spring:
   application:
     name: bus-arrive

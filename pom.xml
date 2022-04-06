@@ -32,7 +32,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -114,12 +113,10 @@
 
     <!--include the repository where you want to deploy in the distribution management section of the pom.xml.-->
     <distributionManagement>
-<!--        <repository>-->
-<!--            <uniqueVersion>false</uniqueVersion>-->
-<!--            <id>corp1</id>-->
-<!--            <name>Corporate Repository</name>-->
-<!--            <url>scp://repo/maven2</url>-->
-<!--            <layout>default</layout>-->
-<!--        </repository>-->
+        <repository>
+            <id>SNAPSHOT</id>
+            <name>Internal repo</name>
+            <url>file://etc/maven/m</url>
+        </repository>
     </distributionManagement>
 </project>

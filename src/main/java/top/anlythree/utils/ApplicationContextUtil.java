@@ -19,7 +19,7 @@ public class ApplicationContextUtil {
     private static DefaultListableBeanFactory beanFactory;
 
     @Autowired
-    @Qualifier(value = "defaultListableBeanFactory")
+    @Qualifier(value = "DefaultListableBeanFactory")
     public void setDefaultListableBeanFactory(DefaultListableBeanFactory defaultListableBeanFactory) {
         this.beanFactory = defaultListableBeanFactory;
     }

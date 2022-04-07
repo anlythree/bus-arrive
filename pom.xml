@@ -110,12 +110,13 @@
         </plugins>
     </build>
 
-    <!--include the repository where you want to deploy in the distribution management section of the pom.xml.-->
+<!--    include the repository where you want to deploy in the distribution management section of the pom.xml.-->
     <distributionManagement>
         <repository>
             <id>SNAPSHOT</id>
             <name>Internal repo</name>
             <url>file://etc/maven/m</url>
+<!--            <url>file:/Users/anlythree/envir/m</url>-->
         </repository>
     </distributionManagement>
 </project>

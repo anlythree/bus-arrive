@@ -35,7 +35,7 @@ public class UrlUtil {
     }
 
     @Value("${amap.key}")
-    public static void setKey(String key) {
+    public void setKey(String key) {
         UrlUtil.key = key;
     }
 

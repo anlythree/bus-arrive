@@ -95,17 +95,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.6.0</version>
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>repackage</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-                <configuration>
-                    <mainClass>top.anlythree.SpringApplicationMain</mainClass>
-                </configuration>
+<!--                <version>2.6.0</version>-->
+<!--&lt;!&ndash;                <executions>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <execution>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <goals>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <goal>repackage</goal>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </goals>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </execution>&ndash;&gt;-->
+<!--&lt;!&ndash;                </executions>&ndash;&gt;-->
+<!--                <configuration>-->
+<!--                    <mainClass>top.anlythree.SpringApplicationMain</mainClass>-->
+<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>
@@ -115,8 +115,8 @@
         <repository>
             <id>SNAPSHOT</id>
             <name>Internal repo</name>
-            <url>file://etc/maven/m</url>
-<!--            <url>file:/Users/anlythree/envir/m</url>-->
+<!--            <url>file://etc/maven/m</url>-->
+            <url>file:/Users/anlythree/envir/m</url>
         </repository>
     </distributionManagement>
 </project>

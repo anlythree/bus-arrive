@@ -15,12 +15,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationContextUtil {
 
-    private static DefaultListableBeanFactory defaultListableBeanFactory;
-
     @Autowired
-    public void setDefaultListableBeanFactory(DefaultListableBeanFactory defaultListableBeanFactory) {
-        this.defaultListableBeanFactory = defaultListableBeanFactory;
-    }
+    private DefaultListableBeanFactory defaultListableBeanFactory;
+
 
     /**
      * 获取bean
@@ -28,7 +25,7 @@ public class ApplicationContextUtil {
      * @param <T>
      * @return
      */
-    public static <T> T getBean(Class<T> tClass){
+    public <T> T getBean(Class<T> tClass){
         return (T) defaultListableBeanFactory.getBean(tClass.getName());
     }
 
@@ -37,7 +34,7 @@ public class ApplicationContextUtil {
      * @param object
      * @param <T>
      */
-    public static <T> void addBean(T object){
+    public <T> void addBean(T object){
         log.info("log----------------------beanFactory:"+ defaultListableBeanFactory +"object："+object);
         defaultListableBeanFactory.registerSingleton(object.getClass().getName(),object);
         defaultListableBeanFactory.autowireBean(object);

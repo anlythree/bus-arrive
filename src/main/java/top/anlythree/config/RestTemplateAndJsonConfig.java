@@ -28,6 +28,9 @@ import static org.springframework.http.MediaType.APPLICATION_XML;
 @Configuration
 public class RestTemplateAndJsonConfig {
 
+    @Autowired
+    private ApplicationContextUtil applicationContextUtil;
+
 
     @Bean
     public RestTemplate restTemplate() {
@@ -43,7 +46,7 @@ public class RestTemplateAndJsonConfig {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); //未知属性不报错
         objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
         objectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8")); //时区设置
-        ApplicationContextUtil.addBean(objectMapper);
+        applicationContextUtil.addBean(objectMapper);
         return new RestTemplateBuilder()
                 .messageConverters(httpMessageConverter)
                 .build();

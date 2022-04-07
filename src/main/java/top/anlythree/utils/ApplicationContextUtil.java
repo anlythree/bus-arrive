@@ -2,6 +2,7 @@ package top.anlythree.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ public class ApplicationContextUtil {
     private static DefaultListableBeanFactory beanFactory;
 
     @Autowired
+    @Qualifier(value = "beanFactory")
     public void setDefaultListableBeanFactory(DefaultListableBeanFactory defaultListableBeanFactory) {
         this.beanFactory = defaultListableBeanFactory;
     }

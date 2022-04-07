@@ -35,7 +35,6 @@ public class ApplicationContextUtil {
      * @param <T>
      */
     public <T> void addBean(T object){
-        log.info("log----------------------beanFactory:"+ defaultListableBeanFactory +"object："+object);
         defaultListableBeanFactory.registerSingleton(object.getClass().getName(),object);
         defaultListableBeanFactory.autowireBean(object);
     }

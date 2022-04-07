@@ -115,8 +115,8 @@
         <repository>
             <id>SNAPSHOT</id>
             <name>Internal repo</name>
-<!--            <url>file://etc/maven/m</url>-->
-            <url>file:/Users/anlythree/envir/m</url>
+            <url>file:/etc/maven/m</url>
+<!--            <url>file:/Users/anlythree/envir/m</url>-->
         </repository>
     </distributionManagement>
 </project>

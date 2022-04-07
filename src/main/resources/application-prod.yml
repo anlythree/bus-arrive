@@ -8,7 +8,6 @@ logging:
     root: info
     com.bestvike: debug
     org.springframework.security: warn
-  config: classpath:logback.xml
 swagger:
   enable: true
   application-name: ${spring.application.name}

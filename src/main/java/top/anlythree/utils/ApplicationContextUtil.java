@@ -3,7 +3,6 @@ package top.anlythree.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +15,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationContextUtil {
 
-    private static DefaultListableBeanFactory beanFactory;
+    private static DefaultListableBeanFactory defaultListableBeanFactory;
 
     @Autowired
     @Qualifier(value = "DefaultListableBeanFactory")
     public void setDefaultListableBeanFactory(DefaultListableBeanFactory defaultListableBeanFactory) {
-        this.beanFactory = defaultListableBeanFactory;
+        this.defaultListableBeanFactory = defaultListableBeanFactory;
     }
 
     /**
@@ -31,7 +30,7 @@ public class ApplicationContextUtil {
      * @return
      */
     public static <T> T getBean(Class<T> tClass){
-        return (T) beanFactory.getBean(tClass.getName());
+        return (T) defaultListableBeanFactory.getBean(tClass.getName());
     }
 
     /**
@@ -40,8 +39,8 @@ public class ApplicationContextUtil {
      * @param <T>
      */
     public static <T> void addBean(T object){
-        log.info("log----------------------beanFactory:"+beanFactory+"object："+object);
-        beanFactory.registerSingleton(object.getClass().getName(),object);
-        beanFactory.autowireBean(object);
+        log.info("log----------------------beanFactory:"+ defaultListableBeanFactory +"object："+object);
+        defaultListableBeanFactory.registerSingleton(object.getClass().getName(),object);
+        defaultListableBeanFactory.autowireBean(object);
     }
 }

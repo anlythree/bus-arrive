@@ -16,7 +16,7 @@ public class DemoController {
     @GetMapping("/get")
     @ApiOperation("getDemoStr")
     public String getDemoStr() {
-        String demoStr = "demoStr:controller链接成功-当前时间：" + LocalDateTime.now();
+        String demoStr = "demoStr:controller链接成功--当前时间：" + LocalDateTime.now();
         System.out.println(demoStr);
         System.out.println("开始");
         TaskUtil.doSomeThingLater(() -> {

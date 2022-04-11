@@ -1,12 +1,14 @@
 package top.anlythree.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -17,6 +19,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class RedisUtil {
+
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -402,13 +405,27 @@ public class RedisUtil {
     }
 
     /**
+     * 获取 list缓存的内容
+     * @param key 键
+     * @return
+     */
+    public <T> List<Object> lGet(String key,Class<T> listClass) {
+        try {
+            redisTemplate.opsForList().range(key, 0, -1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * 获取 list缓存的长度
      * @param key 键
      * @return 长度
      */
-    public long lGetListSize(String key) {
+    public int lGetListSize(String key) {
         try {
-            return redisTemplate.opsForList().size(key);
+            return Objects.requireNonNull(redisTemplate.opsForList().size(key)).intValue();
         } catch (Exception e) {
             e.printStackTrace();
             return 0;

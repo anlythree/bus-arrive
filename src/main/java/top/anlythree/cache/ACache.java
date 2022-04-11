@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.dto.BusArriveResultDto;
 import top.anlythree.bussiness.dto.LocationDTO;
-import top.anlythree.bussiness.dto.StationDTO;
+import top.anlythree.utils.RedisUtil;
 
 import java.util.*;
 
@@ -20,10 +22,13 @@ import java.util.*;
  */
 @Slf4j
 @AllArgsConstructor
+@Component
 public class ACache {
 
     @Value("${xiaoyuan.url}")
     private static String xiaoyuanUrl;
+
+    private static RedisUtil redisUtil;
 
     private static List<XiaoYuanCityDTO> cityCacheList = new ArrayList<>();
 
@@ -34,24 +39,22 @@ public class ACache {
 
     private static List<XiaoYuanRouteDTO> routeCacheList = new ArrayList<>();
 
-    private static List<LocationDTO> locationCacheList = new ArrayList<>(8);
-
-    /**
-     * key: 出发地点-目的地-到达时间 value: 出发时间
-     */
-    private static Map<String, BusArriveResultDto> keyToResultMap = new HashMap<>();
-
     static {
-        locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴A5门","120.026525,30.281248"));
-        locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴西溪园区(蔡家阁)公交站","120.024556,30.280789"));
-        locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","五常大道联胜路口公交站","120.031884,30.243976"));
-        locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","西湖体育馆公交站","120.13072,30.267691"));
-        locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","爱橙街贺翠路口公交站","120.022539,30.274492"));
-        locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","永兴村公交站","120.020833,30.278499"));
-        locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","何母桥公交站","120.022676,30.273249"));
-        locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","梦想小镇公交站","120.004066,30.294739"));
-        locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","海创园5号楼","120.018439,30.283251"));
-        locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","丰岭路追梦家公寓","120.033852,30.242918"));
+        if(redisUtil.lGetListSize("locationCacheList") == 0){
+            List<LocationDTO> locationCacheList = new ArrayList<>(16);
+            locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴A5门","120.026525,30.281248"));
+            locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴西溪园区(蔡家阁)公交站","120.024556,30.280789"));
+            locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","五常大道联胜路口公交站","120.031884,30.243976"));
+            locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","西湖体育馆公交站","120.13072,30.267691"));
+            locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","爱橙街贺翠路口公交站","120.022539,30.274492"));
+            locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","永兴村公交站","120.020833,30.278499"));
+            locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","何母桥公交站","120.022676,30.273249"));
+            locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","梦想小镇公交站","120.004066,30.294739"));
+            locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","海创园5号楼","120.018439,30.283251"));
+            locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","丰岭路追梦家公寓","120.033852,30.242918"));
+            redisUtil.lSet("locationCacheList",locationCacheList);
+        }
+
     }
 
     public static void addCity(XiaoYuanCityDTO city) {
@@ -86,6 +89,7 @@ public class ACache {
     }
 
     public static void addLocation(LocationDTO locationDTO){
+        List<Object> locationCacheList = redisUtil.lGet("locationCacheList");
         for (LocationDTO locationDtoItem : locationCacheList) {
             if(locationDtoItem.eqauls(locationDTO)){
                 // 更新站点信息
@@ -107,16 +111,23 @@ public class ACache {
 
     public static void addResult(String key, BusArriveResultDto result){
         log.info("缓存计算结果:{key:"+key+",result:"+result+"}");
-        keyToResultMap.put(key,result);
+        // 过期时间设置为一天
+        // key: 出发地点-目的地-到达时间 value: 出发时间
+        redisUtil.set(key,result,86400);
     }
 
     /**
      * 获取缓存中的计算结果
-     * @param key
+     * @param key 出发地点-目的地-到达时间 value: 出发时间
      * @return
      */
     public static BusArriveResultDto getResult(String key){
-        return keyToResultMap.get(key);
+        return (BusArriveResultDto) redisUtil.get(key);
+    }
+
+    @Autowired
+    public void setRedisUtil(RedisUtil redisUtil) {
+        ACache.redisUtil = redisUtil;
     }
 
     public static List<XiaoYuanCityDTO> getCityCacheList() {

@@ -1,5 +1,6 @@
 package top.anlythree.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -11,12 +12,14 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author anlythree
  * @description:
  * @time 2022/4/1115:43
  */
+@Slf4j
 @Component
 public class RedisUtil {
 
@@ -409,11 +412,16 @@ public class RedisUtil {
      * @param key 键
      * @return
      */
-    public <T> List<Object> lGet(String key,Class<T> listClass) {
+    public <T> List<T> lGet(String key,Class<T> listClass) {
+        List<Object> objList = redisTemplate.opsForList().range(key, 0, -1);
+        if(CollectionUtils.isEmpty(objList)){
+            return null;
+        }
         try {
-            redisTemplate.opsForList().range(key, 0, -1);
+            return objList.stream().map(f->(T) f).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
+            log.error("list对象类型匹配失败，请确认对象class，对象内容："+);
             return null;
         }
     }

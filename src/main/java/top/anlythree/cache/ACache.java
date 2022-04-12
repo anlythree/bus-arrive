@@ -40,7 +40,7 @@ public class ACache {
     private static List<XiaoYuanRouteDTO> routeCacheList = new ArrayList<>();
 
     static {
-        if(redisUtil.lGetListSize("locationCacheList") == 0){
+        if(!redisUtil.hasKey("locationCacheList")){
             List<LocationDTO> locationCacheList = new ArrayList<>(16);
             locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴A5门","120.026525,30.281248"));
             locationCacheList.add(new LocationDTO("中国","浙江省","杭州市","余杭区","阿里巴巴西溪园区(蔡家阁)公交站","120.024556,30.280789"));
@@ -151,7 +151,7 @@ public class ACache {
     }
 
     public static List<LocationDTO> getLocationCacheList() {
-        return locationCacheList;
+        return redisUtil.lGet();
     }
 
     public static void setLocationCacheList(List<LocationDTO> locationCacheList) {

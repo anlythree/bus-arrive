@@ -91,8 +91,11 @@ public class RedisUtil {
      * @param key 键
      * @return 值
      */
-    public Object get(String key) {
-        return key == null ? null : redisTemplate.opsForValue().get(key);
+    public <T> T get(String key,Class<T> tClass) {
+        if(null == key){
+            return null;
+        }
+        return tClass.cast(redisTemplate.opsForValue().get(key));
     }
 
     /**
@@ -158,7 +161,7 @@ public class RedisUtil {
         return redisTemplate.opsForValue().increment(key, delta);
     }
 
-//    ============================== Map ==============================
+//    ============================== startOfMap ==============================
 
     /**
      * HashGet
@@ -166,8 +169,8 @@ public class RedisUtil {
      * @param item 项（no null）
      * @return 值
      */
-    public Object hget(String key, String item) {
-        return redisTemplate.opsForHash().get(key, item);
+    public <T> T hget(String key, String item,Class<T> tClass) {
+        return tClass.cast(redisTemplate.opsForHash().get(key, item));
     }
 
     /**
@@ -178,6 +181,8 @@ public class RedisUtil {
     public Map<Object, Object> hmget(String key) {
         return redisTemplate.opsForHash().entries(key);
     }
+
+    //    ============================== endOfMap ==============================
 
     /**
      * HashSet
@@ -301,9 +306,10 @@ public class RedisUtil {
      * @param key 键
      * @return 值
      */
-    public Set<Object> sGet(String key) {
+    public <T> Set<T> sGet(String key,Class<T> tClass) {
         try {
-            return redisTemplate.opsForSet().members(key);
+            return Objects.requireNonNull(redisTemplate.opsForSet().members(key))
+                    .stream().map(tClass::cast).collect(Collectors.toSet());
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -398,9 +404,10 @@ public class RedisUtil {
      * @param end 结束（0 到 -1 代表所有值）
      * @return
      */
-    public List<Object> lGet(String key, long start, long end) {
+    public <T> List<T> lGet(String key, long start, long end, Class<T> tClass) {
         try {
-            return redisTemplate.opsForList().range(key, start, end);
+            return redisTemplate.opsForList().range(key, start, end)
+                    .stream().map(tClass::cast).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -418,10 +425,10 @@ public class RedisUtil {
             return null;
         }
         try {
-            return objList.stream().map(f->(T) f).collect(Collectors.toList());
+            return objList.stream().map(listClass::cast).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("list对象类型匹配失败，请确认对象class，对象内容："+);
+            log.error("list对象类型匹配失败，请确认对象class，对象内容："+objList.get(0).getClass());
             return null;
         }
     }
@@ -448,9 +455,9 @@ public class RedisUtil {
      *              当 index < 0 时 {-1:表尾, -2:倒数第二个元素}
      * @return 值
      */
-    public Object lGetIndex(String key, long index) {
+    public <T> T lGetIndex(String key, long index, Class<T> tClass) {
         try {
-            return redisTemplate.opsForList().index(key, index);
+            return tClass.cast(redisTemplate.opsForList().index(key, index));
         } catch (Exception e) {
             e.printStackTrace();
             return null;

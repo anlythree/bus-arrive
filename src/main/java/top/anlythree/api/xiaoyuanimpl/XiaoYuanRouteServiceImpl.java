@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
-import top.anlythree.api.amapimpl.res.AMapBusRoute2Res;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
-import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.api.xiaoyuanimpl.res.XiaoYuanRouteListRes;
@@ -21,7 +19,6 @@ import top.anlythree.utils.ResultUtil;
 import top.anlythree.utils.UrlUtil;
 import top.anlythree.utils.exceptions.AException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -89,7 +86,7 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
 
     @Override
     public XiaoYuanRouteDTO getRouteFromCache(String cityId,String routeName,String endStation){
-        List<XiaoYuanRouteDTO> routeCacheList = ACache.getRouteCacheList();
+        List<XiaoYuanRouteDTO> routeCacheList = ACache.getXiaoYuanRouteCacheList();
         for (XiaoYuanRouteDTO route : routeCacheList) {
             if(Objects.equals(routeName,route.getRouteName()) &&
                     Objects.equals(cityId,route.getCityId()) &&

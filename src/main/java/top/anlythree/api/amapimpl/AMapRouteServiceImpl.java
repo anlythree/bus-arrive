@@ -13,7 +13,6 @@ import top.anlythree.api.amapimpl.res.AMapBusRoute2Res;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.api.amapimpl.res.AMapCityRes;
 import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
-import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.cache.ACache;
 import top.anlythree.utils.RestTemplateUtil;
@@ -24,7 +23,6 @@ import top.anlythree.utils.exceptions.AException;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.List;
 
 /**
  * @author anlythree
@@ -105,12 +103,12 @@ public class AMapRouteServiceImpl implements RouteService {
 
     @Override
     public String getCityCodeByName(String cityName) {
-        String cityCodeFromCache = ACache.aMapCityList.get(cityName);
+        String cityCodeFromCache = ACache.aMapCityMap.get(cityName);
         if(StringUtils.isNotEmpty(cityCodeFromCache)){
             return cityCodeFromCache;
         }
         String cityCodeNo = getCityCodeNoCacheByName(cityName);
-        ACache.aMapCityList.put(cityName,cityCodeNo);
+        ACache.aMapCityMap.put(cityName,cityCodeNo);
         return cityCodeNo;
     }
 

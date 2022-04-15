@@ -53,7 +53,7 @@ public class RememberCityAndRouteInfoTask implements ApplicationRunner {
         cityService.cityList().forEach(ACache::addCity);
         // 缓存高德城市信息
         cityNameList.stream().forEach(cityName->{
-            ACache.aMapCityList.put(cityName,aMapRouteService.getCityCodeNoCacheByName(cityName));
+            ACache.aMapCityMap.put(cityName,aMapRouteService.getCityCodeNoCacheByName(cityName));
         });
         // 缓存笑园公交路线信息
         if("dev".equals(active)){

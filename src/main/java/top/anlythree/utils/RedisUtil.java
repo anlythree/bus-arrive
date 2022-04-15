@@ -446,7 +446,7 @@ public class RedisUtil {
      * @param key 键
      * @return
      */
-    public <T> List<T> lGet(String key, Class<T> listClass) {
+    public <T> List<T> lGet(String key, Class<T> listClass) {// todo-anlythree 有问题，取不出值
         List<Object> objList = redisTemplate.opsForList().range(key, 0, -1);
         if (CollectionUtils.isEmpty(objList)) {
             return null;

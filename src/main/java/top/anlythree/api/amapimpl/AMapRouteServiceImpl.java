@@ -103,12 +103,12 @@ public class AMapRouteServiceImpl implements RouteService {
 
     @Override
     public String getCityCodeByName(String cityName) {
-        String cityCodeFromCache = ACache.aMapCityMap.get(cityName);
+        String cityCodeFromCache = ACache.getMapCityCodeByName(cityName);
         if(StringUtils.isNotEmpty(cityCodeFromCache)){
             return cityCodeFromCache;
         }
         String cityCodeNo = getCityCodeNoCacheByName(cityName);
-        ACache.aMapCityMap.put(cityName,cityCodeNo);
+        ACache.addAMapCityCodeByName(cityName,cityCodeNo);
         return cityCodeNo;
     }
 

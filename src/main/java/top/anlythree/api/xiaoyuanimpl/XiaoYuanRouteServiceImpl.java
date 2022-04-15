@@ -75,7 +75,7 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
             return routeFromCache;
         }
         // 缓存中找不到，找到并加载到缓存
-        cacheRouteByNameAndCityName(cityName,routeName);
+        cacheRouteByNameAndCityName(new ACache.CityAndRoute(cityName,routeName));
         // 重新在缓存中查找
         XiaoYuanRouteDTO routeFromCacheDTO = getRouteFromCache(cityByName.getId(), routeName, endStation);
         if(null == routeFromCacheDTO){
@@ -98,13 +98,13 @@ public class XiaoYuanRouteServiceImpl implements RouteService {
     }
 
     @Override
-    public void cacheRouteByNameAndCityName(String cityName, String routeName) {
-        List<XiaoYuanRouteDTO> allRouteList = getRouteListByNameAndCityName(routeName, cityName);
+    public void cacheRouteByNameAndCityName(ACache.CityAndRoute cityAndRoute) {
+        List<XiaoYuanRouteDTO> allRouteList = getRouteListByNameAndCityName(cityAndRoute.getRouteName(), cityAndRoute.getCityName());
         if (CollectionUtils.isEmpty(allRouteList)) {
-            log.error("根据位置路线名查询不到相关线路，缓存该线路失败：城市名称：" + cityName+"公交路线名称："+routeName );
+            log.error("根据位置路线名查询不到相关线路，缓存该线路失败：城市名称：" + cityAndRoute.getRouteName()+"公交路线名称："+cityAndRoute.getCityName() );
             return;
         }
-        allRouteList.forEach(ACache::addRoute);
+        allRouteList.forEach(ACache::addXiaoYuanRoute);
     }
 
     @Override

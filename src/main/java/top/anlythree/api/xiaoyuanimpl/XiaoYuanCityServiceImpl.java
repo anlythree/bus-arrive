@@ -66,7 +66,7 @@ public class XiaoYuanCityServiceImpl implements CityService {
         for (XiaoYuanCityDTO city : cityList) {
             if(Objects.equals(name,city.getName()) ||
                     Objects.equals(name+"市",city.getName())){
-                ACache.addCity(city);
+                ACache.addXiaoYuanCity(city);
                 return city;
             }
         }

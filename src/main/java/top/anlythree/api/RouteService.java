@@ -70,6 +70,7 @@ public interface RouteService {
      * @param endStation 终点坐标
      * @return
      */
+    @Deprecated
     default XiaoYuanRouteDTO getRouteByNameAndCityAndRideStartAndRideEnd(String cityName, String routeName, String startStation, String endStation){
         throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
     }

@@ -3,7 +3,6 @@ package top.anlythree.bussiness.bus.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
-import top.anlythree.api.RouteService;
 import top.anlythree.api.StationService;
 import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusArriveResultDto;
@@ -17,7 +16,6 @@ import top.anlythree.utils.exceptions.AException;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/bus")
@@ -37,12 +35,12 @@ public class BusController {
 
     @GetMapping("/getCityList")
     public List<XiaoYuanCityDTO> getCityList() {
-        return ACache.getCityCacheList();
+        return ACache.getXiaoYuanCityList();
     }
 
     @GetMapping("/getRouteList")
     public List<XiaoYuanRouteDTO> getRouteList() {
-        return ACache.getRouteCacheList();
+        return ACache.getXiaoYuanRouteCacheList();
     }
 
     @GetMapping("/calculateTime")

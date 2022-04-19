@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import top.anlythree.api.BusService;
 import top.anlythree.api.CityService;
 import top.anlythree.api.RouteService;
@@ -76,7 +75,7 @@ public class XiaoYuanBusServiceImpl implements BusService {
         routeDTO.setMoneyQty(new BigDecimal(lineinfo.getBusMoney()));
         routeDTO.setStationList(xiaoYuanModel.getReturlList().getStations().stream()
                 .map(XiaoYuanBusRes.StationInfoRes::getBusStaname).collect(Collectors.toList()));
-        ACache.addRoute(routeDTO);
+        ACache.addXiaoYuanRoute(routeDTO);
         return xiaoYuanModel;
     }
 }

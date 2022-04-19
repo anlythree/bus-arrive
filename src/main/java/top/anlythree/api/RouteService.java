@@ -4,6 +4,7 @@ import top.anlythree.api.amapimpl.res.AMapBusRoute2Res;
 import top.anlythree.api.amapimpl.res.AMapBusRouteRes;
 import top.anlythree.api.amapimpl.res.AMapWalkRouteTimeRes;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
+import top.anlythree.cache.ACache;
 import top.anlythree.utils.exceptions.AException;
 
 import java.time.LocalDateTime;
@@ -54,10 +55,8 @@ public interface RouteService {
     /**
      * 根据城市名称和线路名称缓存公交线路
      *
-     * @param cityName
-     * @param routeName
      */
-    default void cacheRouteByNameAndCityName(String cityName, String routeName){
+    default void cacheRouteByNameAndCityName(ACache.CityAndRoute cityAndRoute){
         throw new AException("no suport impl, use begin with XiaoYuan……class to impl");
     }
 

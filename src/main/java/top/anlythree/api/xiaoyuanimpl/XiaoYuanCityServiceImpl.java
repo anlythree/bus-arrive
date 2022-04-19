@@ -40,7 +40,7 @@ public class XiaoYuanCityServiceImpl implements CityService {
 
     @Override
     public XiaoYuanCityDTO getCityById(String id) {
-        for (XiaoYuanCityDTO city : ACache.getCityCacheList()) {
+        for (XiaoYuanCityDTO city : ACache.getXiaoYuanCityList()) {
             if(Objects.equals(id , city.getId())){
                 return city;
             }
@@ -56,7 +56,7 @@ public class XiaoYuanCityServiceImpl implements CityService {
 
     @Override
     public XiaoYuanCityDTO getCityByName(String name) {
-        List<XiaoYuanCityDTO> cityCacheList = ACache.getCityCacheList();
+        List<XiaoYuanCityDTO> cityCacheList = ACache.getXiaoYuanCityList();
         for (XiaoYuanCityDTO city : cityCacheList) {
             if(Objects.equals(name+"市",city.getName())){
                 return city;
@@ -66,7 +66,7 @@ public class XiaoYuanCityServiceImpl implements CityService {
         for (XiaoYuanCityDTO city : cityList) {
             if(Objects.equals(name,city.getName()) ||
                     Objects.equals(name+"市",city.getName())){
-                ACache.addCity(city);
+                ACache.addXiaoYuanCity(city);
                 return city;
             }
         }

@@ -3,6 +3,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -63,6 +64,9 @@ public class AnlyTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Test
     public void test1() {
@@ -205,6 +209,10 @@ public class AnlyTest {
         AMapBusRoute2Res route = aMapRouteService.getBusRoute2ByLocation("杭州", busDTO.getLocation(), "120.020833,30.278499", null);
         AMapBusRoute2Res.ImportInfo importInfo = route.getImportInfo("353");
         System.out.println(importInfo);
+    }
+
+    public void test45(){
+//        rabbitTemplate.convertAndSend();
     }
 
 }

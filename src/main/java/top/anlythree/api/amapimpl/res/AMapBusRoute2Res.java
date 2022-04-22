@@ -183,13 +183,13 @@ public class AMapBusRoute2Res extends AMapResult {
     public Long getNoWaitSeconds(Long seconds,int stopsNum){
         long reduce = 0;
         if(stopsNum >10){
-            reduce = 5;
+            reduce = 2;
         }else if(stopsNum >5){
-            reduce = 6;
+            reduce = 3;
         }else if(stopsNum >3){
-            reduce = 8;
+            reduce = 4;
         }else {
-            reduce = 10;
+            reduce = 5;
         }
         return seconds - 60*reduce;
     }

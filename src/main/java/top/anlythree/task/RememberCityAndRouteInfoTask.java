@@ -49,14 +49,14 @@ public class RememberCityAndRouteInfoTask implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        // 缓存地址信息
-        cacheLocationInfo();
-        // 缓存笑园城市信息
-        cacheXiaoYuanCityInfo();
-        // 缓存高德城市信息
-        cacheAMapCityInfo();
-        // 缓存笑园公交路线信息
-        cacheXiaoYuanRouteInfo();
+//        // 缓存地址信息
+//        cacheLocationInfo();
+//        // 缓存笑园城市信息
+//        cacheXiaoYuanCityInfo();
+//        // 缓存高德城市信息
+//        cacheAMapCityInfo();
+//        // 缓存笑园公交路线信息
+//        cacheXiaoYuanRouteInfo();
     }
 
     /**

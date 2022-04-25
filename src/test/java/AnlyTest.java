@@ -23,6 +23,7 @@ import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.bussiness.dto.StationDTO;
+import top.anlythree.demo.DemoController;
 import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
 import top.anlythree.utils.UrlUtil;
@@ -67,6 +68,9 @@ public class AnlyTest {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private DemoController demoController;
 
     @Test
     public void test1() {
@@ -211,8 +215,5 @@ public class AnlyTest {
         System.out.println(importInfo);
     }
 
-    public void test45(){
-//        rabbitTemplate.convertAndSend();
-    }
 
 }

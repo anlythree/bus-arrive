@@ -452,14 +452,13 @@ public class RedisUtil {
         if (CollectionUtils.isEmpty(objList)) {
             return null;
         }
-            if(listClass.isInstance(objList.get(0))){
-                return objList.stream().map(listClass::cast).collect(Collectors.toList());
-            }else {
-                log.error("list对象类型匹配失败，请确认对象class，对象内容：" + objList.get(0).getClass());
-            }
-        throw new AException("redis获取缓存失败，key："+key);
+        if (listClass.isInstance(objList.get(0))) {
+            return objList.stream().map(listClass::cast).collect(Collectors.toList());
+        } else {
+            log.error("list对象类型匹配失败，请确认对象class，对象内容：" + objList.get(0).getClass());
+        }
+        throw new AException("redis获取缓存失败，key：" + key);
     }
-
     /**
      * 获取 list缓存的长度
      *

@@ -162,7 +162,7 @@ public class BusArriveServiceImpl implements BusArriveService {
         XiaoYuanBusRes xiaoYuanBusRes = busService.getXiaoYuanBusRes(cityName, routeDTO);
         if(CollectionUtils.isEmpty(xiaoYuanBusRes.getBusList())){
             log.error("获取实时公交位置失败,数据来自笑园科技api,路线信息："+routeDTO);
-            throw new AException("获取实时公交位置失败,数据来自笑园科技api,路线信息："+routeDTO);
+            throw new AException("暂无在线公交信息"+routeDTO);
         }
         // 计算走到起点公交站所需时间
         Long walkSecondsByLocation = routeServiceAMapImpl.getWalkSecondsByLocation(

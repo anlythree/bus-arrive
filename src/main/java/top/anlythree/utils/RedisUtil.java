@@ -456,9 +456,10 @@ public class RedisUtil {
             return objList.stream().map(listClass::cast).collect(Collectors.toList());
         } else {
             log.error("list对象类型匹配失败，请确认对象class，对象内容：" + objList.get(0).getClass());
+            throw new AException("redis获取缓存失败，key：" + key);
         }
-        throw new AException("redis获取缓存失败，key：" + key);
     }
+
     /**
      * 获取 list缓存的长度
      *
@@ -496,19 +497,21 @@ public class RedisUtil {
      * 将值 value 插入键为 key 的 list 中，如果 list 不存在则创建空 list
      *
      * @param key   键
-     * @param value 值
+     * @param value 值 list的第一个元素
      * @return true / false
      */
     public void lSet(String key, Object value) {
-            redisTemplate.opsForList().rightPush(key, value);
-
+        if(value instanceof List){
+            log.warn("key:"+key+"为列表格式，但是使用了字符串储存!");
+        }
+        redisTemplate.opsForList().rightPush(key, value);
     }
 
     /**
      * 将值 value 插入键为 key 的 list 中，并设置时间
      *
      * @param key   键
-     * @param value 值
+     * @param value 值 list的第一个元素
      * @param time  时间
      * @return true / false
      */
@@ -517,10 +520,13 @@ public class RedisUtil {
         if (time > 0) {
             expire(key, time);
         }
+        if(value instanceof List){
+            log.warn("key:"+key+"为列表格式，但是使用了字符串储存!");
+        }
     }
 
     public void lSetIndex(String key, int index, Object value) {
-        redisTemplate.opsForList().set(key + ":list", index, value);
+        redisTemplate.opsForList().set(key, index, value);
     }
 
     /**
@@ -530,7 +536,7 @@ public class RedisUtil {
      * @param values 值
      * @return true / false
      */
-    public boolean lSetAddList(String key, List<Object> values) {
+    public boolean lSetList(String key, List values) {
         try {
             redisTemplate.opsForList().rightPushAll(key, values);
             return true;
@@ -548,7 +554,7 @@ public class RedisUtil {
      * @param time   时间
      * @return true / false
      */
-    public boolean lSetAddList(String key, List<Object> values, long time) {
+    public boolean lSetList(String key, List<Object> values, long time) {
         try {
             redisTemplate.opsForList().rightPushAll(key, values);
             if (time > 0) {

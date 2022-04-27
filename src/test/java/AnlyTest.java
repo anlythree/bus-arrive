@@ -3,7 +3,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,12 +22,13 @@ import top.anlythree.bussiness.bus.service.BusArriveService;
 import top.anlythree.bussiness.dto.BusDTO;
 import top.anlythree.bussiness.dto.LocationDTO;
 import top.anlythree.bussiness.dto.StationDTO;
-import top.anlythree.demo.DemoController;
+import top.anlythree.utils.RedisUtil;
 import top.anlythree.utils.TaskUtil;
 import top.anlythree.utils.TimeUtil;
 import top.anlythree.utils.UrlUtil;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -67,10 +67,7 @@ public class AnlyTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    @Autowired
-    private DemoController demoController;
+    private RedisUtil redisUtil;
 
     @Test
     public void test1() {
@@ -214,6 +211,5 @@ public class AnlyTest {
         AMapBusRoute2Res.ImportInfo importInfo = route.getImportInfo("353");
         System.out.println(importInfo);
     }
-
 
 }

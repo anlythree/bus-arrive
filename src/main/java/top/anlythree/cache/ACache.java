@@ -108,7 +108,7 @@ public class ACache {
             redisUtil.lSetIndex("xiaoYuanCityList",i,cityItem);
         }
         // 没有就添加
-        redisUtil.lSetAddList("xiaoYuanCityList",Lists.newArrayList(city));
+        redisUtil.lSetList("xiaoYuanCityList",Lists.newArrayList(city));
     }
 
     /**
@@ -141,7 +141,7 @@ public class ACache {
             }
         }
         // 没有就添加
-        redisUtil.lSetAddList("xiaoYuanRouteCacheList",Lists.newArrayList(route));
+        redisUtil.lSetList("xiaoYuanRouteCacheList",Lists.newArrayList(route));
     }
 
     /**
@@ -169,7 +169,7 @@ public class ACache {
             }
         }
         // 没有就添加
-        redisUtil.lSetAddList("locationCacheList", Lists.newArrayList(locationDTO));
+        redisUtil.lSetList("locationCacheList", Lists.newArrayList(locationDTO));
     }
 
 

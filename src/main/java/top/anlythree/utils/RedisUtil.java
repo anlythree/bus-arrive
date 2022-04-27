@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import top.anlythree.utils.exceptions.AException;
 
 import java.util.List;
 import java.util.Map;
@@ -451,13 +452,12 @@ public class RedisUtil {
         if (CollectionUtils.isEmpty(objList)) {
             return null;
         }
-        try {
-            return objList.stream().map(listClass::cast).collect(Collectors.toList());
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("list对象类型匹配失败，请确认对象class，对象内容：" + objList.get(0).getClass());
-            return null;
-        }
+            if(listClass.isInstance(objList.get(0))){
+                return objList.stream().map(listClass::cast).collect(Collectors.toList());
+            }else {
+                log.error("list对象类型匹配失败，请确认对象class，对象内容：" + objList.get(0).getClass());
+            }
+        throw new AException("redis获取缓存失败，key："+key);
     }
 
     /**

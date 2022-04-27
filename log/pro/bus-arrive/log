@@ -106,3 +106,198 @@ Caused by: java.lang.NullPointerException: null
 2022-04-25 11:28:29.788 |-WARN  [main] org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration [106] -| Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
 2022-04-25 11:28:31.430 |-INFO  [main] AnlyTest [61] -| Started AnlyTest in 7.393 seconds (JVM running for 8.63)
 2022-04-25 11:28:31.726 |-INFO  [SpringContextShutdownHook] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [218] -| Shutting down ExecutorService 'threadPool'
+2022-04-27 15:47:33.261 |-INFO  [main] top.anlythree.SpringApplicationMain [55] -| Starting SpringApplicationMain on anlythreedeMacBook-Pro.local with PID 2566 (/Users/anlythree/my/bus-arrive/target/classes started by anlythree in /Users/anlythree/my/bus-arrive)
+2022-04-27 15:47:33.287 |-INFO  [main] top.anlythree.SpringApplicationMain [655] -| The following profiles are active: prod
+2022-04-27 15:47:34.308 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [249] -| Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-04-27 15:47:34.311 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [127] -| Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-04-27 15:47:34.350 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [187] -| Finished Spring Data repository scanning in 25ms. Found 0 Redis repository interfaces.
+2022-04-27 15:47:34.851 |-INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [108] -| Tomcat initialized with port(s): 24507 (http)
+2022-04-27 15:47:34.858 |-INFO  [main] org.apache.coyote.http11.Http11NioProtocol [173] -| Initializing ProtocolHandler ["http-nio-24507"]
+2022-04-27 15:47:34.858 |-INFO  [main] org.apache.catalina.core.StandardService [173] -| Starting service [Tomcat]
+2022-04-27 15:47:34.858 |-INFO  [main] org.apache.catalina.core.StandardEngine [173] -| Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-04-27 15:47:34.919 |-INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [173] -| Initializing Spring embedded WebApplicationContext
+2022-04-27 15:47:34.919 |-INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [285] -| Root WebApplicationContext: initialization completed in 1561 ms
+2022-04-27 15:47:35.393 |-INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [181] -| Initializing ExecutorService 'threadPool'
+2022-04-27 15:47:35.400 |-INFO  [main] org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor [496] -| Autowired annotation is not supported on static methods: public static void top.anlythree.utils.UrlUtil.setKey(java.lang.String)
+2022-04-27 15:47:35.909 |-WARN  [main] org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration [106] -| Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2022-04-27 15:47:36.456 |-INFO  [main] org.apache.coyote.http11.Http11NioProtocol [173] -| Starting ProtocolHandler ["http-nio-24507"]
+2022-04-27 15:47:36.477 |-INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [220] -| Tomcat started on port(s): 24507 (http) with context path ''
+2022-04-27 15:47:36.792 |-INFO  [main] top.anlythree.SpringApplicationMain [61] -| Started SpringApplicationMain in 4.075 seconds (JVM running for 5.202)
+2022-04-27 15:47:37.977 |-ERROR [main] top.anlythree.utils.RedisUtil [458] -| list对象类型匹配失败，请确认对象class，对象内容：class java.util.ArrayList
+2022-04-27 15:47:38.169 |-ERROR [main] top.anlythree.utils.RedisUtil [458] -| list对象类型匹配失败，请确认对象class，对象内容：class java.util.ArrayList
+2022-04-27 15:47:38.185 |-INFO  [main] org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [136] -| 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-04-27 15:47:38.201 |-ERROR [main] org.springframework.boot.SpringApplication [837] -| Application run failed
+java.lang.IllegalStateException: Failed to execute ApplicationRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:789)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:776)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at top.anlythree.SpringApplicationMain.main(SpringApplicationMain.java:9)
+Caused by: java.lang.NullPointerException: null
+	at java.util.Objects.requireNonNull(Objects.java:203)
+	at top.anlythree.cache.ACache.addLocation(ACache.java:154)
+	at java.util.ArrayList.forEach(ArrayList.java:1259)
+	at top.anlythree.task.RememberCityAndRouteInfoTask.cacheLocationInfo(RememberCityAndRouteInfoTask.java:107)
+	at top.anlythree.task.RememberCityAndRouteInfoTask.run(RememberCityAndRouteInfoTask.java:53)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:786)
+	... 5 common frames omitted
+2022-04-27 15:47:38.319 |-INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [218] -| Shutting down ExecutorService 'threadPool'
+2022-04-27 15:48:24.432 |-INFO  [main] top.anlythree.SpringApplicationMain [55] -| Starting SpringApplicationMain on anlythreedeMacBook-Pro.local with PID 2581 (/Users/anlythree/my/bus-arrive/target/classes started by anlythree in /Users/anlythree/my/bus-arrive)
+2022-04-27 15:48:24.434 |-INFO  [main] top.anlythree.SpringApplicationMain [655] -| The following profiles are active: prod
+2022-04-27 15:48:25.521 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [249] -| Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-04-27 15:48:25.523 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [127] -| Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-04-27 15:48:25.575 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [187] -| Finished Spring Data repository scanning in 34ms. Found 0 Redis repository interfaces.
+2022-04-27 15:48:26.077 |-INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [108] -| Tomcat initialized with port(s): 24507 (http)
+2022-04-27 15:48:26.083 |-INFO  [main] org.apache.coyote.http11.Http11NioProtocol [173] -| Initializing ProtocolHandler ["http-nio-24507"]
+2022-04-27 15:48:26.083 |-INFO  [main] org.apache.catalina.core.StandardService [173] -| Starting service [Tomcat]
+2022-04-27 15:48:26.083 |-INFO  [main] org.apache.catalina.core.StandardEngine [173] -| Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-04-27 15:48:26.144 |-INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [173] -| Initializing Spring embedded WebApplicationContext
+2022-04-27 15:48:26.145 |-INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [285] -| Root WebApplicationContext: initialization completed in 1660 ms
+2022-04-27 15:48:26.601 |-INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [181] -| Initializing ExecutorService 'threadPool'
+2022-04-27 15:48:26.613 |-INFO  [main] org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor [496] -| Autowired annotation is not supported on static methods: public static void top.anlythree.utils.UrlUtil.setKey(java.lang.String)
+2022-04-27 15:48:27.174 |-WARN  [main] org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration [106] -| Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2022-04-27 15:48:27.659 |-INFO  [main] org.apache.coyote.http11.Http11NioProtocol [173] -| Starting ProtocolHandler ["http-nio-24507"]
+2022-04-27 15:48:27.678 |-INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [220] -| Tomcat started on port(s): 24507 (http) with context path ''
+2022-04-27 15:48:27.992 |-INFO  [main] top.anlythree.SpringApplicationMain [61] -| Started SpringApplicationMain in 3.963 seconds (JVM running for 4.714)
+2022-04-27 15:54:57.143 |-ERROR [main] top.anlythree.utils.RedisUtil [458] -| list对象类型匹配失败，请确认对象class，对象内容：class java.util.ArrayList
+2022-04-27 15:54:57.145 |-WARN  [RMI TCP Accept-0] sun.rmi.transport.tcp [237] -| RMI TCP Accept-0: accept loop for ServerSocket[addr=0.0.0.0/0.0.0.0,localport=56962] throws
+java.io.IOException: The server sockets created using the LocalRMIServerSocketFactory only accept connections from clients running on the host where the RMI remote objects have been exported.
+	at sun.management.jmxremote.LocalRMIServerSocketFactory$1.accept(LocalRMIServerSocketFactory.java:114)
+	at sun.rmi.transport.tcp.TCPTransport$AcceptLoop.executeAcceptLoop(TCPTransport.java:405)
+	at sun.rmi.transport.tcp.TCPTransport$AcceptLoop.run(TCPTransport.java:377)
+	at java.lang.Thread.run(Thread.java:748)
+2022-04-27 15:55:03.432 |-ERROR [main] top.anlythree.utils.RedisUtil [458] -| list对象类型匹配失败，请确认对象class，对象内容：class java.util.ArrayList
+2022-04-27 15:55:03.454 |-INFO  [main] org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [136] -| 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-04-27 15:55:03.474 |-ERROR [main] org.springframework.boot.SpringApplication [837] -| Application run failed
+java.lang.IllegalStateException: Failed to execute ApplicationRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:789)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:776)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at top.anlythree.SpringApplicationMain.main(SpringApplicationMain.java:9)
+Caused by: java.lang.NullPointerException: null
+	at java.util.Objects.requireNonNull(Objects.java:203)
+	at top.anlythree.cache.ACache.addLocation(ACache.java:154)
+	at java.util.ArrayList.forEach(ArrayList.java:1259)
+	at top.anlythree.task.RememberCityAndRouteInfoTask.cacheLocationInfo(RememberCityAndRouteInfoTask.java:107)
+	at top.anlythree.task.RememberCityAndRouteInfoTask.run(RememberCityAndRouteInfoTask.java:53)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:786)
+	... 5 common frames omitted
+2022-04-27 15:55:03.569 |-INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [218] -| Shutting down ExecutorService 'threadPool'
+2022-04-27 15:57:45.630 |-INFO  [main] top.anlythree.SpringApplicationMain [55] -| Starting SpringApplicationMain on anlythreedeMacBook-Pro.local with PID 2663 (/Users/anlythree/my/bus-arrive/target/classes started by anlythree in /Users/anlythree/my/bus-arrive)
+2022-04-27 15:57:45.633 |-INFO  [main] top.anlythree.SpringApplicationMain [655] -| The following profiles are active: prod
+2022-04-27 15:57:46.625 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [249] -| Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-04-27 15:57:46.626 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [127] -| Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-04-27 15:57:46.676 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [187] -| Finished Spring Data repository scanning in 35ms. Found 0 Redis repository interfaces.
+2022-04-27 15:57:47.141 |-INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [108] -| Tomcat initialized with port(s): 24507 (http)
+2022-04-27 15:57:47.147 |-INFO  [main] org.apache.coyote.http11.Http11NioProtocol [173] -| Initializing ProtocolHandler ["http-nio-24507"]
+2022-04-27 15:57:47.147 |-INFO  [main] org.apache.catalina.core.StandardService [173] -| Starting service [Tomcat]
+2022-04-27 15:57:47.147 |-INFO  [main] org.apache.catalina.core.StandardEngine [173] -| Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-04-27 15:57:47.201 |-INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [173] -| Initializing Spring embedded WebApplicationContext
+2022-04-27 15:57:47.201 |-INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [285] -| Root WebApplicationContext: initialization completed in 1524 ms
+2022-04-27 15:57:47.626 |-INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [181] -| Initializing ExecutorService 'threadPool'
+2022-04-27 15:57:47.632 |-INFO  [main] org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor [496] -| Autowired annotation is not supported on static methods: public static void top.anlythree.utils.UrlUtil.setKey(java.lang.String)
+2022-04-27 15:57:48.137 |-WARN  [main] org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration [106] -| Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2022-04-27 15:57:48.611 |-INFO  [main] org.apache.coyote.http11.Http11NioProtocol [173] -| Starting ProtocolHandler ["http-nio-24507"]
+2022-04-27 15:57:48.629 |-INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [220] -| Tomcat started on port(s): 24507 (http) with context path ''
+2022-04-27 15:57:48.889 |-INFO  [main] top.anlythree.SpringApplicationMain [61] -| Started SpringApplicationMain in 3.649 seconds (JVM running for 4.271)
+2022-04-27 15:57:57.128 |-INFO  [main] org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [136] -| 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-04-27 15:57:57.156 |-ERROR [main] org.springframework.boot.SpringApplication [837] -| Application run failed
+java.lang.IllegalStateException: Failed to execute ApplicationRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:789)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:776)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at top.anlythree.SpringApplicationMain.main(SpringApplicationMain.java:9)
+Caused by: java.lang.NullPointerException: null
+	at java.util.Objects.requireNonNull(Objects.java:203)
+	at top.anlythree.cache.ACache.addXiaoYuanCity(ACache.java:92)
+	at java.util.ArrayList.forEach(ArrayList.java:1259)
+	at top.anlythree.task.RememberCityAndRouteInfoTask.cacheXiaoYuanCityInfo(RememberCityAndRouteInfoTask.java:85)
+	at top.anlythree.task.RememberCityAndRouteInfoTask.run(RememberCityAndRouteInfoTask.java:55)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:786)
+	... 5 common frames omitted
+2022-04-27 15:57:57.254 |-INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [218] -| Shutting down ExecutorService 'threadPool'
+2022-04-27 15:58:10.296 |-INFO  [main] top.anlythree.SpringApplicationMain [55] -| Starting SpringApplicationMain on anlythreedeMacBook-Pro.local with PID 2671 (/Users/anlythree/my/bus-arrive/target/classes started by anlythree in /Users/anlythree/my/bus-arrive)
+2022-04-27 15:58:10.299 |-INFO  [main] top.anlythree.SpringApplicationMain [655] -| The following profiles are active: prod
+2022-04-27 15:58:11.365 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [249] -| Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-04-27 15:58:11.366 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [127] -| Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-04-27 15:58:11.402 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [187] -| Finished Spring Data repository scanning in 26ms. Found 0 Redis repository interfaces.
+2022-04-27 15:58:11.842 |-INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [108] -| Tomcat initialized with port(s): 24507 (http)
+2022-04-27 15:58:11.848 |-INFO  [main] org.apache.coyote.http11.Http11NioProtocol [173] -| Initializing ProtocolHandler ["http-nio-24507"]
+2022-04-27 15:58:11.849 |-INFO  [main] org.apache.catalina.core.StandardService [173] -| Starting service [Tomcat]
+2022-04-27 15:58:11.849 |-INFO  [main] org.apache.catalina.core.StandardEngine [173] -| Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-04-27 15:58:11.908 |-INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [173] -| Initializing Spring embedded WebApplicationContext
+2022-04-27 15:58:11.908 |-INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [285] -| Root WebApplicationContext: initialization completed in 1556 ms
+2022-04-27 15:58:12.369 |-INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [181] -| Initializing ExecutorService 'threadPool'
+2022-04-27 15:58:12.379 |-INFO  [main] org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor [496] -| Autowired annotation is not supported on static methods: public static void top.anlythree.utils.UrlUtil.setKey(java.lang.String)
+2022-04-27 15:58:12.879 |-WARN  [main] org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration [106] -| Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2022-04-27 15:58:13.359 |-INFO  [main] org.apache.coyote.http11.Http11NioProtocol [173] -| Starting ProtocolHandler ["http-nio-24507"]
+2022-04-27 15:58:13.378 |-INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [220] -| Tomcat started on port(s): 24507 (http) with context path ''
+2022-04-27 15:58:13.632 |-INFO  [main] top.anlythree.SpringApplicationMain [61] -| Started SpringApplicationMain in 3.738 seconds (JVM running for 4.435)
+2022-04-27 15:58:15.229 |-INFO  [main] org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [136] -| 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-04-27 15:58:15.248 |-ERROR [main] org.springframework.boot.SpringApplication [837] -| Application run failed
+java.lang.IllegalStateException: Failed to execute ApplicationRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:789)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:776)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at top.anlythree.SpringApplicationMain.main(SpringApplicationMain.java:9)
+Caused by: java.lang.NullPointerException: null
+	at java.util.Objects.requireNonNull(Objects.java:203)
+	at top.anlythree.cache.ACache.addXiaoYuanCity(ACache.java:92)
+	at java.util.ArrayList.forEach(ArrayList.java:1259)
+	at top.anlythree.task.RememberCityAndRouteInfoTask.cacheXiaoYuanCityInfo(RememberCityAndRouteInfoTask.java:85)
+	at top.anlythree.task.RememberCityAndRouteInfoTask.run(RememberCityAndRouteInfoTask.java:55)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:786)
+	... 5 common frames omitted
+2022-04-27 15:58:15.337 |-INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [218] -| Shutting down ExecutorService 'threadPool'
+2022-04-27 16:00:33.351 |-INFO  [main] top.anlythree.SpringApplicationMain [55] -| Starting SpringApplicationMain on anlythreedeMacBook-Pro.local with PID 2713 (/Users/anlythree/my/bus-arrive/target/classes started by anlythree in /Users/anlythree/my/bus-arrive)
+2022-04-27 16:00:33.354 |-INFO  [main] top.anlythree.SpringApplicationMain [655] -| The following profiles are active: prod
+2022-04-27 16:00:34.528 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [249] -| Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-04-27 16:00:34.529 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [127] -| Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-04-27 16:00:34.568 |-INFO  [main] org.springframework.data.repository.config.RepositoryConfigurationDelegate [187] -| Finished Spring Data repository scanning in 27ms. Found 0 Redis repository interfaces.
+2022-04-27 16:00:35.136 |-INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [108] -| Tomcat initialized with port(s): 24507 (http)
+2022-04-27 16:00:35.142 |-INFO  [main] org.apache.coyote.http11.Http11NioProtocol [173] -| Initializing ProtocolHandler ["http-nio-24507"]
+2022-04-27 16:00:35.143 |-INFO  [main] org.apache.catalina.core.StandardService [173] -| Starting service [Tomcat]
+2022-04-27 16:00:35.143 |-INFO  [main] org.apache.catalina.core.StandardEngine [173] -| Starting Servlet engine: [Apache Tomcat/9.0.38]
+2022-04-27 16:00:35.210 |-INFO  [main] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [173] -| Initializing Spring embedded WebApplicationContext
+2022-04-27 16:00:35.211 |-INFO  [main] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [285] -| Root WebApplicationContext: initialization completed in 1779 ms
+2022-04-27 16:00:35.726 |-INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [181] -| Initializing ExecutorService 'threadPool'
+2022-04-27 16:00:35.734 |-INFO  [main] org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor [496] -| Autowired annotation is not supported on static methods: public static void top.anlythree.utils.UrlUtil.setKey(java.lang.String)
+2022-04-27 16:00:36.334 |-WARN  [main] org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration [106] -| Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2022-04-27 16:00:36.999 |-INFO  [main] org.apache.coyote.http11.Http11NioProtocol [173] -| Starting ProtocolHandler ["http-nio-24507"]
+2022-04-27 16:00:37.023 |-INFO  [main] org.springframework.boot.web.embedded.tomcat.TomcatWebServer [220] -| Tomcat started on port(s): 24507 (http) with context path ''
+2022-04-27 16:00:37.347 |-INFO  [main] top.anlythree.SpringApplicationMain [61] -| Started SpringApplicationMain in 4.392 seconds (JVM running for 5.116)
+2022-04-27 16:00:38.604 |-INFO  [main] org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener [136] -| 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-04-27 16:00:38.615 |-ERROR [main] org.springframework.boot.SpringApplication [837] -| Application run failed
+java.lang.IllegalStateException: Failed to execute ApplicationRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:789)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:776)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at top.anlythree.SpringApplicationMain.main(SpringApplicationMain.java:9)
+Caused by: java.lang.NullPointerException: null
+	at java.util.Objects.requireNonNull(Objects.java:203)
+	at top.anlythree.cache.ACache.addXiaoYuanCity(ACache.java:92)
+	at java.util.ArrayList.forEach(ArrayList.java:1259)
+	at top.anlythree.task.RememberCityAndRouteInfoTask.cacheXiaoYuanCityInfo(RememberCityAndRouteInfoTask.java:85)
+	at top.anlythree.task.RememberCityAndRouteInfoTask.run(RememberCityAndRouteInfoTask.java:55)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:786)
+	... 5 common frames omitted
+2022-04-27 16:00:38.730 |-INFO  [main] org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [218] -| Shutting down ExecutorService 'threadPool'

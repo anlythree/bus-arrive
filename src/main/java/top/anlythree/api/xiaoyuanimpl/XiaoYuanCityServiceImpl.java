@@ -1,5 +1,6 @@
 package top.anlythree.api.xiaoyuanimpl;
 
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.stereotype.Service;
@@ -57,9 +58,11 @@ public class XiaoYuanCityServiceImpl implements CityService {
     @Override
     public XiaoYuanCityDTO getCityByName(String name) {
         List<XiaoYuanCityDTO> cityCacheList = ACache.getXiaoYuanCityList();
-        for (XiaoYuanCityDTO city : cityCacheList) {
-            if(Objects.equals(name+"市",city.getName())){
-                return city;
+        if(cityCacheList != null){
+            for (XiaoYuanCityDTO city : cityCacheList) {
+                if(Objects.equals(name+"市",city.getName())){
+                    return city;
+                }
             }
         }
         List<XiaoYuanCityDTO> cityList = cityList();

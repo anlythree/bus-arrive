@@ -49,14 +49,14 @@ public class RememberCityAndRouteInfoTask implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-//        // 缓存地址信息
-//        cacheLocationInfo();
-//        // 缓存笑园城市信息
-//        cacheXiaoYuanCityInfo();
-//        // 缓存高德城市信息
-//        cacheAMapCityInfo();
-//        // 缓存笑园公交路线信息
-//        cacheXiaoYuanRouteInfo();
+        // 缓存地址信息
+        cacheLocationInfo();
+        // 缓存笑园城市信息
+        cacheXiaoYuanCityInfo();
+        // 缓存高德城市信息
+        cacheAMapCityInfo();
+        // 缓存笑园公交路线信息
+        cacheXiaoYuanRouteInfo();
     }
 
     /**
@@ -89,23 +89,19 @@ public class RememberCityAndRouteInfoTask implements ApplicationRunner {
      * 缓存地址信息
      */
     public void cacheLocationInfo() {
-        List<LocationDTO> locationCacheList = new ArrayList<>(16);
-        locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "阿里巴巴A5门", "120.026525,30.281248"));
-        locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "阿里巴巴西溪园区(蔡家阁)公交站", "120.024556,30.280789"));
-        locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "五常大道联胜路口公交站", "120.031884,30.243976"));
-        locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "西湖体育馆公交站", "120.13072,30.267691"));
-        locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "爱橙街贺翠路口公交站", "120.022539,30.274492"));
-        locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "永兴村公交站", "120.020833,30.278499"));
-        locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "何母桥公交站", "120.022676,30.273249"));
-        locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "梦想小镇公交站", "120.004066,30.294739"));
-        locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "海创园5号楼", "120.018439,30.283251"));
-        locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "丰岭路追梦家公寓", "120.033852,30.242918"));
-        locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "星创新里程", "119.955084,30.259144"));
-        if (redisUtil.hasKey("locationCacheList")) {
-            // 缓存中有 locationCacheList,那就循环把上边的list放到缓存中
-            List<LocationDTO> locationCacheList1 = redisUtil.lGet("locationCacheList", LocationDTO.class);
-            locationCacheList.forEach(ACache::addLocation);
-        } else {
+        if (!redisUtil.hasKey("locationCacheList")) {
+            List<LocationDTO> locationCacheList = new ArrayList<>(16);
+            locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "阿里巴巴A5门", "120.026525,30.281248"));
+            locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "阿里巴巴西溪园区(蔡家阁)公交站", "120.024556,30.280789"));
+            locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "五常大道联胜路口公交站", "120.031884,30.243976"));
+            locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "西湖体育馆公交站", "120.13072,30.267691"));
+            locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "爱橙街贺翠路口公交站", "120.022539,30.274492"));
+            locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "永兴村公交站", "120.020833,30.278499"));
+            locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "何母桥公交站", "120.022676,30.273249"));
+            locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "梦想小镇公交站", "120.004066,30.294739"));
+            locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "海创园5号楼", "120.018439,30.283251"));
+            locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "丰岭路追梦家公寓", "120.033852,30.242918"));
+            locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "星创新里程", "119.955084,30.259144"));
             redisUtil.lSet("locationCacheList", locationCacheList);
         }
 

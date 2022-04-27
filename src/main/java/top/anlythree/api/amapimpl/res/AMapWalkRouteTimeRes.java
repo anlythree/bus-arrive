@@ -56,14 +56,14 @@ public class AMapWalkRouteTimeRes extends AMapResult{
             private Object steps;
 
             /**
-             * 获取方案所需毫秒数
+             * 获取方案所需秒数
              * @return
              */
             public Long getSeconds(){
                 if(duration == null){
                     return null;
                 }
-                return Long.parseLong(duration);
+                return Long.parseLong(duration)+120;
             }
         }
     }

@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanCityDTO;
 import top.anlythree.api.xiaoyuanimpl.dto.XiaoYuanRouteDTO;
 import top.anlythree.bussiness.dto.BusArriveResultDto;
@@ -89,7 +90,10 @@ public class ACache {
      * @param city
      */
     public static void addXiaoYuanCity(XiaoYuanCityDTO city) {
-        List<XiaoYuanCityDTO> xiaoYuanCityList = Objects.requireNonNull(redisUtil.lGet("xiaoYuanCityList", XiaoYuanCityDTO.class));
+        List<XiaoYuanCityDTO> xiaoYuanCityList = redisUtil.lGet("xiaoYuanCityList", XiaoYuanCityDTO.class);
+        if(CollectionUtils.isEmpty(xiaoYuanCityList)){
+            return;
+        }
         for (int i = 0; i < xiaoYuanCityList.size(); i++) {
             XiaoYuanCityDTO cityItem = xiaoYuanCityList.get(i);
             // 缓存中有重复的就覆盖掉原信息
@@ -121,17 +125,19 @@ public class ACache {
      * @param route
      */
     public static void addXiaoYuanRoute(XiaoYuanRouteDTO route) {
-        List<XiaoYuanRouteDTO> xiaoYuanRouteCacheList = Objects.requireNonNull(redisUtil.lGet("xiaoYuanRouteCacheList", XiaoYuanRouteDTO.class));
-        for (int i = 0; i < xiaoYuanRouteCacheList.size(); i++) {
-            XiaoYuanRouteDTO routeItem = xiaoYuanRouteCacheList.get(i);
-            // 缓存中有重复的就覆盖掉原信息
-            if (Objects.equals(routeItem.getRouteName(), route.getRouteName()) &&
-            Objects.equals(routeItem.getStartStation(),route.getStartStation()) &&
-            Objects.equals(routeItem.getCityId(),route.getCityId())) {
-                // 更新路线信息
-                BeanUtils.copyProperties(route,routeItem);
-                redisUtil.lSetIndex("xiaoYuanRouteCacheList",i,routeItem);
-                return;
+        List<XiaoYuanRouteDTO> xiaoYuanRouteCacheList = redisUtil.lGet("xiaoYuanRouteCacheList", XiaoYuanRouteDTO.class);
+        if(!CollectionUtils.isEmpty(xiaoYuanRouteCacheList)){
+            for (int i = 0; i < xiaoYuanRouteCacheList.size(); i++) {
+                XiaoYuanRouteDTO routeItem = xiaoYuanRouteCacheList.get(i);
+                // 缓存中有重复的就覆盖掉原信息
+                if (Objects.equals(routeItem.getRouteName(), route.getRouteName()) &&
+                        Objects.equals(routeItem.getStartStation(),route.getStartStation()) &&
+                        Objects.equals(routeItem.getCityId(),route.getCityId())) {
+                    // 更新路线信息
+                    BeanUtils.copyProperties(route,routeItem);
+                    redisUtil.lSetIndex("xiaoYuanRouteCacheList",i,routeItem);
+                    return;
+                }
             }
         }
         // 没有就添加

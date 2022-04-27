@@ -9,7 +9,7 @@
         <version>2.3.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>org.example</groupId>
+    <groupId>com.anlythree</groupId>
     <artifactId>bus-arrive</artifactId>
     <version>1.0-SNAPSHOT</version>
 

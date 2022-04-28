@@ -102,6 +102,8 @@ public class RememberCityAndRouteInfoTask implements ApplicationRunner {
             locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "海创园5号楼", "120.018439,30.283251"));
             locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "丰岭路追梦家公寓", "120.033852,30.242918"));
             locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "星创新里程", "119.955084,30.259144"));
+            // todo-anlythree 添加更新家和公司的方法
+            locationCacheList.add(new LocationDTO("中国", "浙江省", "杭州市", "余杭区", "公司", "120.029344,30.275735"));
             redisUtil.lSetList("locationCacheList", locationCacheList);
         }
 

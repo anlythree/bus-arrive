@@ -63,7 +63,8 @@ public class AMapWalkRouteTimeRes extends AMapResult{
                 if(duration == null){
                     return null;
                 }
-                return Long.parseLong(duration)+120;
+                // 预留5分钟
+                return Long.parseLong(duration)+60*5;
             }
         }
     }

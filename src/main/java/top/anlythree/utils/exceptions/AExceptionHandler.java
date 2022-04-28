@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class AExceptionHandler{
 
-    @ExceptionHandler(value = AException.class)
+    @ExceptionHandler(value = Exception.class)
     public String exceptionHandler(Exception e){
         // todo-anlythree 上线后删除
         e.printStackTrace();

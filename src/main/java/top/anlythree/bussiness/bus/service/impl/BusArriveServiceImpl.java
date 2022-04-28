@@ -140,6 +140,7 @@ public class BusArriveServiceImpl implements BusArriveService {
         TaskUtil.doSomeThingLater(() -> {
             List<String> availableTimeList = calculateTimeToGo(cityName, routeDto, importInfo,
                     Long.parseLong(prepareMinutes) * 60, arriveLocalTime);
+            // todo-anlythree 判断是否为空，并设置重试策略
             String isTooLate = null;
             Duration duration = TimeUtil.timeInterval(TimeUtil.stringToTime(availableTimeList.get(0)));
             if(duration.isNegative()){
@@ -161,8 +162,8 @@ public class BusArriveServiceImpl implements BusArriveService {
         // 当前在线公交车列表
         XiaoYuanBusRes xiaoYuanBusRes = busService.getXiaoYuanBusRes(cityName, routeDTO);
         if(CollectionUtils.isEmpty(xiaoYuanBusRes.getBusList())){
-            log.error("获取实时公交位置失败,数据来自笑园科技api,路线信息："+routeDTO);
-            throw new AException("暂无在线公交信息"+routeDTO);
+            log.error(routeDTO.getRouteName()+"路暂无在线公交信息！路线信息："+routeDTO);
+            return Lists.newArrayList();
         }
         // 计算走到起点公交站所需时间
         Long walkSecondsByLocation = routeServiceAMapImpl.getWalkSecondsByLocation(

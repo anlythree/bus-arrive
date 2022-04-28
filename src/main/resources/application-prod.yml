@@ -19,7 +19,7 @@ spring:
         # 连接池中的最小空闲连接
         min-idle: 0
     # 连接超时时间（毫秒）
-    timeout: 3000
+    timeout: 30000
 logging:
   level:
     root: info

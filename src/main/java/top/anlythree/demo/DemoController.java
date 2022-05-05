@@ -29,5 +29,14 @@ public class DemoController {
         return demoStr;
     }
 
+    @GetMapping("/getStream")
+    public String getStream() {
+        String demoStr = "getStream:controller链接成功。当前时间：" + LocalDateTime.now();
+        System.out.println(demoStr);
+        System.out.println("开始");
+        System.out.println("结束");
+        return demoStr;
+    }
+
 
 }

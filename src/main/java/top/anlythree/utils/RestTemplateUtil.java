@@ -1,5 +1,7 @@
 package top.anlythree.utils;
 
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -8,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class RestTemplateUtil {
 
@@ -28,7 +32,10 @@ public class RestTemplateUtil {
      * @return ResponseEntity 响应对象封装类
      */
     public static <T> ResponseEntity<T> get(String url, Class<T> responseType) {
-        return restTemplate.getForEntity(url, responseType);
+        LocalDateTime startTime = LocalDateTime.now();
+        ResponseEntity<T> forEntity = restTemplate.getForEntity(url, responseType);
+        log.info(url+"用时"+TimeUtil.timeInterval(startTime,LocalDateTime.now()).getSeconds());
+        return forEntity;
     }
 
     /**

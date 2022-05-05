@@ -1,5 +1,6 @@
 package top.anlythree.bussiness.bus.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import top.anlythree.utils.exceptions.AException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/bus")
 public class BusController {
@@ -88,16 +90,19 @@ public class BusController {
                                 String startLocationName,
                                 String endLocationName,
                                 String prepareMinutes) {
+        LocalDateTime now = LocalDateTime.now();
         LocationDTO startLocationByName = stationService.getLocationByName(cityName, startLocationName);
         LocationDTO endLocationByName = stationService.getLocationByName(cityName, endLocationName);
         // 计算什么时候可以获取计算结果 && 延时在取结果之前计算何时出发
-        return busArriveService.calculateNow(
+        String s = busArriveService.calculateNow(
                 cityName,
                 routeName,
                 startLocationByName,
                 endLocationByName,
                 prepareMinutes
         ).toString();
+        log.info("/calculateTimeNow用时"+TimeUtil.timeInterval(now,LocalDateTime.now()).getSeconds());
+        return s;
     }
 
 

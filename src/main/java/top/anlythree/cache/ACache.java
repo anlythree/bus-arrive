@@ -108,7 +108,7 @@ public class ACache {
             redisUtil.lSetIndex("xiaoYuanCityList",i,cityItem);
         }
         // 没有就添加
-        redisUtil.lSetList("xiaoYuanCityList",Lists.newArrayList(city));
+        redisUtil.lSetList("xiaoYuanCityList", Lists.newArrayList(city));
     }
 
     /**

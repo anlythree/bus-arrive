@@ -103,18 +103,18 @@ public class TimeUtil {
 
     /**
      * 返回当前时间到传入时间之间的时间间隔
-     * isNegative() 返回是否是否早于当前时间
+     * isNegative() 返回当前时间是否早于开始时间
      *
-     * @param endTime
+     * @param startTime
      * @return
      */
-    public static Duration timeInterval(LocalDateTime endTime) {
-        return timeInterval(LocalDateTime.now(),endTime);
+    public static Duration timeInterval(LocalDateTime startTime) {
+        return timeInterval(startTime,LocalDateTime.now());
     }
 
     /**
      * 返回当前时间到传入时间之间的时间间隔
-     * isNegative() 返回是否是否早于当前时间
+     * isNegative() 返回结束时间是否早于开始时间
      *
      * @param startTime
      * @return

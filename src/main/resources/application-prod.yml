@@ -5,9 +5,9 @@ spring:
     name: bus-arrive
   redis:
     database: 0
-    host: 43.132.237.240
-    port: 24505
-    password: 132Anly132
+    host: 自己的redisip
+    port: redis对外暴露端口
+    password: redis密码
     jedis:
       pool:
         # 连接池最大连接数（使用负值表示没有限制）
@@ -32,14 +32,14 @@ swagger:
   application-description: 公交到达预提醒
   try-host: http://localhost:${server.port}
 xiaoyuan:
-  key: 632e6732f9e1a6bd4b3b4966a9009bcd
-  username: 15610462126
+  key: 笑园api申请的key值
+  username: 笑园api用户名
 remembor:
   cityandroute:
     杭州市 353,杭州市 415
 amap:
-  key: ca749b4a5f0fe299e8cd826f69c1c6bc
-  sign: 0dcee3a9115b5782fecfa7f90f876981
+  key: 高德api申请的key值
+  sign: 高德api申请的签名
 bus-arrive:
   default-difference-seconds: 180
 
